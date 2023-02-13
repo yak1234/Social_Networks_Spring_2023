@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "DACSS 697E: Social Networks Spring-2023",
-    "section": "",
-    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "about/about.html",
     "href": "about/about.html",
     "title": "Your Name",
@@ -54,6 +47,13 @@
     "title": "Your Name",
     "section": "Fun fact",
     "text": "Fun fact"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "DACSS 697E: Social Networks Spring-2023",
+    "section": "",
+    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
