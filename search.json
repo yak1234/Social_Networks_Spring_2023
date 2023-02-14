@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "DACSS 697E: Social Networks Spring-2023",
     "section": "",
-    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nWeek 1 Challenge Solutions\n\n\n\n\n\n\n\nchallenge_1\n\n\nsolution\n\n\n\n\n\n\n\n\n\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
+    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nWeek 1 Challenge Instructions\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about/about.html",
@@ -56,11 +56,25 @@
     "text": "Fun fact"
   },
   {
-    "objectID": "posts/Week1_Challenge_Solutions.html",
-    "href": "posts/Week1_Challenge_Solutions.html",
-    "title": "Week 1 Challenge Solutions",
+    "objectID": "posts/Week1_Challenge_Instructions.html",
+    "href": "posts/Week1_Challenge_Instructions.html",
+    "title": "Week 1 Challenge Instructions",
     "section": "",
-    "text": "Before starting, the necessary packages should be loaded:\n\nlibrary(tidyverse)\nlibrary(igraph)\n\nknitr::opts_chunk$set(echo = TRUE, warning=FALSE,\n                      message=FALSE)\n\n\nMarriages in Game of Thrones\n\ngot.marriages <- read_csv('_data/got/got_marriages.csv')\n\nhead(got.marriages)\n\n\n\n  \n\n\n\nThe first two columns indicate the list of edges in the network. The network is symmetric and unweighted, but with 3 types of links (married, engaged, or affair):\n\ntable(got.marriages$Type)\n\n\n Affair Engaged Married \n     36       2     217 \n\n\nFinally, a graph can be created using the igraph package\n\ng.got.marriages <- graph_from_data_frame(got.marriages)\n\nand plotted:\n\nplot(g.got.marriages, edge.arrow.size = 0)\n\n\n\n\nWe could also color the edges depending on the type of link by creating another column as a factor and changing its levels to color names:\n\ngot.marriages$Type.Color <- as.factor(got.marriages$Type)\n\nlevels(got.marriages$Type.Color)\n\n[1] \"Affair\"  \"Engaged\" \"Married\"\n\nlevels(got.marriages$Type.Color) <- c('gray', 'blue', 'green')\n\nE(g.got.marriages)$color <- got.marriages$Type.Color\n\nplot(g.got.marriages, edge.arrow.size = 0)\n\n\n\n\n\n\nFish Encounters\nfish_encounters dataset is directly loaded with tidyverse or tidyr:\n\nhead(fish_encounters)\n\n\n\n  \n\n\n\nThe graph can be created using:\n\ng.fish <- graph_from_data_frame(fish_encounters)\n\nV(g.fish)$name\n\n [1] \"4842\"    \"4843\"    \"4844\"    \"4845\"    \"4847\"    \"4848\"    \"4849\"   \n [8] \"4850\"    \"4851\"    \"4854\"    \"4855\"    \"4857\"    \"4858\"    \"4859\"   \n[15] \"4861\"    \"4862\"    \"4863\"    \"4864\"    \"4865\"    \"Release\" \"I80_1\"  \n[22] \"Lisbon\"  \"Rstr\"    \"Base_TD\" \"BCE\"     \"BCW\"     \"BCE2\"    \"BCW2\"   \n[29] \"MAE\"     \"MAW\"    \n\n\nWe can color the stations by selecting the nodes with names that cannot be converted into numbers:\n\nV(g.fish)$color[is.na(as.numeric(V(g.fish)$name))] <- 'lightblue'\n\nplot(g.fish, edge.arrow.size = .5)\n\n\n\n\n\n\nLikes and Dislikes in Game of Thrones\n\ngot.likes <- read.csv('_data/got/got_like_dislike.csv')\n\nhead(got.likes)\n\n\n\n  \n\n\n\nAlthough the data is given in the form of an adjacency matrix, the object is a data frame that needs to be coerced into a matrix. The network is asymmetric and weighted, where negative weights indicate dislike.\n\ng.likes <- graph_from_adjacency_matrix(as.matrix(got.likes[ , - c(1 : 3)]), mode = 'directed', weighted = TRUE)\n\nCharacters in Game of Thrones seem to dislike each other much more than like each other…\n\nhist(E(g.likes)$weight)\n\n\n\nE(g.likes)$color <- colorRampPalette(c(\"red\", \"green\"))(11)[E(g.likes)$weight + 6]\n\nplot(g.likes, edge.arrow.size = 0.5)"
+    "text": "Today’s challenge is to\n\nread in a dataset, and\ncreate a network object"
+  },
+  {
+    "objectID": "posts/Week1_Challenge_Instructions.html#load-the-data",
+    "href": "posts/Week1_Challenge_Instructions.html#load-the-data",
+    "title": "Week 1 Challenge Instructions",
+    "section": "Load the Data",
+    "text": "Load the Data\nRead in one (or more) of the following data sets, using the correct R package and command.\n\ngot_marriages.csv\nfish_encounters dataset (available in the tidyr package)\ngot_like_dislike.csv\n\nFind the _data folder, located inside the posts folder. Then you can read in the data, using base read.csv or read_csv standard tidy read command to read Comma Separated Values files or, alternatively, read the data in directly from loading a package.\n\n\n\nAdd any comments or documentation as needed. More challenging data sets may require additional code chunks and documentation."
+  },
+  {
+    "objectID": "posts/Week1_Challenge_Instructions.html#create-a-network",
+    "href": "posts/Week1_Challenge_Instructions.html#create-a-network",
+    "title": "Week 1 Challenge Instructions",
+    "section": "Create a Network",
+    "text": "Create a Network\nLoad the package igraph and create an igraph object (i.e. a graph or network) in the form of an edge list. The command may vary whether the data is given as a list of connections or an adjacency matrix. Is the network directed or undirected; weighted or unweighted; unimodal or bipartite? Can you plot it?"
   },
   {
     "objectID": "about.html",
