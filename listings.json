@@ -1,7 +1,9 @@
 [
   {
     "listing": "/index.html",
-    "items": []
+    "items": [
+      "/posts/Week1_Challenge_Solutions.html"
+    ]
   },
   {
     "listing": "/about.html",
