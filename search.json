@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "DACSS 697E: Social Networks Spring-2023",
     "section": "",
-    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nWeek 1 Challenge Instructions\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
+    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nShort Assignment 1: Reading Network Data\n\n\n\n\n\n\n\n\n\n\n\n\nSteve O’Neill\n\n\n\n\n\n\n\n\nWeek 1 Challenge Instructions\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about/about.html",
@@ -75,6 +75,20 @@
     "title": "Week 1 Challenge Instructions",
     "section": "Create a Network",
     "text": "Create a Network\nLoad the package igraph and create an igraph object (i.e. a graph or network) in the form of an edge list. The command may vary whether the data is given as a list of connections or an adjacency matrix. Is the network directed or undirected; weighted or unweighted; unimodal or bipartite? Can you plot it?"
+  },
+  {
+    "objectID": "posts/steveoneill_week2.html",
+    "href": "posts/steveoneill_week2.html",
+    "title": "Short Assignment 1: Reading Network Data",
+    "section": "",
+    "text": "got_marriages <- read_csv(\"_data/got/got_marriages.csv\", show_col_types = FALSE)"
+  },
+  {
+    "objectID": "posts/steveoneill_week2.html#statnet",
+    "href": "posts/steveoneill_week2.html#statnet",
+    "title": "Short Assignment 1: Reading Network Data",
+    "section": "Statnet",
+    "text": "Statnet\nI am assuming “loops” are cases where Lannister – Lannister, or similar. So I’ll be setting that to TRUE. And multiple to TRUE as well.\n\ngot_marriages.stat <- as.network(got_marriages, loops = TRUE, multiple = TRUE)\nprint(got_marriages.stat)\n\n Network attributes:\n  vertices = 20 \n  directed = TRUE \n  hyper = FALSE \n  loops = TRUE \n  multiple = TRUE \n  bipartite = FALSE \n  total edges= 255 \n    missing edges= 0 \n    non-missing edges= 255 \n\n Vertex attribute names: \n    vertex.names \n\n Edge attribute names: \n    Generation Notes Type \n\n\nThis is a network object rather than a igraph object we were using before.\n\nclass(got_marriages.stat)\n\n[1] \"network\"\n\nclass(got_marriages.net)\n\n[1] \"igraph\"\n\n\nPlotting is ugly, but functional:\n\nplot(got_marriages.stat,\n     displaylabels = T)"
   },
   {
     "objectID": "about.html",
