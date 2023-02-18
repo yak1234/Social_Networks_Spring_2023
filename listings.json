@@ -1,15 +1,15 @@
 [
   {
+    "listing": "/about.html",
+    "items": [
+      "/about/about.html"
+    ]
+  },
+  {
     "listing": "/index.html",
     "items": [
       "/posts/steveoneill_week2.html",
       "/posts/Week1_Challenge_Instructions.html"
-    ]
-  },
-  {
-    "listing": "/about.html",
-    "items": [
-      "/about/about.html"
     ]
   }
 ]
