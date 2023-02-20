@@ -1,5 +1,26 @@
 [
   {
+    "objectID": "posts/Week1Challenge_BenRamsey.html",
+    "href": "posts/Week1Challenge_BenRamsey.html",
+    "title": "Week 1 Challenge",
+    "section": "",
+    "text": "Today’s challenge is to\n\nread in a dataset, and\ncreate a network object"
+  },
+  {
+    "objectID": "posts/Week1Challenge_BenRamsey.html#load-the-data",
+    "href": "posts/Week1Challenge_BenRamsey.html#load-the-data",
+    "title": "Week 1 Challenge",
+    "section": "Load the Data",
+    "text": "Load the Data\nRead in one (or more) of the following data sets, using the correct R package and command.\n\ngot_marriages.csv\nfish_encounters dataset (available in the tidyr package)\ngot_like_dislike.csv\n\nFind the _data folder, located inside the posts folder. Then you can read in the data, using base read.csv or read_csv standard tidy read command to read Comma Separated Values files or, alternatively, read the data in directly from loading a package.\n\n\nCode\nlibrary(tidyverse)\n\n\n-- Attaching packages --------------------------------------- tidyverse 1.3.1 --\n\n\nv ggplot2 3.3.5     v purrr   0.3.4\nv tibble  3.1.5     v dplyr   1.0.7\nv tidyr   1.1.4     v stringr 1.4.0\nv readr   2.0.2     v forcats 0.5.1\n\n\n-- Conflicts ------------------------------------------ tidyverse_conflicts() --\nx dplyr::filter() masks stats::filter()\nx dplyr::lag()    masks stats::lag()\n\n\nCode\ngot_marriages <- read_csv(\"_data/got/got_marriages.csv\")\n\n\nRows: 255 Columns: 5\n\n\n-- Column specification --------------------------------------------------------\nDelimiter: \",\"\nchr (5): From, To, Type, Notes, Generation\n\n\n\ni Use `spec()` to retrieve the full column specification for this data.\ni Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nAdd any comments or documentation as needed. More challenging data sets may require additional code chunks and documentation."
+  },
+  {
+    "objectID": "posts/Week1Challenge_BenRamsey.html#create-a-network",
+    "href": "posts/Week1Challenge_BenRamsey.html#create-a-network",
+    "title": "Week 1 Challenge",
+    "section": "Create a Network",
+    "text": "Create a Network\nLoad the package igraph and create an igraph object (i.e. a graph or network) in the form of an edge list. The command may vary whether the data is given as a list of connections or an adjacency matrix. Is the network directed or undirected; weighted or unweighted; unimodal or bipartite? Can you plot it?\n\n\nCode\nlibrary(igraph)\n\n\n\nAttaching package: 'igraph'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    as_data_frame, groups, union\n\n\nThe following objects are masked from 'package:purrr':\n\n    compose, simplify\n\n\nThe following object is masked from 'package:tidyr':\n\n    crossing\n\n\nThe following object is masked from 'package:tibble':\n\n    as_data_frame\n\n\nThe following objects are masked from 'package:stats':\n\n    decompose, spectrum\n\n\nThe following object is masked from 'package:base':\n\n    union\n\n\nCode\ngot_marriages.ig <- graph_from_data_frame(got_marriages, directed = FALSE)\n\nis_directed(got_marriages.ig)\n\n\n[1] FALSE\n\n\nCode\nis_weighted(got_marriages.ig)\n\n\n[1] FALSE\n\n\nCode\nis_bipartite(got_marriages.ig)\n\n\n[1] FALSE\n\n\nCode\nplot.igraph(got_marriages.ig)"
+  },
+  {
     "objectID": "posts/Week1_Challenge_Instructions.html",
     "href": "posts/Week1_Challenge_Instructions.html",
     "title": "Week 1 Challenge Instructions",
@@ -46,7 +67,7 @@
     "href": "index.html",
     "title": "DACSS 697E: Social Networks Spring-2023",
     "section": "",
-    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nShort Assignment 1: Reading Network Data\n\n\n\n\n\n\n\n\n\n\n\n\nSteve O’Neill\n\n\n\n\n\n\n\n\nWeek 1 Challenge Instructions\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
+    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nShort Assignment 1: Reading Network Data\n\n\n\n\n\n\n\n\n\n\n\n\nSteve O’Neill\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nBen Ramsey\n\n\n\n\n\n\n\n\nWeek 1 Challenge Instructions\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about/about.html",
