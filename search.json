@@ -63,6 +63,34 @@
     "text": "Create a Network\nLoad the package igraph and create an igraph object (i.e. a graph or network) in the form of an edge list. The command may vary whether the data is given as a list of connections or an adjacency matrix. Is the network directed or undirected; weighted or unweighted; unimodal or bipartite? Can you plot it?\n\n\nCode\nlibrary(igraph)\n\n\n\nAttaching package: 'igraph'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    as_data_frame, groups, union\n\n\nThe following objects are masked from 'package:purrr':\n\n    compose, simplify\n\n\nThe following object is masked from 'package:tidyr':\n\n    crossing\n\n\nThe following object is masked from 'package:tibble':\n\n    as_data_frame\n\n\nThe following objects are masked from 'package:stats':\n\n    decompose, spectrum\n\n\nThe following object is masked from 'package:base':\n\n    union\n\n\n\nFrom the below commands we know that the data is undirected, unmweighted and unimodal.\nThe plot is below:\n\n\nCode\ngot_like_dislike.ig <- graph_from_data_frame(got_like_dislike, directed = FALSE)\n\n\nWarning in graph_from_data_frame(got_like_dislike, directed = FALSE): In `d'\n`NA' elements were replaced with string \"NA\"\n\n\nCode\nis_directed(got_like_dislike.ig)\n\n\n[1] FALSE\n\n\nCode\nis_weighted(got_like_dislike.ig)\n\n\n[1] FALSE\n\n\nCode\nis_bipartite(got_like_dislike.ig)\n\n\n[1] FALSE\n\n\nCode\nplot.igraph(got_like_dislike.ig)"
   },
   {
+    "objectID": "posts/MirandaManka_Challenge1.html",
+    "href": "posts/MirandaManka_Challenge1.html",
+    "title": "Week 1 Challenge",
+    "section": "",
+    "text": "Code\nlibrary(tidyverse)\nlibrary(igraph)\n\nknitr::opts_chunk$set(echo = TRUE)"
+  },
+  {
+    "objectID": "posts/MirandaManka_Challenge1.html#challenge-overview",
+    "href": "posts/MirandaManka_Challenge1.html#challenge-overview",
+    "title": "Week 1 Challenge",
+    "section": "Challenge Overview",
+    "text": "Challenge Overview\nToday’s challenge is to\n\nread in a dataset, and\ncreate a network object"
+  },
+  {
+    "objectID": "posts/MirandaManka_Challenge1.html#load-the-data",
+    "href": "posts/MirandaManka_Challenge1.html#load-the-data",
+    "title": "Week 1 Challenge",
+    "section": "Load the Data",
+    "text": "Load the Data\n\n\nCode\ngot_marriages = read_csv(\"_data/got/got_marriages.csv\", show_col_types = FALSE)\ngot_marriages\n\n\n# A tibble: 255 × 5\n   From      To        Type    Notes  Generation\n   <chr>     <chr>     <chr>   <chr>  <chr>     \n 1 Targaryen Stark     Married R+L=J  Current   \n 2 Baratheon Martell   Engaged died   Current   \n 3 Baratheon Stark     Engaged broken Current   \n 4 Martell   Essos     Married <NA>   Current   \n 5 Martell   Reach     Affair  <NA>   Current   \n 6 Martell   Essos     Affair  <NA>   Current   \n 7 Martell   Essos     Affair  <NA>   Current   \n 8 Martell   Septa     Affair  <NA>   Current   \n 9 Martell   Dorne     Affair  <NA>   Current   \n10 Martell   Targaryen Married <NA>   Current   \n# … with 245 more rows"
+  },
+  {
+    "objectID": "posts/MirandaManka_Challenge1.html#create-a-network",
+    "href": "posts/MirandaManka_Challenge1.html#create-a-network",
+    "title": "Week 1 Challenge",
+    "section": "Create a Network",
+    "text": "Create a Network\nThe network is undirected, unweighted, and unimodal. There are 20 vertices/nodes (families) and 255 edges/links (different connections/relationships).\n\n\nCode\ngot_marriages.ig = graph_from_data_frame(got_marriages, directed = FALSE) #directed = false because with relationships, if a is married to b then b is also married to a\ngot_marriages.ig\n\n\nIGRAPH 3af7a91 UN-- 20 255 -- \n+ attr: name (v/c), Type (e/c), Notes (e/c), Generation (e/c)\n+ edges from 3af7a91 (vertex names):\n [1] Targaryen--Stark       Baratheon--Martell     Baratheon--Stark      \n [4] Martell  --Essos       Martell  --Reach       Martell  --Essos      \n [7] Martell  --Essos       Martell  --Septa       Martell  --Dorne      \n[10] Targaryen--Martell     Targaryen--Essos       Targaryen--Essos      \n[13] Baratheon--Lannister   Baratheon--Vale        Baratheon--Riverlands \n[16] Baratheon--Crownlands  Baratheon--Reach       Baratheon--Westerlands\n[19] Baratheon--Crownlands  Lannister--Lannister   Baratheon--Reach      \n[22] Baratheon--Tyrell      Tyrell   --Reach       Tyrell   --Reach      \n+ ... omitted several edges\n\n\nCode\nvcount(got_marriages.ig)\n\n\n[1] 20\n\n\nCode\necount(got_marriages.ig)\n\n\n[1] 255\n\n\nCode\nis_bipartite(got_marriages.ig)\n\n\n[1] FALSE\n\n\nCode\nis_directed(got_marriages.ig)\n\n\n[1] FALSE\n\n\nCode\nis_weighted(got_marriages.ig)\n\n\n[1] FALSE\n\n\nCode\ntable(got_marriages$Type)\n\n\n\n Affair Engaged Married \n     36       2     217 \n\n\nCode\nplot(got_marriages.ig)"
+  },
+  {
     "objectID": "posts/steveoneill_week2.html",
     "href": "posts/steveoneill_week2.html",
     "title": "Short Assignment 1: Reading Network Data",
@@ -102,7 +130,7 @@
     "href": "index.html",
     "title": "DACSS 697E: Social Networks Spring-2023",
     "section": "",
-    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nShort Assignment 1: Reading Network Data\n\n\n\n\n\n\n\n\n\n\n\n\nSteve O’Neill\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nchallenge_1\n\n\nLoading data and creating network\n\n\nJyoti Rani\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 22, 2023\n\n\nJyoti Rani\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nClaire Battaglia\n\n\nchallenge1\n\n\n\n\n\n\n\n\n\n\n\nFeb 22, 2023\n\n\nClaire Battaglia\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nBen Ramsey\n\n\n\n\n\n\n\n\nWeek 1 Challenge Instructions\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
+    "text": "The blog posts here are contributed by students enrolled in DACSS 697E, Social Networks Spring 2023. The course covers network scientific theory as it applies to the social sciences, network data collection and management, network visualization and description; and methods for the statistical analysis of networks. The course will make extensive use of real-world applications and students will gain a thorough background in the use of network analytic software. Most of the applications discussed will be drawn from political science, but this course will be relevant to anyone interested in network analytic research.\n\n\n\n\n\n\n\n\n\n\nShort Assignment 1: Reading Network Data\n\n\n\n\n\n\n\n\n\n\n\n\nSteve O’Neill\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nchallenge_1\n\n\nLoading data and creating network\n\n\nJyoti Rani\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 22, 2023\n\n\nJyoti Rani\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nchallenge1\n\n\nMiranda Manka\n\n\n\n\n\n\n\n\n\n\n\nFeb 22, 2023\n\n\nMiranda Manka\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nClaire Battaglia\n\n\nchallenge1\n\n\n\n\n\n\n\n\n\n\n\nFeb 22, 2023\n\n\nClaire Battaglia\n\n\n\n\n\n\n\n\nWeek 1 Challenge\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nBen Ramsey\n\n\n\n\n\n\n\n\nWeek 1 Challenge Instructions\n\n\n\n\n\n\n\nchallenge_1\n\n\ninstruction\n\n\n\n\nLoading Data and Creating a Network\n\n\n\n\n\n\nFeb 13, 2023\n\n\nOriol Vallès Codina\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about/about.html",
