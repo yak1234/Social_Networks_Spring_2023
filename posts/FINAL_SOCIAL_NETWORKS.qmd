@@ -1,0 +1,240 @@
+---
+title: 'Bipartite Network Analysis: Players Attending School'
+author: Amer Abuhasan 
+description: "Final Project"
+date: "05/12/2023"
+format:
+  html:
+    toc: true
+    code-fold: true
+    code-copy: true
+    code-tools: true
+
+  
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE,
+                      message=FALSE)
+
+library(Lahman)
+library(igraph)
+library(visNetwork)
+library(knitr)
+```
+
+
+# Reading Data
+```{r}
+# Dataset
+df <- CollegePlaying
+
+#First 6 rows of the dataset
+kable(head(df),caption = "First 6 rows of Dataset")
+```
+
+# Constructing Network
+```{r}
+# years having attended more than 300
+ylist <- c(1985,1986,1987,1988,1989,1990)
+g <- graph.data.frame(df[df$yearID %in% ylist,],directed = T)
+V(g)$type <- V(g)$name %in% df[df$yearID %in% ylist,1]
+g
+```
+
+## Get the Largest Component
+```{r}
+# GEt the largest component
+components <- clusters(g, mode="weak")
+biggest_cluster_id <- which.max(components$csize)
+
+# ids
+vert_ids <- V(g)[components$membership == biggest_cluster_id]
+
+# subgraph
+g <- induced_subgraph(g, vert_ids)
+
+```
+
+
+# Network Plot
+```{r}
+grp <- ifelse(V(g)$type,"Player","School")
+nodes <- data.frame(id = V(g)$name, title = V(g)$name, group = grp)
+edges <- get.data.frame(g, what="edges")[1:2]
+vis.nodes <- nodes
+vis.links <- edges
+#giving some styles to nodes and edges
+vis.nodes$shadow <- TRUE # Nodes will drop shadow
+vis.nodes$label  <- vis.nodes$id # Node label
+vis.nodes$size   <- degree(g)+20 # Node size
+vis.nodes$borderWidth <- 2 # Node border width
+vis.links$color <- "gray"    # line color  
+vis.links$smooth <- FALSE    # should the edges be curved?
+vis.links$shadow <- FALSE    # edge shadow
+visnet3 = visNetwork(vis.nodes, vis.links, main = "Network of Player Attending School") %>%
+  visPhysics(solver = "forceAtlas2Based",
+             forceAtlas2Based = list(gravitationalConstant = -100))
+visLegend(visnet3,main = "Groups")
+```
+
+# Network Stats
+```{r}
+################################## Network Stats ##################################
+
+mx_cliq <- clique.number(g)
+k <- data.frame(Measure = c("Nodes","Edges","Radius","Diameter",
+                             "Reciprocity","Average Degree",
+                             "Density","Number of Clusters",
+                             "Largest Clique Size","Number of Largest Cliques",
+                             "Average Shortest Path","Clustering Coefficient",
+                             "Number of Cores","Number of Triangles"),
+                 Value = c(vcount(g),ecount(g),
+                           radius(g),
+                           diameter(g),
+                           reciprocity(g),
+                           mean(degree(g,mode = "all")),
+                           graph.density(g),
+                           clusters(g)$no,mx_cliq,
+                           length(cliques(as.undirected(g),min = mx_cliq)),
+                           average.path.length(g),
+                           transitivity(g),
+                           length(unique(coreness(g))),
+                           length(triangles(g))))
+k$Value <- round(k$Value,5)
+kable(k,caption = "Player's Atending School Network Stats")
+```
+
+## Degree Distibution
+```{r}
+#plot(degree.distribution(g), col="red") #Plot degree distribution
+ddist <- degree_distribution(g, mode="all", cumulative=TRUE)
+plot(ddist,col="violet",xlab="DEGREE",ylab="DIST", main="The Degree Distribution", pch=19)
+```
+
+# Community Detection
+
+```{r}
+wk <- walktrap.community(g)
+grp <- wk$membership
+nodes <- data.frame(id = V(g)$name, title = V(g)$name, group = grp)
+edges <- get.data.frame(g, what="edges")[1:2]
+vis.nodes <- nodes
+vis.links <- edges
+#giving some styles to nodes and edges
+vis.nodes$shadow <- TRUE # Nodes will drop shadow
+vis.nodes$label  <- vis.nodes$id # Node label
+vis.nodes$size   <- degree(g)+20 # Node size
+vis.nodes$borderWidth <- 2 # Node border width
+vis.links$color <- "gray"    # line color  
+vis.links$smooth <- FALSE    # should the edges be curved?
+vis.links$shadow <- FALSE    # edge shadow
+visnet3 = visNetwork(vis.nodes, vis.links, main = "Walk Trap : Network of Player Attending School") %>%
+  visPhysics(solver = "forceAtlas2Based",
+             forceAtlas2Based = list(gravitationalConstant = -100))
+visLegend(visnet3,main = "Communities")
+```
+
+
+# Centralities 
+```{r}
+Top10Schools_Degree <- names(sort(degree(g, mode = "in"),decreasing = T))[1:10]
+Top10Players_Degree <- names(sort(degree(g, mode = "out"),decreasing = T))[1:10]
+Top10_Bonachic <- names(sort(power_centrality(g),decreasing = T))[1:10]
+Top10_Eigen <- names(sort(eigen_centrality(g)$vector,decreasing = T))[1:10]
+Top10_Betweenness <- names(sort(betweenness(as.undirected(g)),decreasing = T))[1:10]
+df <- data.frame(Top10Schools_Degree,
+                 Top10Players_Degree,
+                 Top10_Bonachic,
+                 Top10_Eigen,
+                 Top10_Betweenness)
+kable(df,caption = "Top 10 nodes (Players & Schools) by Centralities")
+
+#Top 10 Schools with value by Degree
+sort(degree(g, mode = "in"),decreasing = T)[1:10]
+
+#Top 10 Players with value by Degree
+sort(degree(g, mode = "out"),decreasing = T)[1:10]
+
+#Top Nodes with values by Bonachic Centrality
+sort(power_centrality(g),decreasing = T)[1:10]
+
+#Top 10 Nodes with values by Eigen
+sort(eigen_centrality(g)$vector,decreasing = T)[1:10]
+
+#Top 10 Nodes with values by Betweenness
+sort(betweenness(as.undirected(g)),decreasing = T)[1:10]
+```
+
+
+
+# Network models 
+```{r, include=FALSE}
+V(g)$Degree <- degree(g)
+V(g)$Eigen <- eigen_centrality(g)$vector
+V(g)$Com <- wk$membership
+
+rg <- sample_gnp(n=245, p=0.00721)
+
+detach(package:igraph)
+library(sna)
+library(intergraph)
+library(ergm)
+library(statnet)
+```
+
+```{r}
+
+g <- asNetwork(g)
+#basic ERGM model
+m <- ergm(g ~ edges)
+summary(m)
+
+#with node level attributes
+m1 <- ergm(g ~ edges 
+           + nodecov("Eigen") 
+           + nodecov("Degree")) 
+summary(m1)
+
+# the odds ratio for each term. 
+or <- exp(coef(m1))  
+
+```
+
+# CUG test
+
+```{r}
+#CuG test on the network using mode size
+ctest <- cug.test(g,
+         centralization,
+         FUN.arg=list(FUN=degree), 
+         mode="graph", 
+         cmode="size")
+
+#CuG test on the network using mode dyad.census
+ctest2 <- cug.test(g,
+         centralization,
+         FUN.arg=list(FUN=degree), 
+         mode="graph", 
+         cmode="dyad.census")
+
+#CuG test on the network using mode edges
+ctest3 <- cug.test(g,
+         centralization,
+         FUN.arg=list(FUN=degree), 
+         mode="graph", 
+         cmode="edges")
+
+par(mfrow=c(1,3))
+plot(ctest, main="Degree \nConditioned on Size" )
+plot(ctest3, main="Degree \nConditioned on Edges" )
+plot(ctest2, main="Degree \nConditioned on Dyads" )
+par(mfrow=c(1,1))
+```
+
+
+
+
