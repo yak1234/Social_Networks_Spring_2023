@@ -18,11 +18,7 @@ categories:
   # - wildbirds
 ---
 
-```{r}
-#| label: setup
-#| include: false
-#| 
-```
+
 
 ## Challenge Overview
 
