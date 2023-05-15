@@ -30,8 +30,7 @@ If you have not done it before, always start by evaluating the basic structure o
 
 ## Centrality
 
-Compute at least one measure of centrality for each node, adding them as attributes to `nodes` in the form of extra columns: eigencentrality, betweenness, closeness, etc. Compute the distribution of at least one of those measures. What do we learn from comparing these measures of centrality with an equivalent random network (i.e. with the same number of edges and vertices)?
-
+Compute at least one measure of centrality for each node, adding them as attributes to `nodes` in the form of extra columns: eigencentrality, betweenness, closeness, etc. Compute the distribution of at least one of those measures. What do we learn from comparing these measures of centrality with an equivalent random network (i.e. with the same number of edges and vertices)?]
 ```{r}
 
 ```
