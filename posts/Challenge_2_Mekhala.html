@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Mekhala Kumar">
+<meta name="dcterms.date" content="2023-03-24">
+<meta name="description" content="Describing the Basic Structure of a Network">
+
+<title>Challenge 2 Mekhala</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/DACSS_Round_Network.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta name="twitter:title" content="Challenge 2 Mekhala">
+<meta name="twitter:description" content="Describing the Basic Structure of a Network">
+<meta name="twitter:image" content="https://dacss.github.io/Social_Networks_Spring_2023/posts/Challenge_2_Mekhala_files/figure-html/unnamed-chunk-14-1.png">
+<meta name="twitter:creator" content="@UMassDACSS">
+<meta name="twitter:site" content="@UMassDACSS">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/UMass White Wordmark Horiz.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="true"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target="">
+ <span class="menu-text">Spring 2023 Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">Contributors</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://umass.edu/sbs/dacss" rel="" target="">
+ <span class="menu-text">DACSS</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#reading-in-the-data" id="toc-reading-in-the-data" class="nav-link active" data-scroll-target="#reading-in-the-data">Reading in the data</a></li>
+  <li><a href="#converting-into-network-data-format" id="toc-converting-into-network-data-format" class="nav-link" data-scroll-target="#converting-into-network-data-format">Converting into Network data format</a></li>
+  <li><a href="#describe-the-network-data" id="toc-describe-the-network-data" class="nav-link" data-scroll-target="#describe-the-network-data">Describe the Network Data</a></li>
+  <li><a href="#dyad-and-triad-census" id="toc-dyad-and-triad-census" class="nav-link" data-scroll-target="#dyad-and-triad-census">Dyad and Triad Census</a></li>
+  <li><a href="#triad-census" id="toc-triad-census" class="nav-link" data-scroll-target="#triad-census">Triad Census</a></li>
+  <li><a href="#global-and-local-transitivity-or-clustering" id="toc-global-and-local-transitivity-or-clustering" class="nav-link" data-scroll-target="#global-and-local-transitivity-or-clustering">Global and Local Transitivity or Clustering</a></li>
+  <li><a href="#path-length-geodesic-and-component-structure" id="toc-path-length-geodesic-and-component-structure" class="nav-link" data-scroll-target="#path-length-geodesic-and-component-structure">Path Length, Geodesic and Component Structure</a></li>
+  <li><a href="#average-path-length" id="toc-average-path-length" class="nav-link" data-scroll-target="#average-path-length">Average path length</a></li>
+  <li><a href="#component-structure" id="toc-component-structure" class="nav-link" data-scroll-target="#component-structure">Component Structure</a></li>
+  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Challenge 2 Mekhala</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">challenge_2</div>
+    <div class="quarto-category">Mekhala Kumar</div>
+    <div class="quarto-category">got like_dislike</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Describing the Basic Structure of a Network
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Mekhala Kumar </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 24, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="reading-in-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="reading-in-the-data">Reading in the data</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>like_dislike<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"_data/got/got_like_dislike.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 46 Columns: 49
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (3): Current house, Former house, Name
+dbl (46): Lysa Arryn, Petyr Baelish, Joffrey Baratheon, Margaery Tyrell, Ren...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(like_dislike)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 49
+  Curren…¹ Forme…² Name  Lysa …³ Petyr…⁴ Joffr…⁵ Marga…⁶ Renly…⁷ Rober…⁸ Stann…⁹
+  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 Arryn    Tully   Lysa…      NA       3       0       0       0       1       0
+2 Baelish  &lt;NA&gt;    Pety…       3      NA      -1       1      -2       1      -1
+3 Lannist… Barath… Joff…       0      -1      NA       4      -3       2      -5
+4 Tyrell   Barath… Marg…       0       1       3      NA       5       0      -5
+5 Barathe… &lt;NA&gt;    Renl…       0      -2      -5       5      NA       3      -5
+6 Barathe… &lt;NA&gt;    Robe…       2       1       4       0       3      NA       2
+# … with 39 more variables: `Brienne of Tarth` &lt;dbl&gt;, Bronn &lt;dbl&gt;,
+#   `Gregor Clegane` &lt;dbl&gt;, `Sandor Clegane` &lt;dbl&gt;, `Xaro Xhoan Daxos` &lt;dbl&gt;,
+#   Gendry &lt;dbl&gt;, `Balon Greyjoy` &lt;dbl&gt;, `Theon Greyjoy` &lt;dbl&gt;,
+#   `Jaqen H'ghar` &lt;dbl&gt;, Hodor &lt;dbl&gt;, `Khal Drogo` &lt;dbl&gt;,
+#   `Cersei Lannister` &lt;dbl&gt;, `Jaime Lannister` &lt;dbl&gt;,
+#   `Lancel Lannister` &lt;dbl&gt;, `Tyrion Lannister` &lt;dbl&gt;,
+#   `Tywin Lannister` &lt;dbl&gt;, `Maester Luwin` &lt;dbl&gt;, Melisandre &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section>
+<section id="converting-into-network-data-format" class="level2">
+<h2 class="anchored" data-anchor-id="converting-into-network-data-format">Converting into Network data format</h2>
+<p>In the adjacency matrix I looked for which values had an edge to compare the number of edges reported once the network is created.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adj<span class="ot">&lt;-</span><span class="fu">subset</span>(like_dislike[<span class="dv">4</span><span class="sc">:</span><span class="dv">49</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vertex_names<span class="ot">&lt;-</span><span class="fu">colnames</span>(adj)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(adj) <span class="ot">&lt;-</span> vertex_names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Setting row names on a tibble is deprecated.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>adj_mat <span class="ot">&lt;-</span> <span class="fu">data.matrix</span>(adj)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#diag(adj_mat) &lt;- 0</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(adj_mat <span class="sc">!=</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+FALSE  TRUE 
+  927  1143 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#igraph</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>like_dislike.net <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(adj_mat, <span class="at">mode =</span> <span class="st">"directed"</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(like_dislike.net)<span class="sc">$</span>name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Lysa Arryn"            "Petyr Baelish"         "Joffrey Baratheon"    
+ [4] "Margaery Tyrell"       "Renly Baratheon"       "Robert Baratheon"     
+ [7] "Stannis Baratheon"     "Brienne of Tarth"      "Bronn"                
+[10] "Gregor Clegane"        "Sandor Clegane"        "Xaro Xhoan Daxos"     
+[13] "Gendry"                "Balon Greyjoy"         "Theon Greyjoy"        
+[16] "Jaqen H'ghar"          "Hodor"                 "Khal Drogo"           
+[19] "Cersei Lannister"      "Jaime Lannister"       "Lancel Lannister"     
+[22] "Tyrion Lannister"      "Tywin Lannister"       "Maester Luwin"        
+[25] "Melisandre"            "Jeor Mormont"          "Jorah Mormont"        
+[28] "Osha"                  "Podrick Payne"         "Pyat Pree"            
+[31] "Grand Maester Pycelle" "Ros"                   "Davos Seaworth"       
+[34] "Shae"                  "Jon Snow"              "Arya Stark"           
+[37] "Bran Stark"            "Catelyn Stark"         "Robb Stark"           
+[40] "Sansa Stark"           "Daenerys Targaryen"    "Viserys Targaryen"    
+[43] "Samwell Tarly"         "Loras Tyrell"          "Varys"                
+[46] "Eddard Stark"         </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#statnet</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>like_dislike_statnet <span class="ot">&lt;-</span> <span class="fu">network</span>(adj_mat,<span class="at">matrix.type=</span><span class="st">"adjacency"</span>, <span class="at">directed=</span><span class="cn">TRUE</span>, <span class="at">loops =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="describe-the-network-data" class="level2">
+<h2 class="anchored" data-anchor-id="describe-the-network-data">Describe the Network Data</h2>
+<p>The network has 46 vertices and 1143 edges. It is unimodal, directed and weighted. I tried the commands both in igraph and statnet because initially I was getting different number of edges for the two so I wanted to check if there were any inconsistencies remaining.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#igraph</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vcount</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 46</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1143</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_bipartite</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_directed</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_weighted</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vertex_attr_names</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "name"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">edge_attr_names</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "weight"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(like_dislike.net)<span class="sc">$</span>name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Lysa Arryn"            "Petyr Baelish"         "Joffrey Baratheon"    
+ [4] "Margaery Tyrell"       "Renly Baratheon"       "Robert Baratheon"     
+ [7] "Stannis Baratheon"     "Brienne of Tarth"      "Bronn"                
+[10] "Gregor Clegane"        "Sandor Clegane"        "Xaro Xhoan Daxos"     
+[13] "Gendry"                "Balon Greyjoy"         "Theon Greyjoy"        
+[16] "Jaqen H'ghar"          "Hodor"                 "Khal Drogo"           
+[19] "Cersei Lannister"      "Jaime Lannister"       "Lancel Lannister"     
+[22] "Tyrion Lannister"      "Tywin Lannister"       "Maester Luwin"        
+[25] "Melisandre"            "Jeor Mormont"          "Jorah Mormont"        
+[28] "Osha"                  "Podrick Payne"         "Pyat Pree"            
+[31] "Grand Maester Pycelle" "Ros"                   "Davos Seaworth"       
+[34] "Shae"                  "Jon Snow"              "Arya Stark"           
+[37] "Bran Stark"            "Catelyn Stark"         "Robb Stark"           
+[40] "Sansa Stark"           "Daenerys Targaryen"    "Viserys Targaryen"    
+[43] "Samwell Tarly"         "Loras Tyrell"          "Varys"                
+[46] "Eddard Stark"         </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#statnet</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(like_dislike_statnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> Network attributes:
+  vertices = 46 
+  directed = TRUE 
+  hyper = FALSE 
+  loops = FALSE 
+  multiple = FALSE 
+  bipartite = FALSE 
+  total edges= 1143 
+    missing edges= 0 
+    non-missing edges= 1143 
+
+ Vertex attribute names: 
+    vertex.names 
+
+ Edge attribute names not shown </code></pre>
+</div>
+</div>
+</section>
+<section id="dyad-and-triad-census" class="level2">
+<h2 class="anchored" data-anchor-id="dyad-and-triad-census">Dyad and Triad Census</h2>
+<p>There are 554 mutual connections, 35 non-mutual connections and 446 nodes which are not connected.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">dyad.census</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$mut
+[1] 554
+
+$asym
+[1] 35
+
+$null
+[1] 446</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sna<span class="sc">::</span><span class="fu">dyad.census</span>(like_dislike_statnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Mut Asym Null
+[1,] 554   35  446</code></pre>
+</div>
+</div>
+</section>
+<section id="triad-census" class="level2">
+<h2 class="anchored" data-anchor-id="triad-census">Triad Census</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">triad_census</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1780  308 4637    5   11   22  222  285    1    1 3849    8   19   26  537
+[16] 3469</code></pre>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sna<span class="sc">::</span><span class="fu">triad.census</span>(like_dislike_statnet, <span class="at">mode=</span><span class="st">"graph"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        0    1    2    3
+[1,] 1975 5109 4405 3691</code></pre>
+</div>
+</div>
+</section>
+<section id="global-and-local-transitivity-or-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="global-and-local-transitivity-or-clustering">Global and Local Transitivity or Clustering</h2>
+<p>The global transitivity is slightly smaller than the average local clustering coefficient. This shows on average, the density globally is comparable to the density for the local ego networks.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Global</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(like_dislike.net, <span class="at">type=</span><span class="st">"global"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7349339</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Average local clustering coefficient</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(like_dislike.net, <span class="at">type=</span><span class="st">"average"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.754549</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gtrans</span>(like_dislike_statnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7184677</code></pre>
+</div>
+</div>
+<p>It can be seen that the density for Ros’ network higher in comparison to the density across the network whereas the density for Arya Stark’s and Bronn’s networks are comparable to the global and average clustering coefficients.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Local</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(like_dislike.net)[<span class="fu">c</span>(<span class="st">"Arya Stark"</span>,<span class="st">"Ros"</span>, <span class="st">"Bronn"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>+ 3/46 vertices, named, from c2734b5:
+[1] Arya Stark Ros        Bronn     </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(like_dislike.net,<span class="at">type=</span><span class="st">"local"</span>,<span class="at">vids=</span><span class="fu">V</span>(like_dislike.net)[<span class="fu">c</span>(<span class="st">"Arya Stark"</span>,<span class="st">"Ros"</span>, <span class="st">"Bronn"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7045455 0.8888889 0.7632184</code></pre>
+</div>
+</div>
+</section>
+<section id="path-length-geodesic-and-component-structure" class="level2">
+<h2 class="anchored" data-anchor-id="path-length-geodesic-and-component-structure">Path Length, Geodesic and Component Structure</h2>
+<p>I looked into the shortest paths and distances between a few of the people.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all_shortest_paths</span>(like_dislike.net,<span class="at">from=</span><span class="st">"Ros"</span>,<span class="at">to=</span><span class="st">"Jon Snow"</span>, <span class="at">mode=</span><span class="st">"out"</span>,<span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros              Cersei Lannister Jon Snow        
+
+[[2]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros           Theon Greyjoy Jon Snow     
+
+[[3]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros              Robert Baratheon Jon Snow        
+
+[[4]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros               Joffrey Baratheon Jon Snow         </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all_shortest_paths</span>(like_dislike.net,<span class="at">from=</span><span class="st">"Ros"</span>,<span class="at">to=</span><span class="st">"Jon Snow"</span>, <span class="at">mode=</span><span class="st">"in"</span>,<span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros              Cersei Lannister Jon Snow        
+
+[[2]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros           Theon Greyjoy Jon Snow     
+
+[[3]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros              Robert Baratheon Jon Snow        
+
+[[4]]
++ 3/46 vertices, named, from c2734b5:
+[1] Ros               Joffrey Baratheon Jon Snow         </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all_shortest_paths</span>(like_dislike.net,<span class="at">from=</span><span class="st">"Bronn"</span>,<span class="at">to=</span><span class="st">"Arya Stark"</span>, <span class="at">mode=</span><span class="st">"in"</span>,<span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn        Eddard Stark Arya Stark  
+
+[[2]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn      Varys      Arya Stark
+
+[[3]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn        Loras Tyrell Arya Stark  
+
+[[4]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn             Viserys Targaryen Arya Stark       
+
+[[5]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn              Daenerys Targaryen Arya Stark        
+
+[[6]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn       Sansa Stark Arya Stark 
+
+[[7]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn      Robb Stark Arya Stark
+
+[[8]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn         Catelyn Stark Arya Stark   
+
+[[9]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn          Davos Seaworth Arya Stark    
+
+[[10]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn         Jorah Mormont Arya Stark   
+
+[[11]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn      Melisandre Arya Stark
+
+[[12]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn           Tywin Lannister Arya Stark     
+
+[[13]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn           Jaime Lannister Arya Stark     
+
+[[14]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn            Cersei Lannister Arya Stark      
+
+[[15]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn         Theon Greyjoy Arya Stark   
+
+[[16]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn      Gendry     Arya Stark
+
+[[17]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn          Gregor Clegane Arya Stark    
+
+[[18]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn            Brienne of Tarth Arya Stark      
+
+[[19]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn             Stannis Baratheon Arya Stark       
+
+[[20]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn             Joffrey Baratheon Arya Stark       
+
+[[21]]
++ 3/46 vertices, named, from c2734b5:
+[1] Bronn         Petyr Baelish Arya Stark   </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distances</span>(like_dislike.net,<span class="at">v=</span><span class="st">"Bronn"</span>,<span class="at">to=</span><span class="st">"Ros"</span>,<span class="at">weights=</span><span class="cn">NA</span>,<span class="at">algorithm=</span><span class="st">"johnson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Ros
+Bronn   2</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distances</span>(like_dislike.net,<span class="at">v=</span><span class="st">"Bronn"</span>,<span class="at">to=</span><span class="st">"Arya Stark"</span>,<span class="at">weights=</span><span class="cn">NA</span>,<span class="at">algorithm=</span><span class="st">"johnson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Arya Stark
+Bronn          2</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">distances</span>(like_dislike.net,<span class="at">v=</span><span class="st">"Arya Stark"</span>,<span class="at">to=</span><span class="st">"Jon Snow"</span>,<span class="at">weights=</span><span class="cn">NA</span>,<span class="at">algorithm=</span><span class="st">"johnson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Jon Snow
+Arya Stark        1</code></pre>
+</div>
+</div>
+</section>
+<section id="average-path-length" class="level2">
+<h2 class="anchored" data-anchor-id="average-path-length">Average path length</h2>
+<p>Since this network has negative weights, I was unable to use the commands for average path length and diameter directly. Hence, I converted the values by adding 10 to each observation to make the values positive. This made the original neutral connections equal to 10 which I changed back to 0 in order to avoid confusion regarding the distances calculated.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>new_adj<span class="ot">&lt;-</span>adj_mat<span class="sc">+</span><span class="dv">10</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>new_adj[new_adj <span class="sc">==</span> <span class="dv">10</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>like_dislike2 <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(new_adj, <span class="at">mode =</span> <span class="st">"directed"</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="fu">average.path.length</span>(like_dislike2,<span class="at">directed=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11.24589</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(like_dislike2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+</div>
+</section>
+<section id="component-structure" class="level2">
+<h2 class="anchored" data-anchor-id="component-structure">Component Structure</h2>
+<p>This network consists of a single component with 46 members.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(igraph<span class="sc">::</span><span class="fu">components</span>(like_dislike.net))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "membership" "csize"      "no"        </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">#igraph::components(like_dislike.net)$membership #very long list</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(like_dislike.net)<span class="sc">$</span>no </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(like_dislike.net)<span class="sc">$</span>csize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 46</code></pre>
+</div>
+</div>
+<p>There are no isolates in this network.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isolates</span>(like_dislike_statnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>integer(0)</code></pre>
+</div>
+</div>
+</section>
+<section id="plot" class="level2">
+<h2 class="anchored" data-anchor-id="plot">Plot</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(like_dislike.net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in v(graph): Non-positive edge weight found, ignoring all weights
+during graph layout.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="Challenge_2_Mekhala_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="DACSS/Social_Networks_Spring_2023" data-repo-id="R_kgDOI9d_OA" data-category="Announcements" data-category-id="" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb74" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Challenge 2 Mekhala"</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Mekhala Kumar"</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Describing the Basic Structure of a Network"</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "03/24/2023"</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a><span class="co"># editor: visual</span></span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> </span></span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a><span class="co">  - challenge_2</span></span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a><span class="co">  - Mekhala Kumar</span></span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a><span class="co">  - got like_dislike </span></span>
+<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-18"><a href="#cb74-18" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb74-19"><a href="#cb74-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-22"><a href="#cb74-22" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-23"><a href="#cb74-23" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb74-24"><a href="#cb74-24" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb74-25"><a href="#cb74-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-26"><a href="#cb74-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-27"><a href="#cb74-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb74-28"><a href="#cb74-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googlesheets4)</span>
+<span id="cb74-29"><a href="#cb74-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb74-30"><a href="#cb74-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(statnet)</span>
+<span id="cb74-31"><a href="#cb74-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-32"><a href="#cb74-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-33"><a href="#cb74-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reading in the data</span></span>
+<span id="cb74-36"><a href="#cb74-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-37"><a href="#cb74-37" aria-hidden="true" tabindex="-1"></a>like_dislike<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">"_data/got/got_like_dislike.csv"</span>)</span>
+<span id="cb74-38"><a href="#cb74-38" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(like_dislike)</span>
+<span id="cb74-39"><a href="#cb74-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-40"><a href="#cb74-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-41"><a href="#cb74-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Converting into Network data format</span></span>
+<span id="cb74-42"><a href="#cb74-42" aria-hidden="true" tabindex="-1"></a>In the adjacency matrix I looked for which values had an edge to compare the number of edges reported once the network is created. </span>
+<span id="cb74-45"><a href="#cb74-45" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-46"><a href="#cb74-46" aria-hidden="true" tabindex="-1"></a>adj<span class="ot">&lt;-</span><span class="fu">subset</span>(like_dislike[<span class="dv">4</span><span class="sc">:</span><span class="dv">49</span>])</span>
+<span id="cb74-47"><a href="#cb74-47" aria-hidden="true" tabindex="-1"></a>vertex_names<span class="ot">&lt;-</span><span class="fu">colnames</span>(adj)</span>
+<span id="cb74-48"><a href="#cb74-48" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(adj) <span class="ot">&lt;-</span> vertex_names</span>
+<span id="cb74-49"><a href="#cb74-49" aria-hidden="true" tabindex="-1"></a>adj_mat <span class="ot">&lt;-</span> <span class="fu">data.matrix</span>(adj)</span>
+<span id="cb74-50"><a href="#cb74-50" aria-hidden="true" tabindex="-1"></a><span class="co">#diag(adj_mat) &lt;- 0</span></span>
+<span id="cb74-51"><a href="#cb74-51" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(adj_mat <span class="sc">!=</span> <span class="dv">0</span>)</span>
+<span id="cb74-52"><a href="#cb74-52" aria-hidden="true" tabindex="-1"></a><span class="co">#igraph</span></span>
+<span id="cb74-53"><a href="#cb74-53" aria-hidden="true" tabindex="-1"></a>like_dislike.net <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(adj_mat, <span class="at">mode =</span> <span class="st">"directed"</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb74-54"><a href="#cb74-54" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(like_dislike.net)<span class="sc">$</span>name</span>
+<span id="cb74-55"><a href="#cb74-55" aria-hidden="true" tabindex="-1"></a><span class="co">#statnet</span></span>
+<span id="cb74-56"><a href="#cb74-56" aria-hidden="true" tabindex="-1"></a>like_dislike_statnet <span class="ot">&lt;-</span> <span class="fu">network</span>(adj_mat,<span class="at">matrix.type=</span><span class="st">"adjacency"</span>, <span class="at">directed=</span><span class="cn">TRUE</span>, <span class="at">loops =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb74-57"><a href="#cb74-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-58"><a href="#cb74-58" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-59"><a href="#cb74-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-60"><a href="#cb74-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-61"><a href="#cb74-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## Describe the Network Data</span></span>
+<span id="cb74-62"><a href="#cb74-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-63"><a href="#cb74-63" aria-hidden="true" tabindex="-1"></a>The network has 46 vertices and 1143 edges. It is unimodal, directed and weighted. I tried the commands both in igraph and statnet because initially I was getting different number of edges for the two so I wanted to check if there were any inconsistencies remaining. </span>
+<span id="cb74-66"><a href="#cb74-66" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-67"><a href="#cb74-67" aria-hidden="true" tabindex="-1"></a><span class="co">#igraph</span></span>
+<span id="cb74-68"><a href="#cb74-68" aria-hidden="true" tabindex="-1"></a><span class="fu">vcount</span>(like_dislike.net)</span>
+<span id="cb74-69"><a href="#cb74-69" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(like_dislike.net)</span>
+<span id="cb74-70"><a href="#cb74-70" aria-hidden="true" tabindex="-1"></a><span class="fu">is_bipartite</span>(like_dislike.net)</span>
+<span id="cb74-71"><a href="#cb74-71" aria-hidden="true" tabindex="-1"></a><span class="fu">is_directed</span>(like_dislike.net)</span>
+<span id="cb74-72"><a href="#cb74-72" aria-hidden="true" tabindex="-1"></a><span class="fu">is_weighted</span>(like_dislike.net)</span>
+<span id="cb74-73"><a href="#cb74-73" aria-hidden="true" tabindex="-1"></a><span class="fu">vertex_attr_names</span>(like_dislike.net)</span>
+<span id="cb74-74"><a href="#cb74-74" aria-hidden="true" tabindex="-1"></a><span class="fu">edge_attr_names</span>(like_dislike.net)</span>
+<span id="cb74-75"><a href="#cb74-75" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(like_dislike.net)<span class="sc">$</span>name</span>
+<span id="cb74-76"><a href="#cb74-76" aria-hidden="true" tabindex="-1"></a><span class="co">#statnet</span></span>
+<span id="cb74-77"><a href="#cb74-77" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(like_dislike_statnet)</span>
+<span id="cb74-78"><a href="#cb74-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-79"><a href="#cb74-79" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-80"><a href="#cb74-80" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dyad and Triad Census</span></span>
+<span id="cb74-81"><a href="#cb74-81" aria-hidden="true" tabindex="-1"></a>There are 554 mutual connections, 35 non-mutual connections and 446 nodes which are not connected. </span>
+<span id="cb74-84"><a href="#cb74-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-85"><a href="#cb74-85" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">dyad.census</span>(like_dislike.net)</span>
+<span id="cb74-86"><a href="#cb74-86" aria-hidden="true" tabindex="-1"></a>sna<span class="sc">::</span><span class="fu">dyad.census</span>(like_dislike_statnet)</span>
+<span id="cb74-87"><a href="#cb74-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-88"><a href="#cb74-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-89"><a href="#cb74-89" aria-hidden="true" tabindex="-1"></a><span class="fu">## Triad Census</span></span>
+<span id="cb74-92"><a href="#cb74-92" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-93"><a href="#cb74-93" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">triad_census</span>(like_dislike.net)</span>
+<span id="cb74-94"><a href="#cb74-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-97"><a href="#cb74-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-98"><a href="#cb74-98" aria-hidden="true" tabindex="-1"></a>sna<span class="sc">::</span><span class="fu">triad.census</span>(like_dislike_statnet, <span class="at">mode=</span><span class="st">"graph"</span>)</span>
+<span id="cb74-99"><a href="#cb74-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-100"><a href="#cb74-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-101"><a href="#cb74-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-102"><a href="#cb74-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global and Local Transitivity or Clustering</span></span>
+<span id="cb74-103"><a href="#cb74-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-104"><a href="#cb74-104" aria-hidden="true" tabindex="-1"></a>The global transitivity is slightly smaller than the average local clustering coefficient. This shows on average, the density globally is comparable to the density for the local ego networks. </span>
+<span id="cb74-107"><a href="#cb74-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-108"><a href="#cb74-108" aria-hidden="true" tabindex="-1"></a><span class="co">#Global</span></span>
+<span id="cb74-109"><a href="#cb74-109" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(like_dislike.net, <span class="at">type=</span><span class="st">"global"</span>)</span>
+<span id="cb74-110"><a href="#cb74-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-111"><a href="#cb74-111" aria-hidden="true" tabindex="-1"></a><span class="do">##Average local clustering coefficient</span></span>
+<span id="cb74-112"><a href="#cb74-112" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(like_dislike.net, <span class="at">type=</span><span class="st">"average"</span>)</span>
+<span id="cb74-113"><a href="#cb74-113" aria-hidden="true" tabindex="-1"></a><span class="fu">gtrans</span>(like_dislike_statnet)</span>
+<span id="cb74-114"><a href="#cb74-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-115"><a href="#cb74-115" aria-hidden="true" tabindex="-1"></a>It can  be seen that the density for Ros' network higher in comparison to the density across the network whereas the density for Arya Stark's and Bronn's networks are comparable to the global and average clustering coefficients. </span>
+<span id="cb74-118"><a href="#cb74-118" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-119"><a href="#cb74-119" aria-hidden="true" tabindex="-1"></a><span class="co">#Local</span></span>
+<span id="cb74-120"><a href="#cb74-120" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(like_dislike.net)[<span class="fu">c</span>(<span class="st">"Arya Stark"</span>,<span class="st">"Ros"</span>, <span class="st">"Bronn"</span>)]</span>
+<span id="cb74-121"><a href="#cb74-121" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(like_dislike.net,<span class="at">type=</span><span class="st">"local"</span>,<span class="at">vids=</span><span class="fu">V</span>(like_dislike.net)[<span class="fu">c</span>(<span class="st">"Arya Stark"</span>,<span class="st">"Ros"</span>, <span class="st">"Bronn"</span>)])</span>
+<span id="cb74-122"><a href="#cb74-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-123"><a href="#cb74-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-124"><a href="#cb74-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-125"><a href="#cb74-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## Path Length, Geodesic and Component Structure </span></span>
+<span id="cb74-126"><a href="#cb74-126" aria-hidden="true" tabindex="-1"></a>I looked into the shortest paths and distances between a few of the people. </span>
+<span id="cb74-129"><a href="#cb74-129" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-130"><a href="#cb74-130" aria-hidden="true" tabindex="-1"></a><span class="fu">all_shortest_paths</span>(like_dislike.net,<span class="at">from=</span><span class="st">"Ros"</span>,<span class="at">to=</span><span class="st">"Jon Snow"</span>, <span class="at">mode=</span><span class="st">"out"</span>,<span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>res</span>
+<span id="cb74-131"><a href="#cb74-131" aria-hidden="true" tabindex="-1"></a><span class="fu">all_shortest_paths</span>(like_dislike.net,<span class="at">from=</span><span class="st">"Ros"</span>,<span class="at">to=</span><span class="st">"Jon Snow"</span>, <span class="at">mode=</span><span class="st">"in"</span>,<span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>res</span>
+<span id="cb74-132"><a href="#cb74-132" aria-hidden="true" tabindex="-1"></a><span class="fu">all_shortest_paths</span>(like_dislike.net,<span class="at">from=</span><span class="st">"Bronn"</span>,<span class="at">to=</span><span class="st">"Arya Stark"</span>, <span class="at">mode=</span><span class="st">"in"</span>,<span class="at">weights=</span><span class="cn">NA</span>)<span class="sc">$</span>res</span>
+<span id="cb74-133"><a href="#cb74-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-134"><a href="#cb74-134" aria-hidden="true" tabindex="-1"></a><span class="fu">distances</span>(like_dislike.net,<span class="at">v=</span><span class="st">"Bronn"</span>,<span class="at">to=</span><span class="st">"Ros"</span>,<span class="at">weights=</span><span class="cn">NA</span>,<span class="at">algorithm=</span><span class="st">"johnson"</span>)</span>
+<span id="cb74-135"><a href="#cb74-135" aria-hidden="true" tabindex="-1"></a><span class="fu">distances</span>(like_dislike.net,<span class="at">v=</span><span class="st">"Bronn"</span>,<span class="at">to=</span><span class="st">"Arya Stark"</span>,<span class="at">weights=</span><span class="cn">NA</span>,<span class="at">algorithm=</span><span class="st">"johnson"</span>)</span>
+<span id="cb74-136"><a href="#cb74-136" aria-hidden="true" tabindex="-1"></a><span class="fu">distances</span>(like_dislike.net,<span class="at">v=</span><span class="st">"Arya Stark"</span>,<span class="at">to=</span><span class="st">"Jon Snow"</span>,<span class="at">weights=</span><span class="cn">NA</span>,<span class="at">algorithm=</span><span class="st">"johnson"</span>)</span>
+<span id="cb74-137"><a href="#cb74-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-138"><a href="#cb74-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Average path length</span></span>
+<span id="cb74-139"><a href="#cb74-139" aria-hidden="true" tabindex="-1"></a>Since this network has negative weights, I was unable to use the commands for average path length and diameter directly. Hence, I converted the values by adding 10 to each observation to make the values positive. This made the original neutral connections equal to 10 which I changed back to 0 in order to avoid confusion regarding the distances calculated. </span>
+<span id="cb74-140"><a href="#cb74-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-143"><a href="#cb74-143" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-144"><a href="#cb74-144" aria-hidden="true" tabindex="-1"></a>new_adj<span class="ot">&lt;-</span>adj_mat<span class="sc">+</span><span class="dv">10</span></span>
+<span id="cb74-145"><a href="#cb74-145" aria-hidden="true" tabindex="-1"></a>new_adj[new_adj <span class="sc">==</span> <span class="dv">10</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb74-146"><a href="#cb74-146" aria-hidden="true" tabindex="-1"></a>like_dislike2 <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(new_adj, <span class="at">mode =</span> <span class="st">"directed"</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb74-147"><a href="#cb74-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-148"><a href="#cb74-148" aria-hidden="true" tabindex="-1"></a><span class="fu">average.path.length</span>(like_dislike2,<span class="at">directed=</span>T)</span>
+<span id="cb74-149"><a href="#cb74-149" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(like_dislike2)</span>
+<span id="cb74-150"><a href="#cb74-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-151"><a href="#cb74-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-152"><a href="#cb74-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## Component Structure</span></span>
+<span id="cb74-153"><a href="#cb74-153" aria-hidden="true" tabindex="-1"></a>This network consists of a single component with 46 members. </span>
+<span id="cb74-156"><a href="#cb74-156" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-157"><a href="#cb74-157" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(igraph<span class="sc">::</span><span class="fu">components</span>(like_dislike.net))</span>
+<span id="cb74-158"><a href="#cb74-158" aria-hidden="true" tabindex="-1"></a><span class="co">#igraph::components(like_dislike.net)$membership #very long list</span></span>
+<span id="cb74-159"><a href="#cb74-159" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(like_dislike.net)<span class="sc">$</span>no </span>
+<span id="cb74-160"><a href="#cb74-160" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(like_dislike.net)<span class="sc">$</span>csize</span>
+<span id="cb74-161"><a href="#cb74-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-162"><a href="#cb74-162" aria-hidden="true" tabindex="-1"></a>There are no isolates in this network. </span>
+<span id="cb74-165"><a href="#cb74-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-166"><a href="#cb74-166" aria-hidden="true" tabindex="-1"></a><span class="fu">isolates</span>(like_dislike_statnet)</span>
+<span id="cb74-167"><a href="#cb74-167" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb74-168"><a href="#cb74-168" aria-hidden="true" tabindex="-1"></a><span class="fu">## Plot</span></span>
+<span id="cb74-171"><a href="#cb74-171" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb74-172"><a href="#cb74-172" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(like_dislike.net)</span>
+<span id="cb74-173"><a href="#cb74-173" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Oriol Vallès Codina">
+<meta name="description" content="Analyzing the Complex Structure of the Economic Input-Output Network of the US, 2012">
+
+<title>Week 2/3/4 Challenge Solutions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/DACSS_Round_Network.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+<link href="../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<link rel="stylesheet" href="styles.css">
+<meta name="twitter:title" content="Week 2/3/4 Challenge Solutions">
+<meta name="twitter:description" content="Analyzing the Complex Structure of the Economic Input-Output Network of the US, 2012">
+<meta name="twitter:image" content="https://dacss.github.io/Social_Networks_Spring_2023/posts/_data/ntrwk_mex_total.png">
+<meta name="twitter:creator" content="@UMassDACSS">
+<meta name="twitter:site" content="@UMassDACSS">
+<meta name="twitter:image-height" content="5100">
+<meta name="twitter:image-width" content="5100">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/UMass White Wordmark Horiz.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="true"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target="">
+ <span class="menu-text">Spring 2023 Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">Contributors</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://umass.edu/sbs/dacss" rel="" target="">
+ <span class="menu-text">DACSS</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#us-bureau-of-economic-analysis---input-output-network" id="toc-us-bureau-of-economic-analysis---input-output-network" class="nav-link active" data-scroll-target="#us-bureau-of-economic-analysis---input-output-network">US Bureau of Economic Analysis - Input-Output Network</a>
+  <ul class="collapse">
+  <li><a href="#package-load" id="toc-package-load" class="nav-link" data-scroll-target="#package-load">Package Load</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
+  <li><a href="#graph-analysis" id="toc-graph-analysis" class="nav-link" data-scroll-target="#graph-analysis">Graph Analysis</a>
+  <ul class="collapse">
+  <li><a href="#size" id="toc-size" class="nav-link" data-scroll-target="#size">Size</a></li>
+  <li><a href="#degree" id="toc-degree" class="nav-link" data-scroll-target="#degree">Degree</a></li>
+  <li><a href="#dyad-census" id="toc-dyad-census" class="nav-link" data-scroll-target="#dyad-census">Dyad Census</a></li>
+  <li><a href="#triad-census" id="toc-triad-census" class="nav-link" data-scroll-target="#triad-census">Triad Census</a></li>
+  </ul></li>
+  <li><a href="#transitivity" id="toc-transitivity" class="nav-link" data-scroll-target="#transitivity">Transitivity</a></li>
+  <li><a href="#component-structure" id="toc-component-structure" class="nav-link" data-scroll-target="#component-structure">Component Structure</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 2/3/4 Challenge Solutions</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">challenge_2</div>
+    <div class="quarto-category">challenge_3</div>
+    <div class="quarto-category">challenge_4</div>
+    <div class="quarto-category">solution</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Analyzing the Complex Structure of the Economic Input-Output Network of the US, 2012
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Oriol Vallès Codina </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="us-bureau-of-economic-analysis---input-output-network" class="level1">
+<h1>US Bureau of Economic Analysis - Input-Output Network</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="_data/ntrwk_mex_total.png" title="Network" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">IO NETWORK OF MEXICO</figcaption>
+</figure>
+</div>
+<section id="package-load" class="level2">
+<h2 class="anchored" data-anchor-id="package-load">Package Load</h2>
+<p>Before starting, the necessary packages should be loaded. For this analysis, we are going to use <code>igraph</code>, but <a href="https://kateto.net/network-visualization">other options</a> can be contemplated depending on your needs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">warning =</span> <span class="cn">FALSE</span>, <span class="at">message=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
+<p>Motivated by the recent shocks on global supply chains, we are interested in analyzing and visualizing the complex structure of the inter-industry economic transactions of the United States. In economic analysis, this information is contained in the so-called <em>input-output table</em>, which many national and international databases document at different levels of industry aggregation (26, 50, 405, 800+…). From a network perspective, an input-output table is an asymmetric, weighted adjacency matrix where the weights correspond to the <em>input value</em> required to produce a unit of output, that is, its direct requirements.</p>
+<p>Data is directly loaded reading a <code>xlsx</code> file using the <code>readxl</code> package. Note that the file features two years, 2007 and 2012.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">'../posts/_data/US_input_output_table_2007_and_2012.xlsx'</span> <span class="co"># while on console</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">'_data/US_input_output_table_2007_and_2012.xlsx'</span> <span class="co"># while rendering</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(filename, <span class="at">sheet =</span> <span class="st">"2012"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First of all, we explore the data: its dimensions and the values at its corners so we can extract the adjacency matrix.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 413 407</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">1</span> <span class="sc">:</span> <span class="dv">10</span>, <span class="dv">1</span> <span class="sc">:</span> <span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["Commodity-by-Industry Direct Requirements Table, 2012"],"name":[1],"type":["chr"],"align":["left"]},{"label":["...2"],"name":[2],"type":["chr"],"align":["left"]},{"label":["...3"],"name":[3],"type":["chr"],"align":["left"]},{"label":["...4"],"name":[4],"type":["chr"],"align":["left"]},{"label":["...5"],"name":[5],"type":["chr"],"align":["left"]},{"label":["...6"],"name":[6],"type":["chr"],"align":["left"]},{"label":["...7"],"name":[7],"type":["chr"],"align":["left"]},{"label":["...8"],"name":[8],"type":["chr"],"align":["left"]},{"label":["...9"],"name":[9],"type":["chr"],"align":["left"]},{"label":["...10"],"name":[10],"type":["chr"],"align":["left"]}],"data":[{"1":"Bureau of Economic Analysis","2":"NA","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"NA","9":"NA","10":"NA"},{"1":"NA","2":"NA","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"NA","9":"NA","10":"NA"},{"1":"Commodity / Industry","2":"NA","3":"Oilseed farming","4":"Grain farming","5":"Vegetable and melon farming","6":"Fruit and tree nut farming","7":"Greenhouse, nursery, and floriculture production","8":"Other crop farming","9":"Dairy cattle and milk production","10":"Beef cattle ranching and farming, including feedlots and dual-purpose ranching and farming"},{"1":"Code","2":"Commodity Description","3":"1111A0","4":"1111B0","5":"111200","6":"111300","7":"111400","8":"111900","9":"112120","10":"1121A0"},{"1":"1111A0","2":"Oilseed farming","3":"5.24173E-2","4":"1.3503E-3","5":"2.3680000000000001E-4","6":"0","7":"0","8":"4.8999999999999997E-6","9":"0","10":"0"},{"1":"1111B0","2":"Grain farming","3":"0","4":"6.6339499999999996E-2","5":"0","6":"0","7":"0","8":"1.52896E-2","9":"4.50249E-2","10":"7.07092E-2"},{"1":"111200","2":"Vegetable and melon farming","3":"0","4":"0","5":"3.0250699999999998E-2","6":"1.661E-4","7":"0","8":"0","9":"0","10":"0"},{"1":"111300","2":"Fruit and tree nut farming","3":"0","4":"0","5":"0","6":"1.15193E-2","7":"0","8":"0","9":"0","10":"0"},{"1":"111400","2":"Greenhouse, nursery, and floriculture production","3":"0","4":"0","5":"0","6":"0","7":"0.1458323","8":"0","9":"0","10":"0"},{"1":"111900","2":"Other crop farming","3":"6.3566999999999999E-3","4":"7.1383000000000002E-3","5":"0","6":"0","7":"2.5199999999999999E-5","8":"2.6891700000000001E-2","9":"2.4733000000000002E-2","10":"2.0728699999999999E-2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>commodities <span class="ot">&lt;-</span> <span class="fu">unlist</span>(data[<span class="dv">5</span> <span class="sc">:</span> <span class="dv">409</span>, <span class="dv">2</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>industries <span class="ot">&lt;-</span> <span class="fu">unlist</span>(data[<span class="dv">3</span>, <span class="dv">3</span> <span class="sc">:</span> <span class="dv">407</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this particular case, each <em>column</em> of the table displays the values of 405 <em>commodities</em> required by a specific <em>industry</em>. The input-output table is commodity-by-industry with commodities in the rows and industries in the columns, in a way that the list of commodities and industries do not necessarily match so we need to harmonize them to construct the adjacency matrix.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(commodities <span class="sc">%in%</span> industries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+FALSE  TRUE 
+    4   401 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(industries <span class="sc">%in%</span> commodities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+FALSE  TRUE 
+    4   401 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>io.table <span class="ot">&lt;-</span> data[<span class="dv">5</span> <span class="sc">:</span> <span class="dv">409</span>, <span class="dv">3</span> <span class="sc">:</span> <span class="dv">407</span>] <span class="sc">%&gt;%</span> as.matrix</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>io.table <span class="ot">&lt;-</span> <span class="fu">apply</span>(io.table, <span class="dv">1</span>, as.numeric) <span class="sc">%&gt;%</span> t</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(io.table) <span class="ot">&lt;-</span> industries</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(io.table) <span class="ot">&lt;-</span> commodities</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>sectors <span class="ot">&lt;-</span> industries[industries <span class="sc">%in%</span> commodities]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>io.table <span class="ot">&lt;-</span> io.table[sectors, sectors]</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>go <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(io.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="graph-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="graph-analysis">Graph Analysis</h2>
+<p>Once the adjacency matrix is constructed, we can now analyze and visualize the graph:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(io.table, <span class="at">mode =</span> <span class="st">'directed'</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">add.rownames =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="size" class="level3">
+<h3 class="anchored" data-anchor-id="size">Size</h3>
+<p>The network has the same amount of vertices than the number of rows and columns of the adjacency matrix:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vcount</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 401</code></pre>
+</div>
+</div>
+<p>and the following number of edges,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51860</code></pre>
+</div>
+</div>
+<p>The network is relatively sparse:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(io.table <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">length</span>(sectors) <span class="sc">^</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    FALSE      TRUE 
+0.6775393 0.3224607 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>io.table[io.table <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> (<span class="fu">table</span>(io.table <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">length</span>(sectors) <span class="sc">^</span> <span class="dv">2</span>)[<span class="st">'TRUE'</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="degree" class="level3">
+<h3 class="anchored" data-anchor-id="degree">Degree</h3>
+<p>It is useful to compute the different degree concepts of the network and observe its distributions:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">output =</span> <span class="fu">rowSums</span>(io.table),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">all.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'all'</span>), </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">out.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'out'</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">in.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'in'</span>), </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">total.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'total'</span>),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">eigen.centrality =</span> <span class="fu">evcent</span>(g)<span class="sc">$</span>vector)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nodes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["output"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["all.degree"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["out.degree"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["in.degree"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["total.degree"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["eigen.centrality"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Oilseed farming","2":"0.6205750","3":"127","4":"20","5":"107","6":"127","7":"0.10637487","_rn_":"Oilseed farming"},{"1":"Grain farming","2":"2.3515109","3":"146","4":"34","5":"112","6":"146","7":"0.29696022","_rn_":"Grain farming"},{"1":"Vegetable and melon farming","2":"0.0800573","3":"125","4":"22","5":"103","6":"125","7":"0.06012020","_rn_":"Vegetable and melon farming"},{"1":"Fruit and tree nut farming","2":"0.8983714","3":"125","4":"28","5":"97","6":"125","7":"0.06717787","_rn_":"Fruit and tree nut farming"},{"1":"Greenhouse, nursery, and floriculture production","2":"0.2090344","3":"133","4":"41","5":"92","6":"133","7":"0.06267788","_rn_":"Greenhouse, nursery, and floriculture production"},{"1":"Other crop farming","2":"0.7128803","3":"174","4":"56","5":"118","6":"174","7":"0.11165162","_rn_":"Other crop farming"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">%&gt;%</span> melt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(variable <span class="sc">!=</span> <span class="st">'output'</span> <span class="sc">&amp;</span> variable <span class="sc">!=</span> <span class="st">'eigen.centrality'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">fill =</span> variable, <span class="at">color =</span> variable)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> .<span class="dv">2</span>, <span class="at">bw =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Degree Distribution'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>corrplot <span class="sc">::</span> <span class="fu">corrplot</span>(<span class="fu">cor</span>(nodes[ , <span class="sc">-</span><span class="dv">1</span>]), <span class="at">title =</span> <span class="st">'Correlation Plot'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>kableExtra <span class="sc">::</span> <span class="fu">kable</span>(<span class="fu">apply</span>(nodes[ , <span class="sc">-</span><span class="dv">1</span>], <span class="dv">2</span>, <span class="cf">function</span> (x) nodes<span class="sc">$</span>name[<span class="fu">order</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)][<span class="dv">1</span> <span class="sc">:</span> <span class="dv">10</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">output</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">all.degree</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">out.degree</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">in.degree</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">total.degree</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">eigen.centrality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Management of companies and enterprises</td>
+<td style="text-align: left;">Nonresidential maintenance and repair</td>
+<td style="text-align: left;">Electric power generation, transmission, and distribution</td>
+<td style="text-align: left;">Scientific research and development services</td>
+<td style="text-align: left;">Nonresidential maintenance and repair</td>
+<td style="text-align: left;">Iron and steel mills and ferroalloy manufacturing</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Iron and steel mills and ferroalloy manufacturing</td>
+<td style="text-align: left;">Full-service restaurants</td>
+<td style="text-align: left;">Water, sewage and other systems</td>
+<td style="text-align: left;">Hospitals</td>
+<td style="text-align: left;">Full-service restaurants</td>
+<td style="text-align: left;">Management of companies and enterprises</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Other real estate</td>
+<td style="text-align: left;">Wired telecommunications carriers</td>
+<td style="text-align: left;">Professional and commercial equipment and supplies</td>
+<td style="text-align: left;">State and local government other services</td>
+<td style="text-align: left;">Wired telecommunications carriers</td>
+<td style="text-align: left;">Plastics material and resin manufacturing</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other durable goods merchant wholesalers</td>
+<td style="text-align: left;">Limited-service restaurants</td>
+<td style="text-align: left;">Machinery, equipment, and supplies</td>
+<td style="text-align: left;">Other amusement and recreation industries</td>
+<td style="text-align: left;">Limited-service restaurants</td>
+<td style="text-align: left;">Petroleum refineries</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Petroleum refineries</td>
+<td style="text-align: left;">Services to buildings and dwellings</td>
+<td style="text-align: left;">Other durable goods merchant wholesalers</td>
+<td style="text-align: left;">Management of companies and enterprises</td>
+<td style="text-align: left;">Services to buildings and dwellings</td>
+<td style="text-align: left;">Other durable goods merchant wholesalers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Electric power generation, transmission, and distribution</td>
+<td style="text-align: left;">Architectural, engineering, and related services</td>
+<td style="text-align: left;">Grocery and related product wholesalers</td>
+<td style="text-align: left;">Junior colleges, colleges, universities, and professional schools</td>
+<td style="text-align: left;">Architectural, engineering, and related services</td>
+<td style="text-align: left;">Other real estate</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Truck transportation</td>
+<td style="text-align: left;">Wireless telecommunications carriers (except satellite)</td>
+<td style="text-align: left;">Petroleum and petroleum products</td>
+<td style="text-align: left;">Nonresidential maintenance and repair</td>
+<td style="text-align: left;">Wireless telecommunications carriers (except satellite)</td>
+<td style="text-align: left;">Other basic organic chemical manufacturing</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other nondurable goods merchant wholesalers</td>
+<td style="text-align: left;">Management of companies and enterprises</td>
+<td style="text-align: left;">Other nondurable goods merchant wholesalers</td>
+<td style="text-align: left;">Accommodation</td>
+<td style="text-align: left;">Management of companies and enterprises</td>
+<td style="text-align: left;">Petrochemical manufacturing</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Plastics material and resin manufacturing</td>
+<td style="text-align: left;">Waste management and remediation services</td>
+<td style="text-align: left;">Wholesale electronic markets and agents and brokers</td>
+<td style="text-align: left;">Civic, social, professional, and similar organizations</td>
+<td style="text-align: left;">Waste management and remediation services</td>
+<td style="text-align: left;">Electric power generation, transmission, and distribution</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Advertising, public relations, and related services</td>
+<td style="text-align: left;">Other durable goods merchant wholesalers</td>
+<td style="text-align: left;">Air transportation</td>
+<td style="text-align: left;">Architectural, engineering, and related services</td>
+<td style="text-align: left;">Other durable goods merchant wholesalers</td>
+<td style="text-align: left;">Custom roll forming</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># top.nodes &lt;- nodes[order(nodes$degree, decreasing = T), ]</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># top.nodes[1 : 10, ] %&gt;% ggplot(aes(x = out.degree, y = reorder(name, degree))) + geom_bar(stat = 'identity')</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nodes<span class="sc">$</span>output, nodes<span class="sc">$</span>eigen.centrality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="dyad-census" class="level3">
+<h3 class="anchored" data-anchor-id="dyad-census">Dyad Census</h3>
+<p>A dyad census confirms the input-output network is quite sparse. We could compare this dyad census with the null version of a random network with a similar number of edges:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dyad.census</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$mut
+[1] 10041
+
+$asym
+[1] 31430
+
+$null
+[1] 38729</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>g.random <span class="ot">&lt;-</span> <span class="fu">erdos.renyi.game</span>(<span class="fu">length</span>(sectors), prob, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(g.random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51650</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">IO =</span> <span class="fu">dyad.census</span>(g), <span class="at">random =</span> <span class="fu">dyad.census</span>(g.random))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       mut   asym  null 
+IO     10041 31430 38729
+random 8286  35078 36836</code></pre>
+</div>
+</div>
+<p>Mutual and null dyads are higher for the IO network, while asymmetric dyads are more common for the random network. How do we interpret these results?</p>
+</section>
+<section id="triad-census" class="level3">
+<h3 class="anchored" data-anchor-id="triad-census">Triad Census</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>triad.labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A,B,C, the empty graph."</span>,</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B, C, the graph with a single directed edge."</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B, C, the graph with a mutual connection between two vertices."</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-B-&gt;C, the out-star."</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-C, the in-star."</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B-&gt;C, directed line."</span>,<span class="st">"A&lt;-&gt;B&lt;-C."</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B-&gt;C."</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-C, A-&gt;C."</span>,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-B&lt;-C, A-&gt;C."</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B&lt;-&gt;C."</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-B-&gt;C, A&lt;-&gt;C."</span>,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-C, A&lt;-&gt;C."</span>,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B-&gt;C, A&lt;-&gt;C."</span>,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-&gt;C, A&lt;-&gt;C."</span>,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B&lt;-&gt;C, A&lt;-&gt;C, the complete graph."</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>triad.census.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label =</span> triad.labels, <span class="at">IO =</span> <span class="fu">triad.census</span>(g), <span class="at">random =</span> <span class="fu">triad.census</span>(g.random)) <span class="sc">%&gt;%</span> melt</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(triad.census.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'triad'</span>, <span class="st">'network'</span>, <span class="st">'value'</span>)</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>triad.census.data <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> triad, <span class="at">fill =</span> network)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">'identity'</span>, <span class="at">position =</span> <span class="st">'dodge'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Striking features of the above plot is the over-representation of out-stars, complete, and empty graphs in the input-output case relative to the random graph, while there is an under-representation of graphs with single directed edges and directed lines.</p>
+</section>
+</section>
+<section id="transitivity" class="level2">
+<h2 class="anchored" data-anchor-id="transitivity">Transitivity</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'global'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6517081</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(g.random, <span class="at">type =</span> <span class="st">'global'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5408801</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>nodes<span class="sc">$</span>transitivity <span class="ot">&lt;-</span> <span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'local'</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>nodes<span class="sc">$</span>weighted.transitivity <span class="ot">&lt;-</span>  <span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'weighted'</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">melt</span>(nodes) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">'transitivity'</span> <span class="sc">|</span> variable <span class="sc">==</span> <span class="st">'weighted.transitivity'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">fill =</span> variable, <span class="at">color =</span> variable)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Transitivity Distribution, Local and Weighted'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">data.frame</span>(<span class="at">network =</span> <span class="st">'IO'</span>, <span class="at">value =</span> <span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'local'</span>)),</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">network =</span> <span class="st">'random'</span>, <span class="at">value =</span> <span class="fu">transitivity</span>(g.random, <span class="at">type =</span> <span class="st">'local'</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">fill =</span> network, <span class="at">color =</span> network)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Transitivity Distribution by Network'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="component-structure" class="level2">
+<h2 class="anchored" data-anchor-id="component-structure">Component Structure</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>weight[<span class="fu">E</span>(g)<span class="sc">$</span>weight <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.129843</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(g.random)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">farthest_vertices</span>(g)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$vertices
++ 2/401 vertices, named, from 3c3e69d:
+[1] Dog and cat food manufacturing Printing ink manufacturing    
+
+$distance
+[1] 0.129843</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>wc.g <span class="ot">&lt;-</span> <span class="fu">cluster_walktrap</span>(g)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>member <span class="ot">&lt;-</span> <span class="fu">membership</span>(wc.g)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>nodes<span class="sc">$</span>member <span class="ot">&lt;-</span> member</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>member
+  1   2   3   4   5   6   7   8   9  10  11  12 
+  3  38 117 121   8 107   2   1   1   1   1   1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member) <span class="sc">%&gt;%</span> melt <span class="sc">%&gt;%</span> ggplot <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(member, <span class="sc">-</span> value), <span class="at">y =</span> value, <span class="at">fill =</span> <span class="fu">factor</span>(member)), <span class="at">stat =</span> <span class="st">'identity'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Percentages of Output of each Component</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>go.wc.percent <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sapply</span>(<span class="fu">names</span>(<span class="fu">table</span>(member)), <span class="cf">function</span>(x) <span class="fu">sum</span>(go[member<span class="sc">==</span>x]))<span class="sc">/</span><span class="fu">sum</span>(go)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>ord.x <span class="ot">&lt;-</span> <span class="fu">order</span>(go[member <span class="sc">==</span> x], <span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>]</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>name[member <span class="sc">==</span> x][ord.x]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Iron and steel mills and ferroalloy manufacturing"       
+ [2] "Other durable goods merchant wholesalers"                
+ [3] "Nonferrous Metal (except Aluminum) Smelting and Refining"
+ [4] "Machinery, equipment, and supplies"                      
+ [5] "Semiconductor and related device manufacturing"          
+ [6] "Household appliances and electrical and electronic goods"
+ [7] "Machine shops"                                           
+ [8] "Turned product and screw, nut, and bolt manufacturing"   
+ [9] "Copper rolling, drawing, extruding and alloying"         
+[10] "Other Motor Vehicle Parts Manufacturing"                 
+[11] "Aluminum product manufacturing from purchased aluminum"  
+[12] "Other electronic component manufacturing"                
+[13] "Coating, engraving, heat treating and allied activities" 
+[14] "Alumina refining and primary aluminum production"        
+[15] "All other forging, stamping, and sintering"              </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>largest <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>       <span class="cf">function</span>(y) </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>         x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">6</span>)[y]</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>         ord.x <span class="ot">&lt;-</span> <span class="fu">order</span>(go[member <span class="sc">==</span> x], <span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">data.frame</span>(<span class="at">sector =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name[member <span class="sc">==</span> x][ord.x],</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">output =</span> go[member <span class="sc">==</span> x][ord.x],</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">prcnt =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> go[member <span class="sc">==</span> x][ord.x]<span class="sc">/</span><span class="fu">sum</span>(go),<span class="dv">2</span>),</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">component =</span> <span class="fu">as.factor</span>(x),</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>       })</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(largest) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">reorder</span>(sector, prcnt), <span class="at">x=</span>prcnt, <span class="at">fill=</span>component, <span class="at">label=</span><span class="fu">round</span>(prcnt,<span class="dv">2</span>))) <span class="sc">+</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">''</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">'% of Output'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># + scale_fill_manual("component", values = rainbow_hcl(8, end = 290)[c(1,2,6,8)])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorspace)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qgraph)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>io.table<span class="fl">.1</span> <span class="ot">&lt;-</span> io.table</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(io.table<span class="fl">.1</span>) <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(io.table<span class="fl">.1</span>, <span class="at">mode =</span> <span class="st">'directed'</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">add.rownames =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">get.edgelist</span>(g, <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">qgraph.layout.fruchtermanreingold</span>(e, <span class="at">vcount =</span> <span class="fu">vcount</span>(g))</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">*</span> go <span class="sc">^</span> <span class="fl">0.25</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>frame.color <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>V.cols <span class="ot">&lt;-</span> member</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">alpha</span>(<span class="fu">rainbow_hcl</span>(<span class="dv">8</span>, <span class="at">end =</span> <span class="dv">290</span>)[V.cols],<span class="fl">0.8</span>)</span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">alpha</span>(<span class="st">'black'</span>, <span class="fu">E</span>(g)<span class="sc">$</span>weight <span class="sc">/</span> <span class="fu">max</span>(<span class="fu">E</span>(g)<span class="sc">$</span>weight))</span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>label <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">qgraph.layout.fruchtermanreingold</span>(e, <span class="at">vcount =</span> <span class="fu">vcount</span>(g),</span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">area =</span> <span class="dv">100</span> <span class="sc">*</span> (<span class="fu">vcount</span>(g) <span class="sc">^</span> <span class="dv">2</span>), <span class="at">repulse.rad =</span> (<span class="fu">vcount</span>(g) <span class="sc">^</span> <span class="dv">3</span>))</span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf('test.pdf') # uncomment to generate a pdf file with the plot</span></span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g,<span class="at">layout =</span> l, <span class="at">edge.arrow.size =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Week234_Challenge_Solutions_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off() # uncomment to generate a pdf file</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!-- # Other Visualization Packages -->
+<!-- ```{r 3js} -->
+<!-- library(threejs) -->
+<!-- library(htmlwidgets) -->
+<!-- # graphjs(largest_df_unique.igraph) -->
+<!-- # edges <- edges[!edges$from %in% 1 : 5 | !edges$to %in% 1 : 5] -->
+<!-- net.js <- graphjs(largest_df_unique.igraph, main="UNSC Members", bg = "gray10", showLabels=T, stroke=F,  -->
+<!--                   curvature = 0.1, attraction = 0.9, repulsion = 0.8, opacity = 0.9, edge.alpha = .25, -->
+
+<!--                   vertex.size = as.vector(table(largest_df_unique$`1`)[V(largest_df_unique.igraph)$name] / 137))  -->
+<!-- points3d(net.js, vertices(net.js), color="red", pch = V(largest_df_unique.igraph)$name,  -->
+<!--          size = 0.2) -->
+<!-- ``` -->
+<!-- ```{r visnetwork} -->
+<!-- library(visNetwork) -->
+<!-- node.names <- unique(largest_df_unique[,1]) %>% unlist -->
+<!-- node.aux <- 1 : 137 -->
+<!-- names(node.aux) <- node.names -->
+<!-- nodes <- data.frame(id = 1 : length(node.names), name = node.names) -->
+<!-- edges <- data.frame(from = node.aux[unlist(largest_df_unique[ , 1])],  -->
+<!--                     to = node.aux[unlist(largest_df_unique[ , 2])]) -->
+<!-- visNetwork(nodes, edges) -->
+<!-- plot(largest_df_unique.igraph, layout = layout_in_circle(largest_df_unique.igraph)) -->
+<!-- ``` -->
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="DACSS/Social_Networks_Spring_2023" data-repo-id="R_kgDOI9d_OA" data-category="Announcements" data-category-id="" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb53" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 2/3/4 Challenge Solutions"</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Oriol Vallès Codina"</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Analyzing the Complex Structure of the Economic Input-Output Network of the US, 2012"</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="co">    df-print: paged</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="co">    css: styles.css</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a><span class="co">  - challenge_2</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="co">  - challenge_3</span></span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a><span class="co">  - challenge_4</span></span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a><span class="co">  - solution</span></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a><span class="fu"># US Bureau of Economic Analysis - Input-Output Network</span></span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a><span class="al">![IO NETWORK OF MEXICO](_data/ntrwk_mex_total.png "Network")</span></span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Package Load</span></span>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-27"><a href="#cb53-27" aria-hidden="true" tabindex="-1"></a>Before starting, the necessary packages should be loaded. For this analysis, we are going to use <span class="in">`igraph`</span>, but <span class="co">[</span><span class="ot">other options</span><span class="co">](https://kateto.net/network-visualization)</span> can be contemplated depending on your needs.</span>
+<span id="cb53-28"><a href="#cb53-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-31"><a href="#cb53-31" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-32"><a href="#cb53-32" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb53-33"><a href="#cb53-33" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
+<span id="cb53-34"><a href="#cb53-34" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb53-35"><a href="#cb53-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-36"><a href="#cb53-36" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb53-37"><a href="#cb53-37" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb53-38"><a href="#cb53-38" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb53-39"><a href="#cb53-39" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb53-40"><a href="#cb53-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-41"><a href="#cb53-41" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">warning =</span> <span class="cn">FALSE</span>, <span class="at">message=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-42"><a href="#cb53-42" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-43"><a href="#cb53-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-44"><a href="#cb53-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Preparation</span></span>
+<span id="cb53-45"><a href="#cb53-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-46"><a href="#cb53-46" aria-hidden="true" tabindex="-1"></a>Motivated by the recent shocks on global supply chains, we are interested in analyzing and visualizing the complex structure of the inter-industry economic transactions of the United States. In economic analysis, this information is contained in the so-called *input-output table*, which many national and international databases document at different levels of industry aggregation (26, 50, 405, 800+...). From a network perspective, an input-output table is an asymmetric, weighted adjacency matrix where the weights correspond to the *input value* required to produce a unit of output, that is, its direct requirements.</span>
+<span id="cb53-47"><a href="#cb53-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-48"><a href="#cb53-48" aria-hidden="true" tabindex="-1"></a>Data is directly loaded reading a <span class="in">`xlsx`</span> file using the <span class="in">`readxl`</span> package. Note that the file features two years, 2007 and 2012.</span>
+<span id="cb53-49"><a href="#cb53-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-52"><a href="#cb53-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-53"><a href="#cb53-53" aria-hidden="true" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">'../posts/_data/US_input_output_table_2007_and_2012.xlsx'</span> <span class="co"># while on console</span></span>
+<span id="cb53-54"><a href="#cb53-54" aria-hidden="true" tabindex="-1"></a>filename <span class="ot">&lt;-</span> <span class="st">'_data/US_input_output_table_2007_and_2012.xlsx'</span> <span class="co"># while rendering</span></span>
+<span id="cb53-55"><a href="#cb53-55" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(filename, <span class="at">sheet =</span> <span class="st">"2012"</span>)</span>
+<span id="cb53-56"><a href="#cb53-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-57"><a href="#cb53-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-58"><a href="#cb53-58" aria-hidden="true" tabindex="-1"></a>First of all, we explore the data: its dimensions and the values at its corners so we can extract the adjacency matrix.</span>
+<span id="cb53-59"><a href="#cb53-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-62"><a href="#cb53-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-63"><a href="#cb53-63" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(data)</span>
+<span id="cb53-64"><a href="#cb53-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-65"><a href="#cb53-65" aria-hidden="true" tabindex="-1"></a>data[<span class="dv">1</span> <span class="sc">:</span> <span class="dv">10</span>, <span class="dv">1</span> <span class="sc">:</span> <span class="dv">10</span>]</span>
+<span id="cb53-66"><a href="#cb53-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-67"><a href="#cb53-67" aria-hidden="true" tabindex="-1"></a>commodities <span class="ot">&lt;-</span> <span class="fu">unlist</span>(data[<span class="dv">5</span> <span class="sc">:</span> <span class="dv">409</span>, <span class="dv">2</span>])</span>
+<span id="cb53-68"><a href="#cb53-68" aria-hidden="true" tabindex="-1"></a>industries <span class="ot">&lt;-</span> <span class="fu">unlist</span>(data[<span class="dv">3</span>, <span class="dv">3</span> <span class="sc">:</span> <span class="dv">407</span>])</span>
+<span id="cb53-69"><a href="#cb53-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-70"><a href="#cb53-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-71"><a href="#cb53-71" aria-hidden="true" tabindex="-1"></a>In this particular case, each *column* of the table displays the values of 405 *commodities* required by a specific *industry*. The input-output table is commodity-by-industry with commodities in the rows and industries in the columns, in a way that the list of commodities and industries do not necessarily match so we need to harmonize them to construct the adjacency matrix.</span>
+<span id="cb53-72"><a href="#cb53-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-75"><a href="#cb53-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-76"><a href="#cb53-76" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(commodities <span class="sc">%in%</span> industries)</span>
+<span id="cb53-77"><a href="#cb53-77" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(industries <span class="sc">%in%</span> commodities)</span>
+<span id="cb53-78"><a href="#cb53-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-79"><a href="#cb53-79" aria-hidden="true" tabindex="-1"></a>io.table <span class="ot">&lt;-</span> data[<span class="dv">5</span> <span class="sc">:</span> <span class="dv">409</span>, <span class="dv">3</span> <span class="sc">:</span> <span class="dv">407</span>] <span class="sc">%&gt;%</span> as.matrix</span>
+<span id="cb53-80"><a href="#cb53-80" aria-hidden="true" tabindex="-1"></a>io.table <span class="ot">&lt;-</span> <span class="fu">apply</span>(io.table, <span class="dv">1</span>, as.numeric) <span class="sc">%&gt;%</span> t</span>
+<span id="cb53-81"><a href="#cb53-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-82"><a href="#cb53-82" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(io.table) <span class="ot">&lt;-</span> industries</span>
+<span id="cb53-83"><a href="#cb53-83" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(io.table) <span class="ot">&lt;-</span> commodities</span>
+<span id="cb53-84"><a href="#cb53-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-85"><a href="#cb53-85" aria-hidden="true" tabindex="-1"></a>sectors <span class="ot">&lt;-</span> industries[industries <span class="sc">%in%</span> commodities]</span>
+<span id="cb53-86"><a href="#cb53-86" aria-hidden="true" tabindex="-1"></a>io.table <span class="ot">&lt;-</span> io.table[sectors, sectors]</span>
+<span id="cb53-87"><a href="#cb53-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-88"><a href="#cb53-88" aria-hidden="true" tabindex="-1"></a>go <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(io.table)</span>
+<span id="cb53-89"><a href="#cb53-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-90"><a href="#cb53-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-91"><a href="#cb53-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## Graph Analysis</span></span>
+<span id="cb53-92"><a href="#cb53-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-93"><a href="#cb53-93" aria-hidden="true" tabindex="-1"></a>Once the adjacency matrix is constructed, we can now analyze and visualize the graph:</span>
+<span id="cb53-94"><a href="#cb53-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-97"><a href="#cb53-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-98"><a href="#cb53-98" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(io.table, <span class="at">mode =</span> <span class="st">'directed'</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">add.rownames =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb53-99"><a href="#cb53-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-100"><a href="#cb53-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-101"><a href="#cb53-101" aria-hidden="true" tabindex="-1"></a><span class="fu">### Size</span></span>
+<span id="cb53-102"><a href="#cb53-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-103"><a href="#cb53-103" aria-hidden="true" tabindex="-1"></a>The network has the same amount of vertices than the number of rows and columns of the adjacency matrix:</span>
+<span id="cb53-104"><a href="#cb53-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-107"><a href="#cb53-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-108"><a href="#cb53-108" aria-hidden="true" tabindex="-1"></a><span class="fu">vcount</span>(g)</span>
+<span id="cb53-109"><a href="#cb53-109" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-110"><a href="#cb53-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-111"><a href="#cb53-111" aria-hidden="true" tabindex="-1"></a>and the following number of edges,</span>
+<span id="cb53-112"><a href="#cb53-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-115"><a href="#cb53-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-116"><a href="#cb53-116" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(g)</span>
+<span id="cb53-117"><a href="#cb53-117" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-118"><a href="#cb53-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-119"><a href="#cb53-119" aria-hidden="true" tabindex="-1"></a>The network is relatively sparse:</span>
+<span id="cb53-120"><a href="#cb53-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-123"><a href="#cb53-123" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-124"><a href="#cb53-124" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(io.table <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">length</span>(sectors) <span class="sc">^</span> <span class="dv">2</span></span>
+<span id="cb53-125"><a href="#cb53-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-126"><a href="#cb53-126" aria-hidden="true" tabindex="-1"></a>io.table[io.table <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb53-127"><a href="#cb53-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-128"><a href="#cb53-128" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> (<span class="fu">table</span>(io.table <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">/</span> <span class="fu">length</span>(sectors) <span class="sc">^</span> <span class="dv">2</span>)[<span class="st">'TRUE'</span>] </span>
+<span id="cb53-129"><a href="#cb53-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-130"><a href="#cb53-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-131"><a href="#cb53-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### Degree</span></span>
+<span id="cb53-132"><a href="#cb53-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-133"><a href="#cb53-133" aria-hidden="true" tabindex="-1"></a>It is useful to compute the different degree concepts of the network and observe its distributions:</span>
+<span id="cb53-134"><a href="#cb53-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-137"><a href="#cb53-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-138"><a href="#cb53-138" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name,</span>
+<span id="cb53-139"><a href="#cb53-139" aria-hidden="true" tabindex="-1"></a>                    <span class="at">output =</span> <span class="fu">rowSums</span>(io.table),</span>
+<span id="cb53-140"><a href="#cb53-140" aria-hidden="true" tabindex="-1"></a>                    <span class="at">all.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'all'</span>), </span>
+<span id="cb53-141"><a href="#cb53-141" aria-hidden="true" tabindex="-1"></a>                    <span class="at">out.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'out'</span>),</span>
+<span id="cb53-142"><a href="#cb53-142" aria-hidden="true" tabindex="-1"></a>                    <span class="at">in.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'in'</span>), </span>
+<span id="cb53-143"><a href="#cb53-143" aria-hidden="true" tabindex="-1"></a>                    <span class="at">total.degree =</span> <span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">'total'</span>),</span>
+<span id="cb53-144"><a href="#cb53-144" aria-hidden="true" tabindex="-1"></a>                    <span class="at">eigen.centrality =</span> <span class="fu">evcent</span>(g)<span class="sc">$</span>vector)</span>
+<span id="cb53-145"><a href="#cb53-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-146"><a href="#cb53-146" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nodes)</span>
+<span id="cb53-147"><a href="#cb53-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-148"><a href="#cb53-148" aria-hidden="true" tabindex="-1"></a>nodes <span class="sc">%&gt;%</span> melt <span class="sc">%&gt;%</span> <span class="fu">filter</span>(variable <span class="sc">!=</span> <span class="st">'output'</span> <span class="sc">&amp;</span> variable <span class="sc">!=</span> <span class="st">'eigen.centrality'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-149"><a href="#cb53-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">fill =</span> variable, <span class="at">color =</span> variable)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> .<span class="dv">2</span>, <span class="at">bw =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb53-150"><a href="#cb53-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Degree Distribution'</span>)</span>
+<span id="cb53-151"><a href="#cb53-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-152"><a href="#cb53-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-153"><a href="#cb53-153" aria-hidden="true" tabindex="-1"></a>corrplot <span class="sc">::</span> <span class="fu">corrplot</span>(<span class="fu">cor</span>(nodes[ , <span class="sc">-</span><span class="dv">1</span>]), <span class="at">title =</span> <span class="st">'Correlation Plot'</span>)</span>
+<span id="cb53-154"><a href="#cb53-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-155"><a href="#cb53-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-156"><a href="#cb53-156" aria-hidden="true" tabindex="-1"></a>kableExtra <span class="sc">::</span> <span class="fu">kable</span>(<span class="fu">apply</span>(nodes[ , <span class="sc">-</span><span class="dv">1</span>], <span class="dv">2</span>, <span class="cf">function</span> (x) nodes<span class="sc">$</span>name[<span class="fu">order</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)][<span class="dv">1</span> <span class="sc">:</span> <span class="dv">10</span>]))</span>
+<span id="cb53-157"><a href="#cb53-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-158"><a href="#cb53-158" aria-hidden="true" tabindex="-1"></a><span class="co"># top.nodes &lt;- nodes[order(nodes$degree, decreasing = T), ]</span></span>
+<span id="cb53-159"><a href="#cb53-159" aria-hidden="true" tabindex="-1"></a><span class="co"># top.nodes[1 : 10, ] %&gt;% ggplot(aes(x = out.degree, y = reorder(name, degree))) + geom_bar(stat = 'identity')</span></span>
+<span id="cb53-160"><a href="#cb53-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-161"><a href="#cb53-161" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nodes<span class="sc">$</span>output, nodes<span class="sc">$</span>eigen.centrality)</span>
+<span id="cb53-162"><a href="#cb53-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-163"><a href="#cb53-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-164"><a href="#cb53-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Dyad Census</span></span>
+<span id="cb53-165"><a href="#cb53-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-166"><a href="#cb53-166" aria-hidden="true" tabindex="-1"></a>A dyad census confirms the input-output network is quite sparse. We could compare this dyad census with the null version of a random network with a similar number of edges:</span>
+<span id="cb53-167"><a href="#cb53-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-170"><a href="#cb53-170" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-171"><a href="#cb53-171" aria-hidden="true" tabindex="-1"></a><span class="fu">dyad.census</span>(g)</span>
+<span id="cb53-172"><a href="#cb53-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-173"><a href="#cb53-173" aria-hidden="true" tabindex="-1"></a>g.random <span class="ot">&lt;-</span> <span class="fu">erdos.renyi.game</span>(<span class="fu">length</span>(sectors), prob, <span class="at">directed =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb53-174"><a href="#cb53-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-175"><a href="#cb53-175" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(g.random)</span>
+<span id="cb53-176"><a href="#cb53-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-177"><a href="#cb53-177" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="at">IO =</span> <span class="fu">dyad.census</span>(g), <span class="at">random =</span> <span class="fu">dyad.census</span>(g.random))</span>
+<span id="cb53-178"><a href="#cb53-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-179"><a href="#cb53-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-180"><a href="#cb53-180" aria-hidden="true" tabindex="-1"></a>Mutual and null dyads are higher for the IO network, while asymmetric dyads are more common for the random network. How do we interpret these results?</span>
+<span id="cb53-181"><a href="#cb53-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-182"><a href="#cb53-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### Triad Census</span></span>
+<span id="cb53-183"><a href="#cb53-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-186"><a href="#cb53-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-187"><a href="#cb53-187" aria-hidden="true" tabindex="-1"></a>triad.labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A,B,C, the empty graph."</span>,</span>
+<span id="cb53-188"><a href="#cb53-188" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B, C, the graph with a single directed edge."</span>,</span>
+<span id="cb53-189"><a href="#cb53-189" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B, C, the graph with a mutual connection between two vertices."</span>,</span>
+<span id="cb53-190"><a href="#cb53-190" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-B-&gt;C, the out-star."</span>,</span>
+<span id="cb53-191"><a href="#cb53-191" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-C, the in-star."</span>,</span>
+<span id="cb53-192"><a href="#cb53-192" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B-&gt;C, directed line."</span>,<span class="st">"A&lt;-&gt;B&lt;-C."</span>,</span>
+<span id="cb53-193"><a href="#cb53-193" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B-&gt;C."</span>,</span>
+<span id="cb53-194"><a href="#cb53-194" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-C, A-&gt;C."</span>,</span>
+<span id="cb53-195"><a href="#cb53-195" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-B&lt;-C, A-&gt;C."</span>,</span>
+<span id="cb53-196"><a href="#cb53-196" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B&lt;-&gt;C."</span>,</span>
+<span id="cb53-197"><a href="#cb53-197" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-B-&gt;C, A&lt;-&gt;C."</span>,</span>
+<span id="cb53-198"><a href="#cb53-198" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-C, A&lt;-&gt;C."</span>,</span>
+<span id="cb53-199"><a href="#cb53-199" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B-&gt;C, A&lt;-&gt;C."</span>,</span>
+<span id="cb53-200"><a href="#cb53-200" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A-&gt;B&lt;-&gt;C, A&lt;-&gt;C."</span>,</span>
+<span id="cb53-201"><a href="#cb53-201" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"A&lt;-&gt;B&lt;-&gt;C, A&lt;-&gt;C, the complete graph."</span>)</span>
+<span id="cb53-202"><a href="#cb53-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-203"><a href="#cb53-203" aria-hidden="true" tabindex="-1"></a>triad.census.data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">label =</span> triad.labels, <span class="at">IO =</span> <span class="fu">triad.census</span>(g), <span class="at">random =</span> <span class="fu">triad.census</span>(g.random)) <span class="sc">%&gt;%</span> melt</span>
+<span id="cb53-204"><a href="#cb53-204" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(triad.census.data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'triad'</span>, <span class="st">'network'</span>, <span class="st">'value'</span>)</span>
+<span id="cb53-205"><a href="#cb53-205" aria-hidden="true" tabindex="-1"></a>triad.census.data <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> triad, <span class="at">fill =</span> network)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">'identity'</span>, <span class="at">position =</span> <span class="st">'dodge'</span>)</span>
+<span id="cb53-206"><a href="#cb53-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-207"><a href="#cb53-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-208"><a href="#cb53-208" aria-hidden="true" tabindex="-1"></a>Striking features of the above plot is the over-representation of out-stars, complete, and empty graphs in the input-output case relative to the random graph, while there is an under-representation of graphs with single directed edges and directed lines.</span>
+<span id="cb53-209"><a href="#cb53-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-210"><a href="#cb53-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Transitivity</span></span>
+<span id="cb53-211"><a href="#cb53-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-214"><a href="#cb53-214" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-215"><a href="#cb53-215" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'global'</span>)</span>
+<span id="cb53-216"><a href="#cb53-216" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(g.random, <span class="at">type =</span> <span class="st">'global'</span>)</span>
+<span id="cb53-217"><a href="#cb53-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-218"><a href="#cb53-218" aria-hidden="true" tabindex="-1"></a>nodes<span class="sc">$</span>transitivity <span class="ot">&lt;-</span> <span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'local'</span>)</span>
+<span id="cb53-219"><a href="#cb53-219" aria-hidden="true" tabindex="-1"></a>nodes<span class="sc">$</span>weighted.transitivity <span class="ot">&lt;-</span>  <span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'weighted'</span>)</span>
+<span id="cb53-220"><a href="#cb53-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-221"><a href="#cb53-221" aria-hidden="true" tabindex="-1"></a><span class="fu">melt</span>(nodes) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">'transitivity'</span> <span class="sc">|</span> variable <span class="sc">==</span> <span class="st">'weighted.transitivity'</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-222"><a href="#cb53-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">fill =</span> variable, <span class="at">color =</span> variable)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb53-223"><a href="#cb53-223" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Transitivity Distribution, Local and Weighted'</span>)</span>
+<span id="cb53-224"><a href="#cb53-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-225"><a href="#cb53-225" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="fu">data.frame</span>(<span class="at">network =</span> <span class="st">'IO'</span>, <span class="at">value =</span> <span class="fu">transitivity</span>(g, <span class="at">type =</span> <span class="st">'local'</span>)),</span>
+<span id="cb53-226"><a href="#cb53-226" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(<span class="at">network =</span> <span class="st">'random'</span>, <span class="at">value =</span> <span class="fu">transitivity</span>(g.random, <span class="at">type =</span> <span class="st">'local'</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-227"><a href="#cb53-227" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">fill =</span> network, <span class="at">color =</span> network)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb53-228"><a href="#cb53-228" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">'Transitivity Distribution by Network'</span>)</span>
+<span id="cb53-229"><a href="#cb53-229" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-230"><a href="#cb53-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-231"><a href="#cb53-231" aria-hidden="true" tabindex="-1"></a><span class="fu">## Component Structure</span></span>
+<span id="cb53-232"><a href="#cb53-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-235"><a href="#cb53-235" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-236"><a href="#cb53-236" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>weight[<span class="fu">E</span>(g)<span class="sc">$</span>weight <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb53-237"><a href="#cb53-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-238"><a href="#cb53-238" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(g)</span>
+<span id="cb53-239"><a href="#cb53-239" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(g.random)</span>
+<span id="cb53-240"><a href="#cb53-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-241"><a href="#cb53-241" aria-hidden="true" tabindex="-1"></a><span class="fu">farthest_vertices</span>(g)</span>
+<span id="cb53-242"><a href="#cb53-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-243"><a href="#cb53-243" aria-hidden="true" tabindex="-1"></a>wc.g <span class="ot">&lt;-</span> <span class="fu">cluster_walktrap</span>(g)</span>
+<span id="cb53-244"><a href="#cb53-244" aria-hidden="true" tabindex="-1"></a>member <span class="ot">&lt;-</span> <span class="fu">membership</span>(wc.g)</span>
+<span id="cb53-245"><a href="#cb53-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-246"><a href="#cb53-246" aria-hidden="true" tabindex="-1"></a>nodes<span class="sc">$</span>member <span class="ot">&lt;-</span> member</span>
+<span id="cb53-247"><a href="#cb53-247" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member)</span>
+<span id="cb53-248"><a href="#cb53-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-249"><a href="#cb53-249" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(member) <span class="sc">%&gt;%</span> melt <span class="sc">%&gt;%</span> ggplot <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(member, <span class="sc">-</span> value), <span class="at">y =</span> value, <span class="at">fill =</span> <span class="fu">factor</span>(member)), <span class="at">stat =</span> <span class="st">'identity'</span>)</span>
+<span id="cb53-250"><a href="#cb53-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-251"><a href="#cb53-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-252"><a href="#cb53-252" aria-hidden="true" tabindex="-1"></a><span class="co"># Percentages of Output of each Component</span></span>
+<span id="cb53-253"><a href="#cb53-253" aria-hidden="true" tabindex="-1"></a>go.wc.percent <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sapply</span>(<span class="fu">names</span>(<span class="fu">table</span>(member)), <span class="cf">function</span>(x) <span class="fu">sum</span>(go[member<span class="sc">==</span>x]))<span class="sc">/</span><span class="fu">sum</span>(go)</span>
+<span id="cb53-254"><a href="#cb53-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-255"><a href="#cb53-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-256"><a href="#cb53-256" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb53-257"><a href="#cb53-257" aria-hidden="true" tabindex="-1"></a>ord.x <span class="ot">&lt;-</span> <span class="fu">order</span>(go[member <span class="sc">==</span> x], <span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>]</span>
+<span id="cb53-258"><a href="#cb53-258" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>name[member <span class="sc">==</span> x][ord.x]</span>
+<span id="cb53-259"><a href="#cb53-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-260"><a href="#cb53-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-261"><a href="#cb53-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-264"><a href="#cb53-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-265"><a href="#cb53-265" aria-hidden="true" tabindex="-1"></a>largest <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb53-266"><a href="#cb53-266" aria-hidden="true" tabindex="-1"></a>       <span class="cf">function</span>(y) </span>
+<span id="cb53-267"><a href="#cb53-267" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb53-268"><a href="#cb53-268" aria-hidden="true" tabindex="-1"></a>         x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">6</span>)[y]</span>
+<span id="cb53-269"><a href="#cb53-269" aria-hidden="true" tabindex="-1"></a>         ord.x <span class="ot">&lt;-</span> <span class="fu">order</span>(go[member <span class="sc">==</span> x], <span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb53-270"><a href="#cb53-270" aria-hidden="true" tabindex="-1"></a>         <span class="fu">data.frame</span>(<span class="at">sector =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name[member <span class="sc">==</span> x][ord.x],</span>
+<span id="cb53-271"><a href="#cb53-271" aria-hidden="true" tabindex="-1"></a>                    <span class="at">output =</span> go[member <span class="sc">==</span> x][ord.x],</span>
+<span id="cb53-272"><a href="#cb53-272" aria-hidden="true" tabindex="-1"></a>                    <span class="at">prcnt =</span> <span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> go[member <span class="sc">==</span> x][ord.x]<span class="sc">/</span><span class="fu">sum</span>(go),<span class="dv">2</span>),</span>
+<span id="cb53-273"><a href="#cb53-273" aria-hidden="true" tabindex="-1"></a>                    <span class="at">component =</span> <span class="fu">as.factor</span>(x),</span>
+<span id="cb53-274"><a href="#cb53-274" aria-hidden="true" tabindex="-1"></a>                    <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb53-275"><a href="#cb53-275" aria-hidden="true" tabindex="-1"></a>       })</span>
+<span id="cb53-276"><a href="#cb53-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-277"><a href="#cb53-277" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(largest) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y=</span><span class="fu">reorder</span>(sector, prcnt), <span class="at">x=</span>prcnt, <span class="at">fill=</span>component, <span class="at">label=</span><span class="fu">round</span>(prcnt,<span class="dv">2</span>))) <span class="sc">+</span></span>
+<span id="cb53-278"><a href="#cb53-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">''</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">'% of Output'</span>)</span>
+<span id="cb53-279"><a href="#cb53-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-280"><a href="#cb53-280" aria-hidden="true" tabindex="-1"></a><span class="co"># + scale_fill_manual("component", values = rainbow_hcl(8, end = 290)[c(1,2,6,8)])</span></span>
+<span id="cb53-281"><a href="#cb53-281" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-282"><a href="#cb53-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-285"><a href="#cb53-285" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb53-286"><a href="#cb53-286" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(colorspace)</span>
+<span id="cb53-287"><a href="#cb53-287" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qgraph)</span>
+<span id="cb53-288"><a href="#cb53-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-289"><a href="#cb53-289" aria-hidden="true" tabindex="-1"></a>io.table<span class="fl">.1</span> <span class="ot">&lt;-</span> io.table</span>
+<span id="cb53-290"><a href="#cb53-290" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(io.table<span class="fl">.1</span>) <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb53-291"><a href="#cb53-291" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(io.table<span class="fl">.1</span>, <span class="at">mode =</span> <span class="st">'directed'</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">add.rownames =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb53-292"><a href="#cb53-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-293"><a href="#cb53-293" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">get.edgelist</span>(g, <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb53-294"><a href="#cb53-294" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">qgraph.layout.fruchtermanreingold</span>(e, <span class="at">vcount =</span> <span class="fu">vcount</span>(g))</span>
+<span id="cb53-295"><a href="#cb53-295" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">5</span> <span class="sc">*</span> go <span class="sc">^</span> <span class="fl">0.25</span></span>
+<span id="cb53-296"><a href="#cb53-296" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>frame.color <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb53-297"><a href="#cb53-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-298"><a href="#cb53-298" aria-hidden="true" tabindex="-1"></a>V.cols <span class="ot">&lt;-</span> member</span>
+<span id="cb53-299"><a href="#cb53-299" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">alpha</span>(<span class="fu">rainbow_hcl</span>(<span class="dv">8</span>, <span class="at">end =</span> <span class="dv">290</span>)[V.cols],<span class="fl">0.8</span>)</span>
+<span id="cb53-300"><a href="#cb53-300" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(g)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="fu">alpha</span>(<span class="st">'black'</span>, <span class="fu">E</span>(g)<span class="sc">$</span>weight <span class="sc">/</span> <span class="fu">max</span>(<span class="fu">E</span>(g)<span class="sc">$</span>weight))</span>
+<span id="cb53-301"><a href="#cb53-301" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>label <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb53-302"><a href="#cb53-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-303"><a href="#cb53-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-304"><a href="#cb53-304" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb53-305"><a href="#cb53-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-306"><a href="#cb53-306" aria-hidden="true" tabindex="-1"></a>l <span class="ot">&lt;-</span> <span class="fu">qgraph.layout.fruchtermanreingold</span>(e, <span class="at">vcount =</span> <span class="fu">vcount</span>(g),</span>
+<span id="cb53-307"><a href="#cb53-307" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">area =</span> <span class="dv">100</span> <span class="sc">*</span> (<span class="fu">vcount</span>(g) <span class="sc">^</span> <span class="dv">2</span>), <span class="at">repulse.rad =</span> (<span class="fu">vcount</span>(g) <span class="sc">^</span> <span class="dv">3</span>))</span>
+<span id="cb53-308"><a href="#cb53-308" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf('test.pdf') # uncomment to generate a pdf file with the plot</span></span>
+<span id="cb53-309"><a href="#cb53-309" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g,<span class="at">layout =</span> l, <span class="at">edge.arrow.size =</span> <span class="dv">0</span>)</span>
+<span id="cb53-310"><a href="#cb53-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-311"><a href="#cb53-311" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off() # uncomment to generate a pdf file</span></span>
+<span id="cb53-312"><a href="#cb53-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-313"><a href="#cb53-313" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb53-314"><a href="#cb53-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-315"><a href="#cb53-315" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # Other Visualization Packages --&gt;</span></span>
+<span id="cb53-316"><a href="#cb53-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-317"><a href="#cb53-317" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r 3js} --&gt;</span></span>
+<span id="cb53-318"><a href="#cb53-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-319"><a href="#cb53-319" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- library(threejs) --&gt;</span></span>
+<span id="cb53-320"><a href="#cb53-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-321"><a href="#cb53-321" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- library(htmlwidgets) --&gt;</span></span>
+<span id="cb53-322"><a href="#cb53-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-323"><a href="#cb53-323" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # graphjs(largest_df_unique.igraph) --&gt;</span></span>
+<span id="cb53-324"><a href="#cb53-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-325"><a href="#cb53-325" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- # edges &lt;- edges[!edges$from %in% 1 : 5 | !edges$to %in% 1 : 5] --&gt;</span></span>
+<span id="cb53-326"><a href="#cb53-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-327"><a href="#cb53-327" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- net.js &lt;- graphjs(largest_df_unique.igraph, main="UNSC Members", bg = "gray10", showLabels=T, stroke=F,  --&gt;</span></span>
+<span id="cb53-328"><a href="#cb53-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-329"><a href="#cb53-329" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                   curvature = 0.1, attraction = 0.9, repulsion = 0.8, opacity = 0.9, edge.alpha = .25, --&gt;</span></span>
+<span id="cb53-330"><a href="#cb53-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-331"><a href="#cb53-331" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                   vertex.size = as.vector(table(largest_df_unique$`1`)[V(largest_df_unique.igraph)$name] / 137))  --&gt;</span></span>
+<span id="cb53-332"><a href="#cb53-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-333"><a href="#cb53-333" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- points3d(net.js, vertices(net.js), color="red", pch = V(largest_df_unique.igraph)$name,  --&gt;</span></span>
+<span id="cb53-334"><a href="#cb53-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-335"><a href="#cb53-335" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--          size = 0.2) --&gt;</span></span>
+<span id="cb53-336"><a href="#cb53-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-337"><a href="#cb53-337" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+<span id="cb53-338"><a href="#cb53-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-339"><a href="#cb53-339" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ```{r visnetwork} --&gt;</span></span>
+<span id="cb53-340"><a href="#cb53-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-341"><a href="#cb53-341" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- library(visNetwork) --&gt;</span></span>
+<span id="cb53-342"><a href="#cb53-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-343"><a href="#cb53-343" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- node.names &lt;- unique(largest_df_unique[,1]) %&gt;% unlist --&gt;</span></span>
+<span id="cb53-344"><a href="#cb53-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-345"><a href="#cb53-345" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- node.aux &lt;- 1 : 137 --&gt;</span></span>
+<span id="cb53-346"><a href="#cb53-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-347"><a href="#cb53-347" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- names(node.aux) &lt;- node.names --&gt;</span></span>
+<span id="cb53-348"><a href="#cb53-348" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-349"><a href="#cb53-349" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- nodes &lt;- data.frame(id = 1 : length(node.names), name = node.names) --&gt;</span></span>
+<span id="cb53-350"><a href="#cb53-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-351"><a href="#cb53-351" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- edges &lt;- data.frame(from = node.aux[unlist(largest_df_unique[ , 1])],  --&gt;</span></span>
+<span id="cb53-352"><a href="#cb53-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-353"><a href="#cb53-353" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!--                     to = node.aux[unlist(largest_df_unique[ , 2])]) --&gt;</span></span>
+<span id="cb53-354"><a href="#cb53-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-355"><a href="#cb53-355" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- visNetwork(nodes, edges) --&gt;</span></span>
+<span id="cb53-356"><a href="#cb53-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-357"><a href="#cb53-357" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- plot(largest_df_unique.igraph, layout = layout_in_circle(largest_df_unique.igraph)) --&gt;</span></span>
+<span id="cb53-358"><a href="#cb53-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-359"><a href="#cb53-359" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- ``` --&gt;</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

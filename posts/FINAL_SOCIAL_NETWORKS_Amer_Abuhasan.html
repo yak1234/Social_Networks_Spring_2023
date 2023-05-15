@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Amer Abuhasan">
+<meta name="dcterms.date" content="2023-05-12">
+<meta name="description" content="Final Project">
+
+<title>Bipartite Network Analysis: Players Attending School</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/DACSS_Round_Network.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="../site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="../site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet">
+<script src="../site_libs/vis-9.1.0/vis-network.min.js"></script>
+<script src="../site_libs/visNetwork-binding-2.1.2/visNetwork.js"></script>
+
+
+<meta name="twitter:title" content="Bipartite Network Analysis: Players Attending School">
+<meta name="twitter:description" content="Final Project">
+<meta name="twitter:image" content="https://dacss.github.io/Social_Networks_Spring_2023/posts/FINAL_SOCIAL_NETWORKS_Amer_Abuhasan_files/figure-html/unnamed-chunk-7-1.png">
+<meta name="twitter:creator" content="@UMassDACSS">
+<meta name="twitter:site" content="@UMassDACSS">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/UMass White Wordmark Horiz.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="true"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target="">
+ <span class="menu-text">Spring 2023 Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">Contributors</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://umass.edu/sbs/dacss" rel="" target="">
+ <span class="menu-text">DACSS</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#reading-data" id="toc-reading-data" class="nav-link active" data-scroll-target="#reading-data">Reading Data</a></li>
+  <li><a href="#constructing-network" id="toc-constructing-network" class="nav-link" data-scroll-target="#constructing-network">Constructing Network</a>
+  <ul class="collapse">
+  <li><a href="#get-the-largest-component" id="toc-get-the-largest-component" class="nav-link" data-scroll-target="#get-the-largest-component">Get the Largest Component</a></li>
+  </ul></li>
+  <li><a href="#network-plot" id="toc-network-plot" class="nav-link" data-scroll-target="#network-plot">Network Plot</a></li>
+  <li><a href="#network-stats" id="toc-network-stats" class="nav-link" data-scroll-target="#network-stats">Network Stats</a>
+  <ul class="collapse">
+  <li><a href="#degree-distibution" id="toc-degree-distibution" class="nav-link" data-scroll-target="#degree-distibution">Degree Distibution</a></li>
+  </ul></li>
+  <li><a href="#community-detection" id="toc-community-detection" class="nav-link" data-scroll-target="#community-detection">Community Detection</a></li>
+  <li><a href="#centralities" id="toc-centralities" class="nav-link" data-scroll-target="#centralities">Centralities</a></li>
+  <li><a href="#network-models" id="toc-network-models" class="nav-link" data-scroll-target="#network-models">Network models</a></li>
+  <li><a href="#cug-test" id="toc-cug-test" class="nav-link" data-scroll-target="#cug-test">CUG test</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Bipartite Network Analysis: Players Attending School</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">Final Project</div>
+    <div class="quarto-category">Amer Abuhasan</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Final Project
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Amer Abuhasan </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 12, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="reading-data" class="level1">
+<h1>Reading Data</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> CollegePlaying</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#First 6 rows of the dataset</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(df),<span class="at">caption =</span> <span class="st">"First 6 rows of Dataset"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>First 6 rows of Dataset</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">playerID</th>
+<th style="text-align: left;">schoolID</th>
+<th style="text-align: right;">yearID</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">aardsda01</td>
+<td style="text-align: left;">pennst</td>
+<td style="text-align: right;">2001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">aardsda01</td>
+<td style="text-align: left;">rice</td>
+<td style="text-align: right;">2002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">aardsda01</td>
+<td style="text-align: left;">rice</td>
+<td style="text-align: right;">2003</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">abadan01</td>
+<td style="text-align: left;">gamiddl</td>
+<td style="text-align: right;">1992</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">abadan01</td>
+<td style="text-align: left;">gamiddl</td>
+<td style="text-align: right;">1993</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">abbeybe01</td>
+<td style="text-align: left;">vermont</td>
+<td style="text-align: right;">1889</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="constructing-network" class="level1">
+<h1>Constructing Network</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># years having attended more than 300</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ylist <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1985</span>,<span class="dv">1986</span>,<span class="dv">1987</span>,<span class="dv">1988</span>,<span class="dv">1989</span>,<span class="dv">1990</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.data.frame</span>(df[df<span class="sc">$</span>yearID <span class="sc">%in%</span> ylist,],<span class="at">directed =</span> T)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">V</span>(g)<span class="sc">$</span>name <span class="sc">%in%</span> df[df<span class="sc">$</span>yearID <span class="sc">%in%</span> ylist,<span class="dv">1</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>IGRAPH 098c44f DN-B 1374 2040 -- 
++ attr: name (v/c), type (v/l), yearID (e/n)
++ edges from 098c44f (vertex names):
+ [1] abbotji01-&gt;michigan  abbotji01-&gt;michigan  abbotji01-&gt;michigan 
+ [4] abbotky01-&gt;ucsd      abbotky01-&gt;ucsd      abbotky01-&gt;longbeach
+ [7] acrema01 -&gt;nmstate   acrema01 -&gt;nmstate   adamsjo02-&gt;cacerri  
+[10] adkinst01-&gt;upenn     adkinst01-&gt;upenn     alexage01-&gt;tulane   
+[13] alexage01-&gt;tulane    alexage01-&gt;tulane    alicelu01-&gt;floridast
+[16] alicelu01-&gt;floridast allisda01-&gt;jamesmad  allisda01-&gt;jamesmad 
+[19] allisda01-&gt;jamesmad  allisda01-&gt;jamesmad  allrebe01-&gt;lamar    
+[22] allrebe01-&gt;lamar     aloumo01 -&gt;cacanad   aloumo01 -&gt;cacanad  
++ ... omitted several edges</code></pre>
+</div>
+</div>
+<section id="get-the-largest-component" class="level2">
+<h2 class="anchored" data-anchor-id="get-the-largest-component">Get the Largest Component</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GEt the largest component</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>components <span class="ot">&lt;-</span> <span class="fu">clusters</span>(g, <span class="at">mode=</span><span class="st">"weak"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>biggest_cluster_id <span class="ot">&lt;-</span> <span class="fu">which.max</span>(components<span class="sc">$</span>csize)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ids</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>vert_ids <span class="ot">&lt;-</span> <span class="fu">V</span>(g)[components<span class="sc">$</span>membership <span class="sc">==</span> biggest_cluster_id]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># subgraph</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(g, vert_ids)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+</section>
+<section id="network-plot" class="level1">
+<h1>Network Plot</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">V</span>(g)<span class="sc">$</span>type,<span class="st">"Player"</span>,<span class="st">"School"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">title =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">group =</span> grp)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">get.data.frame</span>(g, <span class="at">what=</span><span class="st">"edges"</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>vis.nodes <span class="ot">&lt;-</span> nodes</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>vis.links <span class="ot">&lt;-</span> edges</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#giving some styles to nodes and edges</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># Nodes will drop shadow</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>label  <span class="ot">&lt;-</span> vis.nodes<span class="sc">$</span>id <span class="co"># Node label</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>size   <span class="ot">&lt;-</span> <span class="fu">degree</span>(g)<span class="sc">+</span><span class="dv">20</span> <span class="co"># Node size</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>borderWidth <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Node border width</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gray"</span>    <span class="co"># line color  </span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>smooth <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># should the edges be curved?</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># edge shadow</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>visnet3 <span class="ot">=</span> <span class="fu">visNetwork</span>(vis.nodes, vis.links, <span class="at">main =</span> <span class="st">"Network of Player Attending School"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">solver =</span> <span class="st">"forceAtlas2Based"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">forceAtlas2Based =</span> <span class="fu">list</span>(<span class="at">gravitationalConstant =</span> <span class="sc">-</span><span class="dv">100</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">visLegend</span>(visnet3,<span class="at">main =</span> <span class="st">"Groups"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1f5a99643a52d81bbf84" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1f5a99643a52d81bbf84">{"x":{"nodes":{"id":["abbotky01","adamsjo02","alicelu01","aloumo01","amaroru02","appieke01","austiji02","bailero01","ballaje01","ballje01","barbebr01","battlal01","beanbi01","belleal01","benjami01","bergda01","berryse01","bondsba01","boonebr01","bournra01","bowersh01","bowieji01","brewija01","brinkbr01","brockch01","brownke03","bruskji01","buckega02","buforda01","byrdpa01","careypa01","casiala01","charlfr01","chavean01","chitrst01","cirilje01","coninje01","cooksbr01","cordoma01","cummijo01","davisma02","davisti01","devermi01","dipotje01","donnech01","drahmbr01","dunbama01","edenfke01","eglofbr01","elliodo01","ettlema01","fabrejo01","faltest01","faneyri01","fernaal01","figuebi01","finnvga01","fishejo01","flenehu01","foxer01","fyhrimi01","gaineja01","gardnma01","giambja01","gilbesh01","gomezch02","gonzalu01","goodwto01","grahejo01","greench02","greenri01","grosski01","guthrma01","hamelbo01","hammoje01","harkemi01","hartgde01","haselbi01","haynehe01","helfaer01","hennira01","henrydo01","hetzeer01","higgike01","hollije01","hoseyst01","howarch02","howitda01","huntebr01","johnsbr01","johnsch04","johnser03","johnsra05","jonesbo03","jordake01","jordari03","karroer01","kellymi02","keysebr01","kmakjo01","knoblch01","knudsku01","layanti01","leonama01","leskacu01","lewisri01","listapa01","livinsc01","lovulto01","lowese01","loyndmi01","mackqu01","magalev01","magnami01","maksumi01","manueba01","maynebr01","mccarda01","mccurje01","mcdonbe01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","moorema01","mordemi01","motaan01","motajo01","moutoly01","munozos01","mussimi01","natalro01","naultda01","nevinph01","nielsje01","nolteer01","odonojo02","ogeach01","ohallgr01","osikke01","osunaal01","palmeor01","paquecr01","parkecl01","patteda04","perezed01","piattdo01","piazzmi01","pierced01","polcoke01","pritcch01","ramosjo01","ramoske01","rebouje01","reimeke01","robermi01","roberri02","ronanma01","sackibr01","sanchal02","sandede02","santafp01","scarsst01","schoomi01","schuler01","schwami01","scottda01","scrugto01","shermda02","sirotmi01","siscost01","smithma03","sorrepa01","spehrti01","spencst02","spraged02","sprinde01","sprinru01","stanipe01","statoda01","steveto01","stritma01","swanru01","taylowa01","telfoan01","turanbr01","turnech01","turnesh01","urbanto01","vaughgr01","veresra01","vinafe01","voigtja01","wakamdo01","wapnist01","wardtu01","wetheje01","willima06","witmero01","worthcr01","zeileto01","zoskyed01","ucsd","longbeach","cacerri","floridast","cacanad","stanford","fresnost","caantel","vcu","camerce","sanjosest","usc","salabama","loyolamary","lsu","arizonast","casacra","ucla","calstfull","caorang","flgccco","flmdkjc","wkentucky","ucsb","txsjjcn","wflorida","miamifl","cagolde","nebraska","casajco","casiski","texasam","caameri","paalles","txmclen","njccmor","flmdnjc","camoorp","careedl","cacabri","cacosum","alfscco"],"title":["abbotky01","adamsjo02","alicelu01","aloumo01","amaroru02","appieke01","austiji02","bailero01","ballaje01","ballje01","barbebr01","battlal01","beanbi01","belleal01","benjami01","bergda01","berryse01","bondsba01","boonebr01","bournra01","bowersh01","bowieji01","brewija01","brinkbr01","brockch01","brownke03","bruskji01","buckega02","buforda01","byrdpa01","careypa01","casiala01","charlfr01","chavean01","chitrst01","cirilje01","coninje01","cooksbr01","cordoma01","cummijo01","davisma02","davisti01","devermi01","dipotje01","donnech01","drahmbr01","dunbama01","edenfke01","eglofbr01","elliodo01","ettlema01","fabrejo01","faltest01","faneyri01","fernaal01","figuebi01","finnvga01","fishejo01","flenehu01","foxer01","fyhrimi01","gaineja01","gardnma01","giambja01","gilbesh01","gomezch02","gonzalu01","goodwto01","grahejo01","greench02","greenri01","grosski01","guthrma01","hamelbo01","hammoje01","harkemi01","hartgde01","haselbi01","haynehe01","helfaer01","hennira01","henrydo01","hetzeer01","higgike01","hollije01","hoseyst01","howarch02","howitda01","huntebr01","johnsbr01","johnsch04","johnser03","johnsra05","jonesbo03","jordake01","jordari03","karroer01","kellymi02","keysebr01","kmakjo01","knoblch01","knudsku01","layanti01","leonama01","leskacu01","lewisri01","listapa01","livinsc01","lovulto01","lowese01","loyndmi01","mackqu01","magalev01","magnami01","maksumi01","manueba01","maynebr01","mccarda01","mccurje01","mcdonbe01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","moorema01","mordemi01","motaan01","motajo01","moutoly01","munozos01","mussimi01","natalro01","naultda01","nevinph01","nielsje01","nolteer01","odonojo02","ogeach01","ohallgr01","osikke01","osunaal01","palmeor01","paquecr01","parkecl01","patteda04","perezed01","piattdo01","piazzmi01","pierced01","polcoke01","pritcch01","ramosjo01","ramoske01","rebouje01","reimeke01","robermi01","roberri02","ronanma01","sackibr01","sanchal02","sandede02","santafp01","scarsst01","schoomi01","schuler01","schwami01","scottda01","scrugto01","shermda02","sirotmi01","siscost01","smithma03","sorrepa01","spehrti01","spencst02","spraged02","sprinde01","sprinru01","stanipe01","statoda01","steveto01","stritma01","swanru01","taylowa01","telfoan01","turanbr01","turnech01","turnesh01","urbanto01","vaughgr01","veresra01","vinafe01","voigtja01","wakamdo01","wapnist01","wardtu01","wetheje01","willima06","witmero01","worthcr01","zeileto01","zoskyed01","ucsd","longbeach","cacerri","floridast","cacanad","stanford","fresnost","caantel","vcu","camerce","sanjosest","usc","salabama","loyolamary","lsu","arizonast","casacra","ucla","calstfull","caorang","flgccco","flmdkjc","wkentucky","ucsb","txsjjcn","wflorida","miamifl","cagolde","nebraska","casajco","casiski","texasam","caameri","paalles","txmclen","njccmor","flmdnjc","camoorp","careedl","cacabri","cacosum","alfscco"],"group":["Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","Player","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School","School"],"shadow":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"label":["abbotky01","adamsjo02","alicelu01","aloumo01","amaroru02","appieke01","austiji02","bailero01","ballaje01","ballje01","barbebr01","battlal01","beanbi01","belleal01","benjami01","bergda01","berryse01","bondsba01","boonebr01","bournra01","bowersh01","bowieji01","brewija01","brinkbr01","brockch01","brownke03","bruskji01","buckega02","buforda01","byrdpa01","careypa01","casiala01","charlfr01","chavean01","chitrst01","cirilje01","coninje01","cooksbr01","cordoma01","cummijo01","davisma02","davisti01","devermi01","dipotje01","donnech01","drahmbr01","dunbama01","edenfke01","eglofbr01","elliodo01","ettlema01","fabrejo01","faltest01","faneyri01","fernaal01","figuebi01","finnvga01","fishejo01","flenehu01","foxer01","fyhrimi01","gaineja01","gardnma01","giambja01","gilbesh01","gomezch02","gonzalu01","goodwto01","grahejo01","greench02","greenri01","grosski01","guthrma01","hamelbo01","hammoje01","harkemi01","hartgde01","haselbi01","haynehe01","helfaer01","hennira01","henrydo01","hetzeer01","higgike01","hollije01","hoseyst01","howarch02","howitda01","huntebr01","johnsbr01","johnsch04","johnser03","johnsra05","jonesbo03","jordake01","jordari03","karroer01","kellymi02","keysebr01","kmakjo01","knoblch01","knudsku01","layanti01","leonama01","leskacu01","lewisri01","listapa01","livinsc01","lovulto01","lowese01","loyndmi01","mackqu01","magalev01","magnami01","maksumi01","manueba01","maynebr01","mccarda01","mccurje01","mcdonbe01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","moorema01","mordemi01","motaan01","motajo01","moutoly01","munozos01","mussimi01","natalro01","naultda01","nevinph01","nielsje01","nolteer01","odonojo02","ogeach01","ohallgr01","osikke01","osunaal01","palmeor01","paquecr01","parkecl01","patteda04","perezed01","piattdo01","piazzmi01","pierced01","polcoke01","pritcch01","ramosjo01","ramoske01","rebouje01","reimeke01","robermi01","roberri02","ronanma01","sackibr01","sanchal02","sandede02","santafp01","scarsst01","schoomi01","schuler01","schwami01","scottda01","scrugto01","shermda02","sirotmi01","siscost01","smithma03","sorrepa01","spehrti01","spencst02","spraged02","sprinde01","sprinru01","stanipe01","statoda01","steveto01","stritma01","swanru01","taylowa01","telfoan01","turanbr01","turnech01","turnesh01","urbanto01","vaughgr01","veresra01","vinafe01","voigtja01","wakamdo01","wapnist01","wardtu01","wetheje01","willima06","witmero01","worthcr01","zeileto01","zoskyed01","ucsd","longbeach","cacerri","floridast","cacanad","stanford","fresnost","caantel","vcu","camerce","sanjosest","usc","salabama","loyolamary","lsu","arizonast","casacra","ucla","calstfull","caorang","flgccco","flmdkjc","wkentucky","ucsb","txsjjcn","wflorida","miamifl","cagolde","nebraska","casajco","casiski","texasam","caameri","paalles","txmclen","njccmor","flmdnjc","camoorp","careedl","cacabri","cacosum","alfscco"],"size":[23,21,22,22,23,22,22,21,21,22,23,22,22,23,23,21,21,21,23,23,21,22,21,22,22,21,22,22,23,22,24,23,21,22,24,23,23,21,21,22,22,22,21,23,23,21,24,22,22,21,23,22,21,21,22,22,22,21,23,21,22,23,21,21,23,21,23,23,23,21,21,21,23,22,21,23,23,22,23,22,23,21,21,22,21,23,22,21,22,21,21,23,21,22,22,22,23,22,23,21,23,23,22,22,24,23,22,24,23,21,22,23,23,23,22,22,23,22,22,23,23,21,21,21,24,21,23,23,21,21,23,22,23,23,21,24,21,23,22,21,23,23,23,22,21,21,22,24,22,22,22,22,22,23,22,21,22,22,23,21,23,22,22,21,21,23,23,23,22,23,21,21,22,22,24,23,23,23,23,21,23,21,22,22,21,23,22,23,21,24,22,21,23,22,21,23,22,21,21,23,21,22,23,25,26,35,50,25,61,44,22,28,26,24,40,35,35,55,40,30,51,45,26,28,29,31,30,25,21,37,24,27,24,22,32,22,22,24,22,21,22,21,22,21,21],"borderWidth":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]},"edges":{"from":["abbotky01","abbotky01","abbotky01","adamsjo02","alicelu01","alicelu01","aloumo01","aloumo01","amaroru02","amaroru02","amaroru02","appieke01","appieke01","austiji02","austiji02","bailero01","ballaje01","ballje01","ballje01","barbebr01","barbebr01","barbebr01","battlal01","battlal01","beanbi01","beanbi01","belleal01","belleal01","belleal01","benjami01","benjami01","benjami01","bergda01","berryse01","bondsba01","boonebr01","boonebr01","boonebr01","bournra01","bournra01","bournra01","bowersh01","bowieji01","bowieji01","brewija01","brinkbr01","brinkbr01","brockch01","brockch01","brownke03","bruskji01","bruskji01","buckega02","buckega02","buforda01","buforda01","buforda01","byrdpa01","byrdpa01","careypa01","careypa01","careypa01","careypa01","casiala01","casiala01","casiala01","charlfr01","chavean01","chavean01","chitrst01","chitrst01","chitrst01","chitrst01","cirilje01","cirilje01","cirilje01","coninje01","coninje01","coninje01","cooksbr01","cordoma01","cummijo01","cummijo01","davisma02","davisma02","davisti01","davisti01","devermi01","dipotje01","dipotje01","dipotje01","donnech01","donnech01","donnech01","drahmbr01","dunbama01","dunbama01","dunbama01","dunbama01","edenfke01","edenfke01","eglofbr01","eglofbr01","elliodo01","ettlema01","ettlema01","ettlema01","fabrejo01","fabrejo01","faltest01","faneyri01","fernaal01","fernaal01","figuebi01","figuebi01","finnvga01","finnvga01","fishejo01","flenehu01","flenehu01","flenehu01","foxer01","fyhrimi01","fyhrimi01","gaineja01","gaineja01","gaineja01","gardnma01","giambja01","gilbesh01","gilbesh01","gilbesh01","gomezch02","gonzalu01","gonzalu01","gonzalu01","goodwto01","goodwto01","goodwto01","grahejo01","grahejo01","grahejo01","greench02","greenri01","grosski01","guthrma01","guthrma01","guthrma01","hamelbo01","hamelbo01","hammoje01","harkemi01","harkemi01","harkemi01","hartgde01","hartgde01","hartgde01","haselbi01","haselbi01","haynehe01","haynehe01","haynehe01","helfaer01","helfaer01","hennira01","hennira01","hennira01","henrydo01","hetzeer01","higgike01","higgike01","hollije01","hoseyst01","hoseyst01","hoseyst01","howarch02","howarch02","howitda01","huntebr01","huntebr01","johnsbr01","johnsch04","johnser03","johnser03","johnser03","johnsra05","jonesbo03","jonesbo03","jordake01","jordake01","jordari03","jordari03","karroer01","karroer01","karroer01","kellymi02","kellymi02","keysebr01","keysebr01","keysebr01","kmakjo01","knoblch01","knoblch01","knoblch01","knudsku01","knudsku01","knudsku01","layanti01","layanti01","leonama01","leonama01","leskacu01","leskacu01","leskacu01","leskacu01","lewisri01","lewisri01","lewisri01","listapa01","listapa01","livinsc01","livinsc01","livinsc01","livinsc01","lovulto01","lovulto01","lovulto01","lowese01","loyndmi01","loyndmi01","mackqu01","mackqu01","mackqu01","magalev01","magalev01","magalev01","magnami01","magnami01","magnami01","maksumi01","maksumi01","manueba01","manueba01","maynebr01","maynebr01","maynebr01","mccarda01","mccarda01","mccurje01","mccurje01","mcdonbe01","mcdonbe01","mcdonbe01","mcdowja01","mcdowja01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","minorbl01","minorbl01","minorbl01","moorema01","mordemi01","mordemi01","mordemi01","motaan01","motaan01","motaan01","motajo01","moutoly01","munozos01","munozos01","munozos01","mussimi01","mussimi01","natalro01","natalro01","natalro01","naultda01","naultda01","naultda01","nevinph01","nielsje01","nielsje01","nielsje01","nielsje01","nolteer01","odonojo02","odonojo02","odonojo02","ogeach01","ogeach01","ohallgr01","osikke01","osikke01","osikke01","osunaal01","osunaal01","osunaal01","palmeor01","palmeor01","palmeor01","paquecr01","paquecr01","parkecl01","patteda04","perezed01","perezed01","piattdo01","piattdo01","piattdo01","piattdo01","piazzmi01","piazzmi01","pierced01","pierced01","polcoke01","polcoke01","pritcch01","pritcch01","ramosjo01","ramosjo01","ramoske01","ramoske01","ramoske01","rebouje01","rebouje01","reimeke01","robermi01","robermi01","roberri02","roberri02","ronanma01","ronanma01","ronanma01","sackibr01","sanchal02","sanchal02","sanchal02","sandede02","sandede02","santafp01","santafp01","scarsst01","schoomi01","schuler01","schuler01","schuler01","schwami01","schwami01","schwami01","scottda01","scottda01","scottda01","scrugto01","scrugto01","shermda02","shermda02","shermda02","sirotmi01","siscost01","smithma03","smithma03","sorrepa01","sorrepa01","spehrti01","spehrti01","spehrti01","spehrti01","spencst02","spencst02","spencst02","spraged02","spraged02","spraged02","sprinde01","sprinde01","sprinde01","sprinru01","sprinru01","sprinru01","stanipe01","statoda01","statoda01","statoda01","steveto01","stritma01","stritma01","swanru01","swanru01","taylowa01","telfoan01","telfoan01","telfoan01","turanbr01","turanbr01","turnech01","turnech01","turnech01","turnesh01","urbanto01","urbanto01","urbanto01","urbanto01","vaughgr01","vaughgr01","veresra01","vinafe01","vinafe01","vinafe01","voigtja01","voigtja01","wakamdo01","wapnist01","wapnist01","wapnist01","wardtu01","wardtu01","wetheje01","willima06","witmero01","witmero01","witmero01","worthcr01","zeileto01","zeileto01","zoskyed01","zoskyed01","zoskyed01"],"to":["ucsd","ucsd","longbeach","cacerri","floridast","floridast","cacanad","cacanad","stanford","stanford","stanford","fresnost","caantel","vcu","vcu","floridast","stanford","camerce","sanjosest","cacerri","cacerri","usc","salabama","salabama","loyolamary","loyolamary","lsu","lsu","lsu","cacerri","arizonast","arizonast","casacra","ucla","arizonast","usc","usc","usc","floridast","cacanad","cacanad","loyolamary","lsu","casacra","vcu","usc","usc","floridast","floridast","casacra","caantel","loyolamary","calstfull","calstfull","usc","usc","usc","lsu","lsu","stanford","stanford","stanford","stanford","calstfull","calstfull","calstfull","calstfull","camerce","camerce","stanford","stanford","stanford","stanford","usc","usc","usc","ucla","ucla","ucla","longbeach","caorang","usc","usc","stanford","stanford","flgccco","flgccco","arizonast","vcu","vcu","vcu","loyolamary","loyolamary","loyolamary","flmdkjc","floridast","floridast","floridast","floridast","wkentucky","wkentucky","camerce","ucsb","txsjjcn","salabama","salabama","wflorida","miamifl","miamifl","salabama","flmdkjc","flmdkjc","miamifl","floridast","floridast","floridast","floridast","calstfull","calstfull","calstfull","calstfull","fresnost","ucla","ucla","salabama","salabama","flgccco","fresnost","longbeach","fresnost","fresnost","cagolde","loyolamary","salabama","salabama","salabama","fresnost","fresnost","fresnost","miamifl","miamifl","miamifl","flmdkjc","lsu","nebraska","lsu","lsu","lsu","ucla","casajco","stanford","calstfull","calstfull","calstfull","fresnost","casiski","casiski","ucla","ucla","wkentucky","wkentucky","wkentucky","arizonast","nebraska","ucla","ucla","ucla","arizonast","lsu","arizonast","arizonast","txsjjcn","fresnost","fresnost","fresnost","flmdkjc","miamifl","calstfull","cacerri","cacerri","stanford","miamifl","ucsb","ucsb","ucsb","usc","fresnost","fresnost","cacanad","nebraska","flmdkjc","flmdkjc","ucla","ucla","ucla","arizonast","arizonast","stanford","stanford","stanford","ucsb","texasam","texasam","texasam","miamifl","caameri","caameri","loyolamary","loyolamary","ucsb","ucsb","lsu","flgccco","paalles","paalles","floridast","floridast","floridast","arizonast","txmclen","texasam","texasam","texasam","texasam","ucla","ucla","ucla","txmclen","floridast","floridast","cacerri","ucsb","ucsb","cacerri","texasam","texasam","ucla","ucla","ucla","salabama","njccmor","lsu","lsu","calstfull","calstfull","caorang","stanford","stanford","txsjjcn","txsjjcn","lsu","lsu","lsu","stanford","stanford","stanford","nebraska","arizonast","flgccco","camerce","camerce","arizonast","arizonast","casacra","salabama","salabama","salabama","calstfull","calstfull","cagolde","calstfull","lsu","miamifl","miamifl","miamifl","stanford","stanford","ucsd","ucsd","ucsd","cacerri","cacerri","calstfull","calstfull","floridast","floridast","casacra","casacra","ucla","lsu","lsu","lsu","lsu","lsu","caorang","lsu","lsu","lsu","cacerri","stanford","stanford","flmdkjc","flmdkjc","miamifl","cagolde","cagolde","lsu","cacerri","floridast","floridast","flgccco","wkentucky","wkentucky","wkentucky","miamifl","flmdnjc","caorang","ucsb","flgccco","flgccco","ucla","ucla","stanford","stanford","nebraska","nebraska","nebraska","lsu","lsu","calstfull","usc","usc","txsjjcn","texasam","floridast","floridast","floridast","stanford","ucla","ucla","ucla","floridast","floridast","casacra","miamifl","casajco","calstfull","fresnost","fresnost","fresnost","arizonast","casajco","casajco","loyolamary","loyolamary","loyolamary","ucla","ucla","longbeach","cacerri","cacerri","lsu","camoorp","usc","usc","floridast","floridast","arizonast","arizonast","txmclen","txmclen","stanford","stanford","stanford","stanford","stanford","stanford","fresnost","fresnost","careedl","lsu","lsu","lsu","stanford","calstfull","caorang","caorang","arizonast","vcu","njccmor","texasam","texasam","miamifl","sanjosest","sanjosest","sanjosest","loyolamary","loyolamary","wkentucky","wkentucky","wkentucky","calstfull","longbeach","longbeach","cacabri","cacabri","casacra","miamifl","casacra","arizonast","casacra","cacosum","lsu","lsu","arizonast","fresnost","fresnost","camoorp","salabama","alfscco","usc","vcu","stanford","stanford","stanford","cacerri","ucla","ucla","fresnost","fresnost","fresnost"],"color":["gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray"],"smooth":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"shadow":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":false},"physics":{"solver":"forceAtlas2Based","forceAtlas2Based":{"gravitationalConstant":-100}}},"groups":["Player","School"],"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":{"text":"Network of Player Attending School","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","legend":{"width":0.2,"useGroups":true,"position":"left","ncol":1,"stepX":100,"stepY":100,"zoom":true,"main":{"text":"Groups","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:14px;text-align:center;"}}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="network-stats" class="level1">
+<h1>Network Stats</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">################################## Network Stats ##################################</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>mx_cliq <span class="ot">&lt;-</span> <span class="fu">clique.number</span>(g)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Measure =</span> <span class="fu">c</span>(<span class="st">"Nodes"</span>,<span class="st">"Edges"</span>,<span class="st">"Radius"</span>,<span class="st">"Diameter"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Reciprocity"</span>,<span class="st">"Average Degree"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Density"</span>,<span class="st">"Number of Clusters"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Largest Clique Size"</span>,<span class="st">"Number of Largest Cliques"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Average Shortest Path"</span>,<span class="st">"Clustering Coefficient"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Number of Cores"</span>,<span class="st">"Number of Triangles"</span>),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Value =</span> <span class="fu">c</span>(<span class="fu">vcount</span>(g),<span class="fu">ecount</span>(g),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">radius</span>(g),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">diameter</span>(g),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">reciprocity</span>(g),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">mean</span>(<span class="fu">degree</span>(g,<span class="at">mode =</span> <span class="st">"all"</span>)),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">graph.density</span>(g),</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">clusters</span>(g)<span class="sc">$</span>no,mx_cliq,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">length</span>(<span class="fu">cliques</span>(<span class="fu">as.undirected</span>(g),<span class="at">min =</span> mx_cliq)),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">average.path.length</span>(g),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">transitivity</span>(g),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">coreness</span>(g))),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">length</span>(<span class="fu">triangles</span>(g))))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>k<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">round</span>(k<span class="sc">$</span>Value,<span class="dv">5</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(k,<span class="at">caption =</span> <span class="st">"Player's Atending School Network Stats"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Player’s Atending School Network Stats</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Measure</th>
+<th style="text-align: right;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Nodes</td>
+<td style="text-align: right;">245.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Edges</td>
+<td style="text-align: right;">431.00000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Radius</td>
+<td style="text-align: right;">13.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diameter</td>
+<td style="text-align: right;">1.00000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reciprocity</td>
+<td style="text-align: right;">0.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Average Degree</td>
+<td style="text-align: right;">3.51837</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Density</td>
+<td style="text-align: right;">0.00721</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of Clusters</td>
+<td style="text-align: right;">1.00000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Largest Clique Size</td>
+<td style="text-align: right;">2.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of Largest Cliques</td>
+<td style="text-align: right;">252.00000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Average Shortest Path</td>
+<td style="text-align: right;">1.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Clustering Coefficient</td>
+<td style="text-align: right;">0.00000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of Cores</td>
+<td style="text-align: right;">4.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of Triangles</td>
+<td style="text-align: right;">0.00000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="degree-distibution" class="level2">
+<h2 class="anchored" data-anchor-id="degree-distibution">Degree Distibution</h2>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(degree.distribution(g), col="red") #Plot degree distribution</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ddist <span class="ot">&lt;-</span> <span class="fu">degree_distribution</span>(g, <span class="at">mode=</span><span class="st">"all"</span>, <span class="at">cumulative=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ddist,<span class="at">col=</span><span class="st">"violet"</span>,<span class="at">xlab=</span><span class="st">"DEGREE"</span>,<span class="at">ylab=</span><span class="st">"DIST"</span>, <span class="at">main=</span><span class="st">"The Degree Distribution"</span>, <span class="at">pch=</span><span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="FINAL_SOCIAL_NETWORKS_Amer_Abuhasan_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="community-detection" class="level1">
+<h1>Community Detection</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">walktrap.community</span>(g)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> wk<span class="sc">$</span>membership</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">title =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">group =</span> grp)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">get.data.frame</span>(g, <span class="at">what=</span><span class="st">"edges"</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>vis.nodes <span class="ot">&lt;-</span> nodes</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>vis.links <span class="ot">&lt;-</span> edges</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#giving some styles to nodes and edges</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># Nodes will drop shadow</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>label  <span class="ot">&lt;-</span> vis.nodes<span class="sc">$</span>id <span class="co"># Node label</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>size   <span class="ot">&lt;-</span> <span class="fu">degree</span>(g)<span class="sc">+</span><span class="dv">20</span> <span class="co"># Node size</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>borderWidth <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Node border width</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gray"</span>    <span class="co"># line color  </span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>smooth <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># should the edges be curved?</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># edge shadow</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>visnet3 <span class="ot">=</span> <span class="fu">visNetwork</span>(vis.nodes, vis.links, <span class="at">main =</span> <span class="st">"Walk Trap : Network of Player Attending School"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">solver =</span> <span class="st">"forceAtlas2Based"</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">forceAtlas2Based =</span> <span class="fu">list</span>(<span class="at">gravitationalConstant =</span> <span class="sc">-</span><span class="dv">100</span>))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="fu">visLegend</span>(visnet3,<span class="at">main =</span> <span class="st">"Communities"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="visNetwork html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-65d7d4165a58d081444a" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-65d7d4165a58d081444a">{"x":{"nodes":{"id":["abbotky01","adamsjo02","alicelu01","aloumo01","amaroru02","appieke01","austiji02","bailero01","ballaje01","ballje01","barbebr01","battlal01","beanbi01","belleal01","benjami01","bergda01","berryse01","bondsba01","boonebr01","bournra01","bowersh01","bowieji01","brewija01","brinkbr01","brockch01","brownke03","bruskji01","buckega02","buforda01","byrdpa01","careypa01","casiala01","charlfr01","chavean01","chitrst01","cirilje01","coninje01","cooksbr01","cordoma01","cummijo01","davisma02","davisti01","devermi01","dipotje01","donnech01","drahmbr01","dunbama01","edenfke01","eglofbr01","elliodo01","ettlema01","fabrejo01","faltest01","faneyri01","fernaal01","figuebi01","finnvga01","fishejo01","flenehu01","foxer01","fyhrimi01","gaineja01","gardnma01","giambja01","gilbesh01","gomezch02","gonzalu01","goodwto01","grahejo01","greench02","greenri01","grosski01","guthrma01","hamelbo01","hammoje01","harkemi01","hartgde01","haselbi01","haynehe01","helfaer01","hennira01","henrydo01","hetzeer01","higgike01","hollije01","hoseyst01","howarch02","howitda01","huntebr01","johnsbr01","johnsch04","johnser03","johnsra05","jonesbo03","jordake01","jordari03","karroer01","kellymi02","keysebr01","kmakjo01","knoblch01","knudsku01","layanti01","leonama01","leskacu01","lewisri01","listapa01","livinsc01","lovulto01","lowese01","loyndmi01","mackqu01","magalev01","magnami01","maksumi01","manueba01","maynebr01","mccarda01","mccurje01","mcdonbe01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","moorema01","mordemi01","motaan01","motajo01","moutoly01","munozos01","mussimi01","natalro01","naultda01","nevinph01","nielsje01","nolteer01","odonojo02","ogeach01","ohallgr01","osikke01","osunaal01","palmeor01","paquecr01","parkecl01","patteda04","perezed01","piattdo01","piazzmi01","pierced01","polcoke01","pritcch01","ramosjo01","ramoske01","rebouje01","reimeke01","robermi01","roberri02","ronanma01","sackibr01","sanchal02","sandede02","santafp01","scarsst01","schoomi01","schuler01","schwami01","scottda01","scrugto01","shermda02","sirotmi01","siscost01","smithma03","sorrepa01","spehrti01","spencst02","spraged02","sprinde01","sprinru01","stanipe01","statoda01","steveto01","stritma01","swanru01","taylowa01","telfoan01","turanbr01","turnech01","turnesh01","urbanto01","vaughgr01","veresra01","vinafe01","voigtja01","wakamdo01","wapnist01","wardtu01","wetheje01","willima06","witmero01","worthcr01","zeileto01","zoskyed01","ucsd","longbeach","cacerri","floridast","cacanad","stanford","fresnost","caantel","vcu","camerce","sanjosest","usc","salabama","loyolamary","lsu","arizonast","casacra","ucla","calstfull","caorang","flgccco","flmdkjc","wkentucky","ucsb","txsjjcn","wflorida","miamifl","cagolde","nebraska","casajco","casiski","texasam","caameri","paalles","txmclen","njccmor","flmdnjc","camoorp","careedl","cacabri","cacosum","alfscco"],"title":["abbotky01","adamsjo02","alicelu01","aloumo01","amaroru02","appieke01","austiji02","bailero01","ballaje01","ballje01","barbebr01","battlal01","beanbi01","belleal01","benjami01","bergda01","berryse01","bondsba01","boonebr01","bournra01","bowersh01","bowieji01","brewija01","brinkbr01","brockch01","brownke03","bruskji01","buckega02","buforda01","byrdpa01","careypa01","casiala01","charlfr01","chavean01","chitrst01","cirilje01","coninje01","cooksbr01","cordoma01","cummijo01","davisma02","davisti01","devermi01","dipotje01","donnech01","drahmbr01","dunbama01","edenfke01","eglofbr01","elliodo01","ettlema01","fabrejo01","faltest01","faneyri01","fernaal01","figuebi01","finnvga01","fishejo01","flenehu01","foxer01","fyhrimi01","gaineja01","gardnma01","giambja01","gilbesh01","gomezch02","gonzalu01","goodwto01","grahejo01","greench02","greenri01","grosski01","guthrma01","hamelbo01","hammoje01","harkemi01","hartgde01","haselbi01","haynehe01","helfaer01","hennira01","henrydo01","hetzeer01","higgike01","hollije01","hoseyst01","howarch02","howitda01","huntebr01","johnsbr01","johnsch04","johnser03","johnsra05","jonesbo03","jordake01","jordari03","karroer01","kellymi02","keysebr01","kmakjo01","knoblch01","knudsku01","layanti01","leonama01","leskacu01","lewisri01","listapa01","livinsc01","lovulto01","lowese01","loyndmi01","mackqu01","magalev01","magnami01","maksumi01","manueba01","maynebr01","mccarda01","mccurje01","mcdonbe01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","moorema01","mordemi01","motaan01","motajo01","moutoly01","munozos01","mussimi01","natalro01","naultda01","nevinph01","nielsje01","nolteer01","odonojo02","ogeach01","ohallgr01","osikke01","osunaal01","palmeor01","paquecr01","parkecl01","patteda04","perezed01","piattdo01","piazzmi01","pierced01","polcoke01","pritcch01","ramosjo01","ramoske01","rebouje01","reimeke01","robermi01","roberri02","ronanma01","sackibr01","sanchal02","sandede02","santafp01","scarsst01","schoomi01","schuler01","schwami01","scottda01","scrugto01","shermda02","sirotmi01","siscost01","smithma03","sorrepa01","spehrti01","spencst02","spraged02","sprinde01","sprinru01","stanipe01","statoda01","steveto01","stritma01","swanru01","taylowa01","telfoan01","turanbr01","turnech01","turnesh01","urbanto01","vaughgr01","veresra01","vinafe01","voigtja01","wakamdo01","wapnist01","wardtu01","wetheje01","willima06","witmero01","worthcr01","zeileto01","zoskyed01","ucsd","longbeach","cacerri","floridast","cacanad","stanford","fresnost","caantel","vcu","camerce","sanjosest","usc","salabama","loyolamary","lsu","arizonast","casacra","ucla","calstfull","caorang","flgccco","flmdkjc","wkentucky","ucsb","txsjjcn","wflorida","miamifl","cagolde","nebraska","casajco","casiski","texasam","caameri","paalles","txmclen","njccmor","flmdnjc","camoorp","careedl","cacabri","cacosum","alfscco"],"group":[6,3,13,8,14,11,10,13,14,12,3,9,11,15,5,2,16,5,17,8,11,2,10,17,13,2,11,7,17,15,14,7,7,3,14,17,16,6,7,17,14,4,5,10,11,2,13,4,3,18,9,2,9,2,2,13,13,7,7,1,16,9,1,6,1,11,9,1,2,2,15,8,15,5,14,7,1,16,4,8,16,5,15,5,18,1,2,7,3,14,2,3,17,1,8,2,16,5,14,3,3,2,11,3,4,13,5,3,16,5,13,3,3,16,10,15,7,14,18,15,14,8,5,4,3,2,9,7,7,15,2,14,6,3,7,13,16,15,15,7,15,14,2,1,15,3,13,4,2,7,4,16,14,8,15,7,17,3,13,14,16,13,2,5,7,1,5,11,16,3,15,1,17,13,5,14,14,1,15,14,7,5,10,3,2,12,11,4,7,6,2,2,2,15,5,1,9,17,10,14,3,16,1,6,6,3,13,8,14,1,11,10,3,12,17,9,11,15,5,2,16,7,7,4,2,4,3,18,9,2,1,8,5,1,3,2,4,5,10,2,1,1,6,2,9],"shadow":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"label":["abbotky01","adamsjo02","alicelu01","aloumo01","amaroru02","appieke01","austiji02","bailero01","ballaje01","ballje01","barbebr01","battlal01","beanbi01","belleal01","benjami01","bergda01","berryse01","bondsba01","boonebr01","bournra01","bowersh01","bowieji01","brewija01","brinkbr01","brockch01","brownke03","bruskji01","buckega02","buforda01","byrdpa01","careypa01","casiala01","charlfr01","chavean01","chitrst01","cirilje01","coninje01","cooksbr01","cordoma01","cummijo01","davisma02","davisti01","devermi01","dipotje01","donnech01","drahmbr01","dunbama01","edenfke01","eglofbr01","elliodo01","ettlema01","fabrejo01","faltest01","faneyri01","fernaal01","figuebi01","finnvga01","fishejo01","flenehu01","foxer01","fyhrimi01","gaineja01","gardnma01","giambja01","gilbesh01","gomezch02","gonzalu01","goodwto01","grahejo01","greench02","greenri01","grosski01","guthrma01","hamelbo01","hammoje01","harkemi01","hartgde01","haselbi01","haynehe01","helfaer01","hennira01","henrydo01","hetzeer01","higgike01","hollije01","hoseyst01","howarch02","howitda01","huntebr01","johnsbr01","johnsch04","johnser03","johnsra05","jonesbo03","jordake01","jordari03","karroer01","kellymi02","keysebr01","kmakjo01","knoblch01","knudsku01","layanti01","leonama01","leskacu01","lewisri01","listapa01","livinsc01","lovulto01","lowese01","loyndmi01","mackqu01","magalev01","magnami01","maksumi01","manueba01","maynebr01","mccarda01","mccurje01","mcdonbe01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","moorema01","mordemi01","motaan01","motajo01","moutoly01","munozos01","mussimi01","natalro01","naultda01","nevinph01","nielsje01","nolteer01","odonojo02","ogeach01","ohallgr01","osikke01","osunaal01","palmeor01","paquecr01","parkecl01","patteda04","perezed01","piattdo01","piazzmi01","pierced01","polcoke01","pritcch01","ramosjo01","ramoske01","rebouje01","reimeke01","robermi01","roberri02","ronanma01","sackibr01","sanchal02","sandede02","santafp01","scarsst01","schoomi01","schuler01","schwami01","scottda01","scrugto01","shermda02","sirotmi01","siscost01","smithma03","sorrepa01","spehrti01","spencst02","spraged02","sprinde01","sprinru01","stanipe01","statoda01","steveto01","stritma01","swanru01","taylowa01","telfoan01","turanbr01","turnech01","turnesh01","urbanto01","vaughgr01","veresra01","vinafe01","voigtja01","wakamdo01","wapnist01","wardtu01","wetheje01","willima06","witmero01","worthcr01","zeileto01","zoskyed01","ucsd","longbeach","cacerri","floridast","cacanad","stanford","fresnost","caantel","vcu","camerce","sanjosest","usc","salabama","loyolamary","lsu","arizonast","casacra","ucla","calstfull","caorang","flgccco","flmdkjc","wkentucky","ucsb","txsjjcn","wflorida","miamifl","cagolde","nebraska","casajco","casiski","texasam","caameri","paalles","txmclen","njccmor","flmdnjc","camoorp","careedl","cacabri","cacosum","alfscco"],"size":[23,21,22,22,23,22,22,21,21,22,23,22,22,23,23,21,21,21,23,23,21,22,21,22,22,21,22,22,23,22,24,23,21,22,24,23,23,21,21,22,22,22,21,23,23,21,24,22,22,21,23,22,21,21,22,22,22,21,23,21,22,23,21,21,23,21,23,23,23,21,21,21,23,22,21,23,23,22,23,22,23,21,21,22,21,23,22,21,22,21,21,23,21,22,22,22,23,22,23,21,23,23,22,22,24,23,22,24,23,21,22,23,23,23,22,22,23,22,22,23,23,21,21,21,24,21,23,23,21,21,23,22,23,23,21,24,21,23,22,21,23,23,23,22,21,21,22,24,22,22,22,22,22,23,22,21,22,22,23,21,23,22,22,21,21,23,23,23,22,23,21,21,22,22,24,23,23,23,23,21,23,21,22,22,21,23,22,23,21,24,22,21,23,22,21,23,22,21,21,23,21,22,23,25,26,35,50,25,61,44,22,28,26,24,40,35,35,55,40,30,51,45,26,28,29,31,30,25,21,37,24,27,24,22,32,22,22,24,22,21,22,21,22,21,21],"borderWidth":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]},"edges":{"from":["abbotky01","abbotky01","abbotky01","adamsjo02","alicelu01","alicelu01","aloumo01","aloumo01","amaroru02","amaroru02","amaroru02","appieke01","appieke01","austiji02","austiji02","bailero01","ballaje01","ballje01","ballje01","barbebr01","barbebr01","barbebr01","battlal01","battlal01","beanbi01","beanbi01","belleal01","belleal01","belleal01","benjami01","benjami01","benjami01","bergda01","berryse01","bondsba01","boonebr01","boonebr01","boonebr01","bournra01","bournra01","bournra01","bowersh01","bowieji01","bowieji01","brewija01","brinkbr01","brinkbr01","brockch01","brockch01","brownke03","bruskji01","bruskji01","buckega02","buckega02","buforda01","buforda01","buforda01","byrdpa01","byrdpa01","careypa01","careypa01","careypa01","careypa01","casiala01","casiala01","casiala01","charlfr01","chavean01","chavean01","chitrst01","chitrst01","chitrst01","chitrst01","cirilje01","cirilje01","cirilje01","coninje01","coninje01","coninje01","cooksbr01","cordoma01","cummijo01","cummijo01","davisma02","davisma02","davisti01","davisti01","devermi01","dipotje01","dipotje01","dipotje01","donnech01","donnech01","donnech01","drahmbr01","dunbama01","dunbama01","dunbama01","dunbama01","edenfke01","edenfke01","eglofbr01","eglofbr01","elliodo01","ettlema01","ettlema01","ettlema01","fabrejo01","fabrejo01","faltest01","faneyri01","fernaal01","fernaal01","figuebi01","figuebi01","finnvga01","finnvga01","fishejo01","flenehu01","flenehu01","flenehu01","foxer01","fyhrimi01","fyhrimi01","gaineja01","gaineja01","gaineja01","gardnma01","giambja01","gilbesh01","gilbesh01","gilbesh01","gomezch02","gonzalu01","gonzalu01","gonzalu01","goodwto01","goodwto01","goodwto01","grahejo01","grahejo01","grahejo01","greench02","greenri01","grosski01","guthrma01","guthrma01","guthrma01","hamelbo01","hamelbo01","hammoje01","harkemi01","harkemi01","harkemi01","hartgde01","hartgde01","hartgde01","haselbi01","haselbi01","haynehe01","haynehe01","haynehe01","helfaer01","helfaer01","hennira01","hennira01","hennira01","henrydo01","hetzeer01","higgike01","higgike01","hollije01","hoseyst01","hoseyst01","hoseyst01","howarch02","howarch02","howitda01","huntebr01","huntebr01","johnsbr01","johnsch04","johnser03","johnser03","johnser03","johnsra05","jonesbo03","jonesbo03","jordake01","jordake01","jordari03","jordari03","karroer01","karroer01","karroer01","kellymi02","kellymi02","keysebr01","keysebr01","keysebr01","kmakjo01","knoblch01","knoblch01","knoblch01","knudsku01","knudsku01","knudsku01","layanti01","layanti01","leonama01","leonama01","leskacu01","leskacu01","leskacu01","leskacu01","lewisri01","lewisri01","lewisri01","listapa01","listapa01","livinsc01","livinsc01","livinsc01","livinsc01","lovulto01","lovulto01","lovulto01","lowese01","loyndmi01","loyndmi01","mackqu01","mackqu01","mackqu01","magalev01","magalev01","magalev01","magnami01","magnami01","magnami01","maksumi01","maksumi01","manueba01","manueba01","maynebr01","maynebr01","maynebr01","mccarda01","mccarda01","mccurje01","mccurje01","mcdonbe01","mcdonbe01","mcdonbe01","mcdowja01","mcdowja01","mcdowja01","mcguibi01","medinlu01","menecfr01","minorbl01","minorbl01","minorbl01","minorbl01","moorema01","mordemi01","mordemi01","mordemi01","motaan01","motaan01","motaan01","motajo01","moutoly01","munozos01","munozos01","munozos01","mussimi01","mussimi01","natalro01","natalro01","natalro01","naultda01","naultda01","naultda01","nevinph01","nielsje01","nielsje01","nielsje01","nielsje01","nolteer01","odonojo02","odonojo02","odonojo02","ogeach01","ogeach01","ohallgr01","osikke01","osikke01","osikke01","osunaal01","osunaal01","osunaal01","palmeor01","palmeor01","palmeor01","paquecr01","paquecr01","parkecl01","patteda04","perezed01","perezed01","piattdo01","piattdo01","piattdo01","piattdo01","piazzmi01","piazzmi01","pierced01","pierced01","polcoke01","polcoke01","pritcch01","pritcch01","ramosjo01","ramosjo01","ramoske01","ramoske01","ramoske01","rebouje01","rebouje01","reimeke01","robermi01","robermi01","roberri02","roberri02","ronanma01","ronanma01","ronanma01","sackibr01","sanchal02","sanchal02","sanchal02","sandede02","sandede02","santafp01","santafp01","scarsst01","schoomi01","schuler01","schuler01","schuler01","schwami01","schwami01","schwami01","scottda01","scottda01","scottda01","scrugto01","scrugto01","shermda02","shermda02","shermda02","sirotmi01","siscost01","smithma03","smithma03","sorrepa01","sorrepa01","spehrti01","spehrti01","spehrti01","spehrti01","spencst02","spencst02","spencst02","spraged02","spraged02","spraged02","sprinde01","sprinde01","sprinde01","sprinru01","sprinru01","sprinru01","stanipe01","statoda01","statoda01","statoda01","steveto01","stritma01","stritma01","swanru01","swanru01","taylowa01","telfoan01","telfoan01","telfoan01","turanbr01","turanbr01","turnech01","turnech01","turnech01","turnesh01","urbanto01","urbanto01","urbanto01","urbanto01","vaughgr01","vaughgr01","veresra01","vinafe01","vinafe01","vinafe01","voigtja01","voigtja01","wakamdo01","wapnist01","wapnist01","wapnist01","wardtu01","wardtu01","wetheje01","willima06","witmero01","witmero01","witmero01","worthcr01","zeileto01","zeileto01","zoskyed01","zoskyed01","zoskyed01"],"to":["ucsd","ucsd","longbeach","cacerri","floridast","floridast","cacanad","cacanad","stanford","stanford","stanford","fresnost","caantel","vcu","vcu","floridast","stanford","camerce","sanjosest","cacerri","cacerri","usc","salabama","salabama","loyolamary","loyolamary","lsu","lsu","lsu","cacerri","arizonast","arizonast","casacra","ucla","arizonast","usc","usc","usc","floridast","cacanad","cacanad","loyolamary","lsu","casacra","vcu","usc","usc","floridast","floridast","casacra","caantel","loyolamary","calstfull","calstfull","usc","usc","usc","lsu","lsu","stanford","stanford","stanford","stanford","calstfull","calstfull","calstfull","calstfull","camerce","camerce","stanford","stanford","stanford","stanford","usc","usc","usc","ucla","ucla","ucla","longbeach","caorang","usc","usc","stanford","stanford","flgccco","flgccco","arizonast","vcu","vcu","vcu","loyolamary","loyolamary","loyolamary","flmdkjc","floridast","floridast","floridast","floridast","wkentucky","wkentucky","camerce","ucsb","txsjjcn","salabama","salabama","wflorida","miamifl","miamifl","salabama","flmdkjc","flmdkjc","miamifl","floridast","floridast","floridast","floridast","calstfull","calstfull","calstfull","calstfull","fresnost","ucla","ucla","salabama","salabama","flgccco","fresnost","longbeach","fresnost","fresnost","cagolde","loyolamary","salabama","salabama","salabama","fresnost","fresnost","fresnost","miamifl","miamifl","miamifl","flmdkjc","lsu","nebraska","lsu","lsu","lsu","ucla","casajco","stanford","calstfull","calstfull","calstfull","fresnost","casiski","casiski","ucla","ucla","wkentucky","wkentucky","wkentucky","arizonast","nebraska","ucla","ucla","ucla","arizonast","lsu","arizonast","arizonast","txsjjcn","fresnost","fresnost","fresnost","flmdkjc","miamifl","calstfull","cacerri","cacerri","stanford","miamifl","ucsb","ucsb","ucsb","usc","fresnost","fresnost","cacanad","nebraska","flmdkjc","flmdkjc","ucla","ucla","ucla","arizonast","arizonast","stanford","stanford","stanford","ucsb","texasam","texasam","texasam","miamifl","caameri","caameri","loyolamary","loyolamary","ucsb","ucsb","lsu","flgccco","paalles","paalles","floridast","floridast","floridast","arizonast","txmclen","texasam","texasam","texasam","texasam","ucla","ucla","ucla","txmclen","floridast","floridast","cacerri","ucsb","ucsb","cacerri","texasam","texasam","ucla","ucla","ucla","salabama","njccmor","lsu","lsu","calstfull","calstfull","caorang","stanford","stanford","txsjjcn","txsjjcn","lsu","lsu","lsu","stanford","stanford","stanford","nebraska","arizonast","flgccco","camerce","camerce","arizonast","arizonast","casacra","salabama","salabama","salabama","calstfull","calstfull","cagolde","calstfull","lsu","miamifl","miamifl","miamifl","stanford","stanford","ucsd","ucsd","ucsd","cacerri","cacerri","calstfull","calstfull","floridast","floridast","casacra","casacra","ucla","lsu","lsu","lsu","lsu","lsu","caorang","lsu","lsu","lsu","cacerri","stanford","stanford","flmdkjc","flmdkjc","miamifl","cagolde","cagolde","lsu","cacerri","floridast","floridast","flgccco","wkentucky","wkentucky","wkentucky","miamifl","flmdnjc","caorang","ucsb","flgccco","flgccco","ucla","ucla","stanford","stanford","nebraska","nebraska","nebraska","lsu","lsu","calstfull","usc","usc","txsjjcn","texasam","floridast","floridast","floridast","stanford","ucla","ucla","ucla","floridast","floridast","casacra","miamifl","casajco","calstfull","fresnost","fresnost","fresnost","arizonast","casajco","casajco","loyolamary","loyolamary","loyolamary","ucla","ucla","longbeach","cacerri","cacerri","lsu","camoorp","usc","usc","floridast","floridast","arizonast","arizonast","txmclen","txmclen","stanford","stanford","stanford","stanford","stanford","stanford","fresnost","fresnost","careedl","lsu","lsu","lsu","stanford","calstfull","caorang","caorang","arizonast","vcu","njccmor","texasam","texasam","miamifl","sanjosest","sanjosest","sanjosest","loyolamary","loyolamary","wkentucky","wkentucky","wkentucky","calstfull","longbeach","longbeach","cacabri","cacabri","casacra","miamifl","casacra","arizonast","casacra","cacosum","lsu","lsu","arizonast","fresnost","fresnost","camoorp","salabama","alfscco","usc","vcu","stanford","stanford","stanford","cacerri","ucla","ucla","fresnost","fresnost","fresnost"],"color":["gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray","gray"],"smooth":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"shadow":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot"},"manipulation":{"enabled":false},"physics":{"solver":"forceAtlas2Based","forceAtlas2Based":{"gravitationalConstant":-100}}},"groups":["6","3","13","8","14","11","10","12","9","15","5","2","16","17","7","4","18","1"],"width":null,"height":null,"idselection":{"enabled":false},"byselection":{"enabled":false},"main":{"text":"Walk Trap : Network of Player Attending School","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:20px;text-align:center;"},"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","legend":{"width":0.2,"useGroups":true,"position":"left","ncol":1,"stepX":100,"stepY":100,"zoom":true,"main":{"text":"Communities","style":"font-family:Georgia, Times New Roman, Times, serif;font-weight:bold;font-size:14px;text-align:center;"}}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="centralities" class="level1">
+<h1>Centralities</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Top10Schools_Degree <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Top10Players_Degree <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Top10_Bonachic <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">power_centrality</span>(g),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Top10_Eigen <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">eigen_centrality</span>(g)<span class="sc">$</span>vector,<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>Top10_Betweenness <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">betweenness</span>(<span class="fu">as.undirected</span>(g)),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Top10Schools_Degree,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                 Top10Players_Degree,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>                 Top10_Bonachic,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                 Top10_Eigen,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                 Top10_Betweenness)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(df,<span class="at">caption =</span> <span class="st">"Top 10 nodes (Players &amp; Schools) by Centralities"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>Top 10 nodes (Players &amp; Schools) by Centralities</caption>
+<colgroup>
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Top10Schools_Degree</th>
+<th style="text-align: left;">Top10Players_Degree</th>
+<th style="text-align: left;">Top10_Bonachic</th>
+<th style="text-align: left;">Top10_Eigen</th>
+<th style="text-align: left;">Top10_Betweenness</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">stanford</td>
+<td style="text-align: left;">careypa01</td>
+<td style="text-align: left;">careypa01</td>
+<td style="text-align: left;">stanford</td>
+<td style="text-align: left;">arizonast</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lsu</td>
+<td style="text-align: left;">chitrst01</td>
+<td style="text-align: left;">chitrst01</td>
+<td style="text-align: left;">chitrst01</td>
+<td style="text-align: left;">cacerri</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ucla</td>
+<td style="text-align: left;">dunbama01</td>
+<td style="text-align: left;">dunbama01</td>
+<td style="text-align: left;">careypa01</td>
+<td style="text-align: left;">casacra</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">floridast</td>
+<td style="text-align: left;">leskacu01</td>
+<td style="text-align: left;">leskacu01</td>
+<td style="text-align: left;">witmero01</td>
+<td style="text-align: left;">benjami01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">calstfull</td>
+<td style="text-align: left;">livinsc01</td>
+<td style="text-align: left;">livinsc01</td>
+<td style="text-align: left;">amaroru02</td>
+<td style="text-align: left;">vinafe01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fresnost</td>
+<td style="text-align: left;">minorbl01</td>
+<td style="text-align: left;">minorbl01</td>
+<td style="text-align: left;">keysebr01</td>
+<td style="text-align: left;">calstfull</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">usc</td>
+<td style="text-align: left;">nielsje01</td>
+<td style="text-align: left;">nielsje01</td>
+<td style="text-align: left;">mcdowja01</td>
+<td style="text-align: left;">lsu</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">arizonast</td>
+<td style="text-align: left;">piattdo01</td>
+<td style="text-align: left;">piattdo01</td>
+<td style="text-align: left;">spencst02</td>
+<td style="text-align: left;">bowieji01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">miamifl</td>
+<td style="text-align: left;">spehrti01</td>
+<td style="text-align: left;">spehrti01</td>
+<td style="text-align: left;">spraged02</td>
+<td style="text-align: left;">naultda01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cacerri</td>
+<td style="text-align: left;">urbanto01</td>
+<td style="text-align: left;">urbanto01</td>
+<td style="text-align: left;">osunaal01</td>
+<td style="text-align: left;">motaan01</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Schools with value by Degree</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> stanford       lsu      ucla floridast calstfull  fresnost       usc arizonast 
+       41        35        31        30        25        24        20        20 
+  miamifl   cacerri 
+       17        15 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Players with value by Degree</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>careypa01 chitrst01 dunbama01 leskacu01 livinsc01 minorbl01 nielsje01 piattdo01 
+        4         4         4         4         4         4         4         4 
+spehrti01 urbanto01 
+        4         4 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Top Nodes with values by Bonachic Centrality</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">power_centrality</span>(g),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>careypa01 chitrst01 dunbama01 leskacu01 livinsc01 minorbl01 nielsje01 piattdo01 
+ 1.906041  1.906041  1.906041  1.906041  1.906041  1.906041  1.906041  1.906041 
+spehrti01 urbanto01 
+ 1.906041  1.906041 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Nodes with values by Eigen</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">eigen_centrality</span>(g)<span class="sc">$</span>vector,<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> stanford careypa01 chitrst01 amaroru02 mcdowja01 spencst02 spraged02 witmero01 
+1.0000000 0.3795853 0.3795853 0.2846889 0.2846889 0.2846889 0.2846889 0.2846889 
+keysebr01 osunaal01 
+0.2846889 0.1919559 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Nodes with values by Betweenness</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">betweenness</span>(<span class="fu">as.undirected</span>(g)),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>arizonast   cacerri   casacra benjami01  vinafe01 calstfull       lsu bowieji01 
+18762.250 18153.500 15685.000 13826.750 13450.500  9586.167  9539.000  9108.000 
+naultda01  motaan01 
+ 8804.167  6235.000 </code></pre>
+</div>
+</div>
+</section>
+<section id="network-models" class="level1">
+<h1>Network models</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">asNetwork</span>(g)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#basic ERGM model</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ergm</span>(g <span class="sc">~</span> edges)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+ergm(formula = g ~ edges)
+
+Maximum Likelihood Results:
+
+      Estimate Std. Error MCMC % z value Pr(&gt;|z|)    
+edges -5.46477    0.06313      0  -86.57   &lt;1e-04 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+     Null Deviance: 82873  on 59780  degrees of freedom
+ Residual Deviance:  3259  on 59779  degrees of freedom
+ 
+AIC: 3261  BIC: 3270  (Smaller is better. MC Std. Err. = 0)</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#with node level attributes</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">ergm</span>(g <span class="sc">~</span> edges </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>           <span class="sc">+</span> <span class="fu">nodecov</span>(<span class="st">"Eigen"</span>) </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>           <span class="sc">+</span> <span class="fu">nodecov</span>(<span class="st">"Degree"</span>)) </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+ergm(formula = g ~ edges + nodecov("Eigen") + nodecov("Degree"))
+
+Maximum Likelihood Results:
+
+                Estimate Std. Error MCMC % z value Pr(&gt;|z|)    
+edges          -6.568340   0.101491      0 -64.718   &lt;1e-04 ***
+nodecov.Eigen  -1.167338   0.275706      0  -4.234   &lt;1e-04 ***
+nodecov.Degree  0.097185   0.004308      0  22.557   &lt;1e-04 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+     Null Deviance: 82873  on 59780  degrees of freedom
+ Residual Deviance:  2860  on 59777  degrees of freedom
+ 
+AIC: 2866  BIC: 2893  (Smaller is better. MC Std. Err. = 0)</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the odds ratio for each term. </span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>or <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(m1))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="cug-test" class="level1">
+<h1>CUG test</h1>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#CuG test on the network using mode size</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ctest <span class="ot">&lt;-</span> <span class="fu">cug.test</span>(g,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>         centralization,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUN.arg=</span><span class="fu">list</span>(<span class="at">FUN=</span>degree), </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">mode=</span><span class="st">"graph"</span>, </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">cmode=</span><span class="st">"size"</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#CuG test on the network using mode dyad.census</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>ctest2 <span class="ot">&lt;-</span> <span class="fu">cug.test</span>(g,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>         centralization,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUN.arg=</span><span class="fu">list</span>(<span class="at">FUN=</span>degree), </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">mode=</span><span class="st">"graph"</span>, </span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">cmode=</span><span class="st">"dyad.census"</span>)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#CuG test on the network using mode edges</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>ctest3 <span class="ot">&lt;-</span> <span class="fu">cug.test</span>(g,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>         centralization,</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUN.arg=</span><span class="fu">list</span>(<span class="at">FUN=</span>degree), </span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">mode=</span><span class="st">"graph"</span>, </span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">cmode=</span><span class="st">"edges"</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctest, <span class="at">main=</span><span class="st">"Degree </span><span class="sc">\n</span><span class="st">Conditioned on Size"</span> )</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctest3, <span class="at">main=</span><span class="st">"Degree </span><span class="sc">\n</span><span class="st">Conditioned on Edges"</span> )</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctest2, <span class="at">main=</span><span class="st">"Degree </span><span class="sc">\n</span><span class="st">Conditioned on Dyads"</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="FINAL_SOCIAL_NETWORKS_Amer_Abuhasan_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+
+
+<!-- -->
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="DACSS/Social_Networks_Spring_2023" data-repo-id="R_kgDOI9d_OA" data-category="Announcements" data-category-id="" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb27" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> 'Bipartite Network Analysis: Players Attending School'</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Amer Abuhasan"</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Final Project"</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "05/12/2023"</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> </span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">  - Final Project </span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="co">  - Amer Abuhasan </span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="co">  </span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: setup</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">warning=</span><span class="cn">FALSE</span>,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>                      <span class="at">message=</span><span class="cn">FALSE</span>)</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(visNetwork)</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="fu"># Reading Data</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataset</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> CollegePlaying</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="co">#First 6 rows of the dataset</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(df),<span class="at">caption =</span> <span class="st">"First 6 rows of Dataset"</span>)</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a><span class="fu"># Constructing Network</span></span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a><span class="co"># years having attended more than 300</span></span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>ylist <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1985</span>,<span class="dv">1986</span>,<span class="dv">1987</span>,<span class="dv">1988</span>,<span class="dv">1989</span>,<span class="dv">1990</span>)</span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph.data.frame</span>(df[df<span class="sc">$</span>yearID <span class="sc">%in%</span> ylist,],<span class="at">directed =</span> T)</span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>type <span class="ot">&lt;-</span> <span class="fu">V</span>(g)<span class="sc">$</span>name <span class="sc">%in%</span> df[df<span class="sc">$</span>yearID <span class="sc">%in%</span> ylist,<span class="dv">1</span>]</span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a>g</span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## Get the Largest Component</span></span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a><span class="co"># GEt the largest component</span></span>
+<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a>components <span class="ot">&lt;-</span> <span class="fu">clusters</span>(g, <span class="at">mode=</span><span class="st">"weak"</span>)</span>
+<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a>biggest_cluster_id <span class="ot">&lt;-</span> <span class="fu">which.max</span>(components<span class="sc">$</span>csize)</span>
+<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a><span class="co"># ids</span></span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a>vert_ids <span class="ot">&lt;-</span> <span class="fu">V</span>(g)[components<span class="sc">$</span>membership <span class="sc">==</span> biggest_cluster_id]</span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a><span class="co"># subgraph</span></span>
+<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(g, vert_ids)</span>
+<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-73"><a href="#cb27-73" aria-hidden="true" tabindex="-1"></a><span class="fu"># Network Plot</span></span>
+<span id="cb27-76"><a href="#cb27-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-77"><a href="#cb27-77" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">V</span>(g)<span class="sc">$</span>type,<span class="st">"Player"</span>,<span class="st">"School"</span>)</span>
+<span id="cb27-78"><a href="#cb27-78" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">title =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">group =</span> grp)</span>
+<span id="cb27-79"><a href="#cb27-79" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">get.data.frame</span>(g, <span class="at">what=</span><span class="st">"edges"</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb27-80"><a href="#cb27-80" aria-hidden="true" tabindex="-1"></a>vis.nodes <span class="ot">&lt;-</span> nodes</span>
+<span id="cb27-81"><a href="#cb27-81" aria-hidden="true" tabindex="-1"></a>vis.links <span class="ot">&lt;-</span> edges</span>
+<span id="cb27-82"><a href="#cb27-82" aria-hidden="true" tabindex="-1"></a><span class="co">#giving some styles to nodes and edges</span></span>
+<span id="cb27-83"><a href="#cb27-83" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># Nodes will drop shadow</span></span>
+<span id="cb27-84"><a href="#cb27-84" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>label  <span class="ot">&lt;-</span> vis.nodes<span class="sc">$</span>id <span class="co"># Node label</span></span>
+<span id="cb27-85"><a href="#cb27-85" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>size   <span class="ot">&lt;-</span> <span class="fu">degree</span>(g)<span class="sc">+</span><span class="dv">20</span> <span class="co"># Node size</span></span>
+<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>borderWidth <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Node border width</span></span>
+<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gray"</span>    <span class="co"># line color  </span></span>
+<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>smooth <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># should the edges be curved?</span></span>
+<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># edge shadow</span></span>
+<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a>visnet3 <span class="ot">=</span> <span class="fu">visNetwork</span>(vis.nodes, vis.links, <span class="at">main =</span> <span class="st">"Network of Player Attending School"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">solver =</span> <span class="st">"forceAtlas2Based"</span>,</span>
+<span id="cb27-92"><a href="#cb27-92" aria-hidden="true" tabindex="-1"></a>             <span class="at">forceAtlas2Based =</span> <span class="fu">list</span>(<span class="at">gravitationalConstant =</span> <span class="sc">-</span><span class="dv">100</span>))</span>
+<span id="cb27-93"><a href="#cb27-93" aria-hidden="true" tabindex="-1"></a><span class="fu">visLegend</span>(visnet3,<span class="at">main =</span> <span class="st">"Groups"</span>)</span>
+<span id="cb27-94"><a href="#cb27-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-96"><a href="#cb27-96" aria-hidden="true" tabindex="-1"></a><span class="fu"># Network Stats</span></span>
+<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a><span class="do">################################## Network Stats ##################################</span></span>
+<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a>mx_cliq <span class="ot">&lt;-</span> <span class="fu">clique.number</span>(g)</span>
+<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Measure =</span> <span class="fu">c</span>(<span class="st">"Nodes"</span>,<span class="st">"Edges"</span>,<span class="st">"Radius"</span>,<span class="st">"Diameter"</span>,</span>
+<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Reciprocity"</span>,<span class="st">"Average Degree"</span>,</span>
+<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Density"</span>,<span class="st">"Number of Clusters"</span>,</span>
+<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Largest Clique Size"</span>,<span class="st">"Number of Largest Cliques"</span>,</span>
+<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Average Shortest Path"</span>,<span class="st">"Clustering Coefficient"</span>,</span>
+<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Number of Cores"</span>,<span class="st">"Number of Triangles"</span>),</span>
+<span id="cb27-109"><a href="#cb27-109" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Value =</span> <span class="fu">c</span>(<span class="fu">vcount</span>(g),<span class="fu">ecount</span>(g),</span>
+<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">radius</span>(g),</span>
+<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">diameter</span>(g),</span>
+<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">reciprocity</span>(g),</span>
+<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">mean</span>(<span class="fu">degree</span>(g,<span class="at">mode =</span> <span class="st">"all"</span>)),</span>
+<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">graph.density</span>(g),</span>
+<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">clusters</span>(g)<span class="sc">$</span>no,mx_cliq,</span>
+<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">length</span>(<span class="fu">cliques</span>(<span class="fu">as.undirected</span>(g),<span class="at">min =</span> mx_cliq)),</span>
+<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">average.path.length</span>(g),</span>
+<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">transitivity</span>(g),</span>
+<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">coreness</span>(g))),</span>
+<span id="cb27-120"><a href="#cb27-120" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">length</span>(<span class="fu">triangles</span>(g))))</span>
+<span id="cb27-121"><a href="#cb27-121" aria-hidden="true" tabindex="-1"></a>k<span class="sc">$</span>Value <span class="ot">&lt;-</span> <span class="fu">round</span>(k<span class="sc">$</span>Value,<span class="dv">5</span>)</span>
+<span id="cb27-122"><a href="#cb27-122" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(k,<span class="at">caption =</span> <span class="st">"Player's Atending School Network Stats"</span>)</span>
+<span id="cb27-123"><a href="#cb27-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-124"><a href="#cb27-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-125"><a href="#cb27-125" aria-hidden="true" tabindex="-1"></a><span class="fu">## Degree Distibution</span></span>
+<span id="cb27-128"><a href="#cb27-128" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-129"><a href="#cb27-129" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(degree.distribution(g), col="red") #Plot degree distribution</span></span>
+<span id="cb27-130"><a href="#cb27-130" aria-hidden="true" tabindex="-1"></a>ddist <span class="ot">&lt;-</span> <span class="fu">degree_distribution</span>(g, <span class="at">mode=</span><span class="st">"all"</span>, <span class="at">cumulative=</span><span class="cn">TRUE</span>)</span>
+<span id="cb27-131"><a href="#cb27-131" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ddist,<span class="at">col=</span><span class="st">"violet"</span>,<span class="at">xlab=</span><span class="st">"DEGREE"</span>,<span class="at">ylab=</span><span class="st">"DIST"</span>, <span class="at">main=</span><span class="st">"The Degree Distribution"</span>, <span class="at">pch=</span><span class="dv">19</span>)</span>
+<span id="cb27-132"><a href="#cb27-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-133"><a href="#cb27-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-134"><a href="#cb27-134" aria-hidden="true" tabindex="-1"></a><span class="fu"># Community Detection</span></span>
+<span id="cb27-135"><a href="#cb27-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-138"><a href="#cb27-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-139"><a href="#cb27-139" aria-hidden="true" tabindex="-1"></a>wk <span class="ot">&lt;-</span> <span class="fu">walktrap.community</span>(g)</span>
+<span id="cb27-140"><a href="#cb27-140" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> wk<span class="sc">$</span>membership</span>
+<span id="cb27-141"><a href="#cb27-141" aria-hidden="true" tabindex="-1"></a>nodes <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">title =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name, <span class="at">group =</span> grp)</span>
+<span id="cb27-142"><a href="#cb27-142" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">get.data.frame</span>(g, <span class="at">what=</span><span class="st">"edges"</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb27-143"><a href="#cb27-143" aria-hidden="true" tabindex="-1"></a>vis.nodes <span class="ot">&lt;-</span> nodes</span>
+<span id="cb27-144"><a href="#cb27-144" aria-hidden="true" tabindex="-1"></a>vis.links <span class="ot">&lt;-</span> edges</span>
+<span id="cb27-145"><a href="#cb27-145" aria-hidden="true" tabindex="-1"></a><span class="co">#giving some styles to nodes and edges</span></span>
+<span id="cb27-146"><a href="#cb27-146" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># Nodes will drop shadow</span></span>
+<span id="cb27-147"><a href="#cb27-147" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>label  <span class="ot">&lt;-</span> vis.nodes<span class="sc">$</span>id <span class="co"># Node label</span></span>
+<span id="cb27-148"><a href="#cb27-148" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>size   <span class="ot">&lt;-</span> <span class="fu">degree</span>(g)<span class="sc">+</span><span class="dv">20</span> <span class="co"># Node size</span></span>
+<span id="cb27-149"><a href="#cb27-149" aria-hidden="true" tabindex="-1"></a>vis.nodes<span class="sc">$</span>borderWidth <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="co"># Node border width</span></span>
+<span id="cb27-150"><a href="#cb27-150" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"gray"</span>    <span class="co"># line color  </span></span>
+<span id="cb27-151"><a href="#cb27-151" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>smooth <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># should the edges be curved?</span></span>
+<span id="cb27-152"><a href="#cb27-152" aria-hidden="true" tabindex="-1"></a>vis.links<span class="sc">$</span>shadow <span class="ot">&lt;-</span> <span class="cn">FALSE</span>    <span class="co"># edge shadow</span></span>
+<span id="cb27-153"><a href="#cb27-153" aria-hidden="true" tabindex="-1"></a>visnet3 <span class="ot">=</span> <span class="fu">visNetwork</span>(vis.nodes, vis.links, <span class="at">main =</span> <span class="st">"Walk Trap : Network of Player Attending School"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-154"><a href="#cb27-154" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">solver =</span> <span class="st">"forceAtlas2Based"</span>,</span>
+<span id="cb27-155"><a href="#cb27-155" aria-hidden="true" tabindex="-1"></a>             <span class="at">forceAtlas2Based =</span> <span class="fu">list</span>(<span class="at">gravitationalConstant =</span> <span class="sc">-</span><span class="dv">100</span>))</span>
+<span id="cb27-156"><a href="#cb27-156" aria-hidden="true" tabindex="-1"></a><span class="fu">visLegend</span>(visnet3,<span class="at">main =</span> <span class="st">"Communities"</span>)</span>
+<span id="cb27-157"><a href="#cb27-157" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-158"><a href="#cb27-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-159"><a href="#cb27-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-160"><a href="#cb27-160" aria-hidden="true" tabindex="-1"></a><span class="fu"># Centralities </span></span>
+<span id="cb27-163"><a href="#cb27-163" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-164"><a href="#cb27-164" aria-hidden="true" tabindex="-1"></a>Top10Schools_Degree <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-165"><a href="#cb27-165" aria-hidden="true" tabindex="-1"></a>Top10Players_Degree <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-166"><a href="#cb27-166" aria-hidden="true" tabindex="-1"></a>Top10_Bonachic <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">power_centrality</span>(g),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-167"><a href="#cb27-167" aria-hidden="true" tabindex="-1"></a>Top10_Eigen <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">eigen_centrality</span>(g)<span class="sc">$</span>vector,<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-168"><a href="#cb27-168" aria-hidden="true" tabindex="-1"></a>Top10_Betweenness <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">betweenness</span>(<span class="fu">as.undirected</span>(g)),<span class="at">decreasing =</span> T))[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-169"><a href="#cb27-169" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Top10Schools_Degree,</span>
+<span id="cb27-170"><a href="#cb27-170" aria-hidden="true" tabindex="-1"></a>                 Top10Players_Degree,</span>
+<span id="cb27-171"><a href="#cb27-171" aria-hidden="true" tabindex="-1"></a>                 Top10_Bonachic,</span>
+<span id="cb27-172"><a href="#cb27-172" aria-hidden="true" tabindex="-1"></a>                 Top10_Eigen,</span>
+<span id="cb27-173"><a href="#cb27-173" aria-hidden="true" tabindex="-1"></a>                 Top10_Betweenness)</span>
+<span id="cb27-174"><a href="#cb27-174" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(df,<span class="at">caption =</span> <span class="st">"Top 10 nodes (Players &amp; Schools) by Centralities"</span>)</span>
+<span id="cb27-175"><a href="#cb27-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-176"><a href="#cb27-176" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Schools with value by Degree</span></span>
+<span id="cb27-177"><a href="#cb27-177" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"in"</span>),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-178"><a href="#cb27-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-179"><a href="#cb27-179" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Players with value by Degree</span></span>
+<span id="cb27-180"><a href="#cb27-180" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">degree</span>(g, <span class="at">mode =</span> <span class="st">"out"</span>),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-181"><a href="#cb27-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-182"><a href="#cb27-182" aria-hidden="true" tabindex="-1"></a><span class="co">#Top Nodes with values by Bonachic Centrality</span></span>
+<span id="cb27-183"><a href="#cb27-183" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">power_centrality</span>(g),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-184"><a href="#cb27-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-185"><a href="#cb27-185" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Nodes with values by Eigen</span></span>
+<span id="cb27-186"><a href="#cb27-186" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">eigen_centrality</span>(g)<span class="sc">$</span>vector,<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-187"><a href="#cb27-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-188"><a href="#cb27-188" aria-hidden="true" tabindex="-1"></a><span class="co">#Top 10 Nodes with values by Betweenness</span></span>
+<span id="cb27-189"><a href="#cb27-189" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">betweenness</span>(<span class="fu">as.undirected</span>(g)),<span class="at">decreasing =</span> T)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb27-190"><a href="#cb27-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-191"><a href="#cb27-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-192"><a href="#cb27-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-193"><a href="#cb27-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-194"><a href="#cb27-194" aria-hidden="true" tabindex="-1"></a><span class="fu"># Network models </span></span>
+<span id="cb27-195"><a href="#cb27-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include=FALSE}</span></span>
+<span id="cb27-196"><a href="#cb27-196" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>Degree <span class="ot">&lt;-</span> <span class="fu">degree</span>(g)</span>
+<span id="cb27-197"><a href="#cb27-197" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>Eigen <span class="ot">&lt;-</span> <span class="fu">eigen_centrality</span>(g)<span class="sc">$</span>vector</span>
+<span id="cb27-198"><a href="#cb27-198" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g)<span class="sc">$</span>Com <span class="ot">&lt;-</span> wk<span class="sc">$</span>membership</span>
+<span id="cb27-199"><a href="#cb27-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-200"><a href="#cb27-200" aria-hidden="true" tabindex="-1"></a>rg <span class="ot">&lt;-</span> <span class="fu">sample_gnp</span>(<span class="at">n=</span><span class="dv">245</span>, <span class="at">p=</span><span class="fl">0.00721</span>)</span>
+<span id="cb27-201"><a href="#cb27-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-202"><a href="#cb27-202" aria-hidden="true" tabindex="-1"></a><span class="fu">detach</span>(package<span class="sc">:</span>igraph)</span>
+<span id="cb27-203"><a href="#cb27-203" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sna)</span>
+<span id="cb27-204"><a href="#cb27-204" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(intergraph)</span>
+<span id="cb27-205"><a href="#cb27-205" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ergm)</span>
+<span id="cb27-206"><a href="#cb27-206" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(statnet)</span>
+<span id="cb27-207"><a href="#cb27-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-208"><a href="#cb27-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-211"><a href="#cb27-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-212"><a href="#cb27-212" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">asNetwork</span>(g)</span>
+<span id="cb27-213"><a href="#cb27-213" aria-hidden="true" tabindex="-1"></a><span class="co">#basic ERGM model</span></span>
+<span id="cb27-214"><a href="#cb27-214" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">ergm</span>(g <span class="sc">~</span> edges)</span>
+<span id="cb27-215"><a href="#cb27-215" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span>
+<span id="cb27-216"><a href="#cb27-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-217"><a href="#cb27-217" aria-hidden="true" tabindex="-1"></a><span class="co">#with node level attributes</span></span>
+<span id="cb27-218"><a href="#cb27-218" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">ergm</span>(g <span class="sc">~</span> edges </span>
+<span id="cb27-219"><a href="#cb27-219" aria-hidden="true" tabindex="-1"></a>           <span class="sc">+</span> <span class="fu">nodecov</span>(<span class="st">"Eigen"</span>) </span>
+<span id="cb27-220"><a href="#cb27-220" aria-hidden="true" tabindex="-1"></a>           <span class="sc">+</span> <span class="fu">nodecov</span>(<span class="st">"Degree"</span>)) </span>
+<span id="cb27-221"><a href="#cb27-221" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span>
+<span id="cb27-222"><a href="#cb27-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-223"><a href="#cb27-223" aria-hidden="true" tabindex="-1"></a><span class="co"># the odds ratio for each term. </span></span>
+<span id="cb27-224"><a href="#cb27-224" aria-hidden="true" tabindex="-1"></a>or <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">coef</span>(m1))  </span>
+<span id="cb27-225"><a href="#cb27-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-226"><a href="#cb27-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-227"><a href="#cb27-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-228"><a href="#cb27-228" aria-hidden="true" tabindex="-1"></a><span class="fu"># CUG test</span></span>
+<span id="cb27-229"><a href="#cb27-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-232"><a href="#cb27-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb27-233"><a href="#cb27-233" aria-hidden="true" tabindex="-1"></a><span class="co">#CuG test on the network using mode size</span></span>
+<span id="cb27-234"><a href="#cb27-234" aria-hidden="true" tabindex="-1"></a>ctest <span class="ot">&lt;-</span> <span class="fu">cug.test</span>(g,</span>
+<span id="cb27-235"><a href="#cb27-235" aria-hidden="true" tabindex="-1"></a>         centralization,</span>
+<span id="cb27-236"><a href="#cb27-236" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUN.arg=</span><span class="fu">list</span>(<span class="at">FUN=</span>degree), </span>
+<span id="cb27-237"><a href="#cb27-237" aria-hidden="true" tabindex="-1"></a>         <span class="at">mode=</span><span class="st">"graph"</span>, </span>
+<span id="cb27-238"><a href="#cb27-238" aria-hidden="true" tabindex="-1"></a>         <span class="at">cmode=</span><span class="st">"size"</span>)</span>
+<span id="cb27-239"><a href="#cb27-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-240"><a href="#cb27-240" aria-hidden="true" tabindex="-1"></a><span class="co">#CuG test on the network using mode dyad.census</span></span>
+<span id="cb27-241"><a href="#cb27-241" aria-hidden="true" tabindex="-1"></a>ctest2 <span class="ot">&lt;-</span> <span class="fu">cug.test</span>(g,</span>
+<span id="cb27-242"><a href="#cb27-242" aria-hidden="true" tabindex="-1"></a>         centralization,</span>
+<span id="cb27-243"><a href="#cb27-243" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUN.arg=</span><span class="fu">list</span>(<span class="at">FUN=</span>degree), </span>
+<span id="cb27-244"><a href="#cb27-244" aria-hidden="true" tabindex="-1"></a>         <span class="at">mode=</span><span class="st">"graph"</span>, </span>
+<span id="cb27-245"><a href="#cb27-245" aria-hidden="true" tabindex="-1"></a>         <span class="at">cmode=</span><span class="st">"dyad.census"</span>)</span>
+<span id="cb27-246"><a href="#cb27-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-247"><a href="#cb27-247" aria-hidden="true" tabindex="-1"></a><span class="co">#CuG test on the network using mode edges</span></span>
+<span id="cb27-248"><a href="#cb27-248" aria-hidden="true" tabindex="-1"></a>ctest3 <span class="ot">&lt;-</span> <span class="fu">cug.test</span>(g,</span>
+<span id="cb27-249"><a href="#cb27-249" aria-hidden="true" tabindex="-1"></a>         centralization,</span>
+<span id="cb27-250"><a href="#cb27-250" aria-hidden="true" tabindex="-1"></a>         <span class="at">FUN.arg=</span><span class="fu">list</span>(<span class="at">FUN=</span>degree), </span>
+<span id="cb27-251"><a href="#cb27-251" aria-hidden="true" tabindex="-1"></a>         <span class="at">mode=</span><span class="st">"graph"</span>, </span>
+<span id="cb27-252"><a href="#cb27-252" aria-hidden="true" tabindex="-1"></a>         <span class="at">cmode=</span><span class="st">"edges"</span>)</span>
+<span id="cb27-253"><a href="#cb27-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-254"><a href="#cb27-254" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb27-255"><a href="#cb27-255" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctest, <span class="at">main=</span><span class="st">"Degree </span><span class="sc">\n</span><span class="st">Conditioned on Size"</span> )</span>
+<span id="cb27-256"><a href="#cb27-256" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctest3, <span class="at">main=</span><span class="st">"Degree </span><span class="sc">\n</span><span class="st">Conditioned on Edges"</span> )</span>
+<span id="cb27-257"><a href="#cb27-257" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ctest2, <span class="at">main=</span><span class="st">"Degree </span><span class="sc">\n</span><span class="st">Conditioned on Dyads"</span> )</span>
+<span id="cb27-258"><a href="#cb27-258" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb27-259"><a href="#cb27-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb27-260"><a href="#cb27-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-261"><a href="#cb27-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-262"><a href="#cb27-262" aria-hidden="true" tabindex="-1"></a></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

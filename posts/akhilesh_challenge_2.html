@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Akhilesh Kumar">
+<meta name="dcterms.date" content="2023-03-27">
+<meta name="description" content="Describing the Basic Structure of a Network">
+
+<title>Week 2 Challenge Submission</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/DACSS_Round_Network.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<meta name="twitter:title" content="Week 2 Challenge Submission">
+<meta name="twitter:description" content="Describing the Basic Structure of a Network">
+<meta name="twitter:image" content="https://dacss.github.io/Social_Networks_Spring_2023/posts/akhilesh_challenge_2_files/figure-html/unnamed-chunk-5-1.png">
+<meta name="twitter:creator" content="@UMassDACSS">
+<meta name="twitter:site" content="@UMassDACSS">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../images/UMass White Wordmark Horiz.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="true"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target="">
+ <span class="menu-text">Spring 2023 Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html" rel="" target="">
+ <span class="menu-text">Contributors</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://umass.edu/sbs/dacss" rel="" target="">
+ <span class="menu-text">DACSS</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://dacss.github.io/Social_Networks_Spring_2023/" rel="" target=""><i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#challenge-overview" id="toc-challenge-overview" class="nav-link active" data-scroll-target="#challenge-overview">Challenge Overview</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data-read-and-negative-edge-normalization" id="toc-data-read-and-negative-edge-normalization" class="nav-link" data-scroll-target="#data-read-and-negative-edge-normalization">Data Read and Negative Edge Normalization</a>
+  <ul class="collapse">
+  <li><a href="#network-size-features-and-attributes" id="toc-network-size-features-and-attributes" class="nav-link" data-scroll-target="#network-size-features-and-attributes">Network Size, Features and Attributes</a></li>
+  <li><a href="#dyad-and-triad-census" id="toc-dyad-and-triad-census" class="nav-link" data-scroll-target="#dyad-and-triad-census">Dyad and Triad Census</a></li>
+  <li><a href="#global-and-local-transitivity-or-clustering" id="toc-global-and-local-transitivity-or-clustering" class="nav-link" data-scroll-target="#global-and-local-transitivity-or-clustering">Global and Local Transitivity or Clustering</a></li>
+  <li><a href="#path-length-and-component-structure" id="toc-path-length-and-component-structure" class="nav-link" data-scroll-target="#path-length-and-component-structure">Path Length and Component Structure</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 2 Challenge Submission</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">challenge Overview</div>
+    <div class="quarto-category">Describe the Network Data - Introduction - Objective - Data Read and Negative Edge Normalization - Network Size, Features and Attributes</div>
+    <div class="quarto-category">Dyad and Triad Census</div>
+    <div class="quarto-category">Global and Local Transitivity or Clustering</div>
+    <div class="quarto-category">Path Length and Component Structure</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Describing the Basic Structure of a Network
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Akhilesh Kumar </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 27, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'igraph'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    decompose, spectrum</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:base':
+
+    union</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'tidyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:igraph':
+
+    crossing</code></pre>
+</div>
+</div>
+<section id="challenge-overview" class="level2">
+<h2 class="anchored" data-anchor-id="challenge-overview">Challenge Overview</h2>
+<p>Describe the basic structure of a network following the steps in tutorial of week 2, this time using a dataset of your choice: for instance, you could use Marriages in Game of Thrones or Like/Dislike from week 1.</p>
+<p>Another more complex option is the newly added dataset of the US input-output table of direct requirements by industry, availabe in the Bureau of Economic Analysis. Input-output tables show the economic transactions between industries of an economy and thus can be understood as a directed adjacency matrix. Data is provided in the form of an <code>XLSX</code> file, so using <code>read_xlsx</code> from package <code>readxl</code> is recommended, including the <code>sheet</code> as an argument (<code>2012</code> for instance).</p>
+<p>Identify and describe content of nodes and links, and identify format of data set (i.e., matrix or edgelist, directed or not, weighted or not), and whether attribute data are present. Be sure to provide information about network size (e.g., information obtained from network description using week 1 network basic tutorial commands.)</p>
+<p>Explore the dataset using commands from week 2 tutorial. Comment on the highlighted aspects of network structure such as:</p>
+<ul>
+<li>Geodesic and Path Distances; Path Length</li>
+<li>Dyads and Dyad Census</li>
+<li>Triads and Triad Census</li>
+<li>Network Transitivity and Clustering</li>
+<li>Component Structure and Membership</li>
+</ul>
+<p>Be sure to both provide the relevant statistics calculated in <code>R</code>, as well as your own interpretation of these statistics.</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This Network Analysis project delves into the relationships between characters in the widely popular TV show “Game of Thrones” through the lens of graph theory and network analysis techniques. The data set utilized in this project provides information on character likes and dislikes, which is then transformed into a network of relationships between characters, providing a unique perspective on the web of character relationships in the show.</p>
+<p>The main objective of this data analysis project is to gain a better understanding of the character relationships in the show.</p>
+</section>
+<section id="data-read-and-negative-edge-normalization" class="level1">
+<h1>Data Read and Negative Edge Normalization</h1>
+<p>The first section of the project involves reading in the data from a CSV file and selecting relevant columns for analysis. The resulting data frame is converted into a matrix and normalized to address the negative weights of dislikes. The normalized matrix is then used to create an undirected, weighted graph using the igraph package.</p>
+<p>The resulting network graph contains nodes representing characters and edges representing the weighted connections between them based on their likes and dislikes. The graph can be further analyzed to identify dyads, triads, clustering, geodesic distance, and component structure within the network.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'_data</span><span class="sc">\\</span><span class="st">got</span><span class="sc">\\</span><span class="st">got_like_dislike.csv'</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data[,<span class="dv">4</span><span class="sc">:</span><span class="fu">ncol</span>(data)]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the data frame to matrix</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>adj_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(data)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize the matrix to manage negative weights of dislikes:</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>normalized_adj_matrix <span class="ot">&lt;-</span> (adj_matrix <span class="sc">+</span> <span class="dv">10</span>) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>normalized_adj_matrix[normalized_adj_matrix <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a graph object from the normalized adjacency matrix</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>graph.ig <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(normalized_adj_matrix, <span class="at">mode =</span> <span class="st">"undirected"</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># List the objects to verify that datafiles are working properly</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "adj_matrix"            "data"                  "graph.ig"             
+[4] "normalized_adj_matrix"</code></pre>
+</div>
+</div>
+<section id="network-size-features-and-attributes" class="level2">
+<h2 class="anchored" data-anchor-id="network-size-features-and-attributes">Network Size, Features and Attributes</h2>
+<p>The “got_like_dislike” network consists of 46 nodes, which represent characters, and 589 edges, which represent the likes and dislikes between the characters. The edges are weighted, meaning that each edge has a value that indicates the strength of the like or dislike relationship between the characters. The network is not bipartite, meaning that all nodes are of the same type, in this case, characters. Additionally, the network is undirected, indicating that the likes and dislikes are mutual between the characters.</p>
+<p>Based on the range of edge weights, it seems like the likes and dislikes between characters are relatively consistent in strength, with edge weights ranging from 0.5 to 1.5. The mean and median edge weights of 0.939219 and 0.9, respectively. The highest weighted edge is 1.5, suggesting an strong like relationship between characters, whereas 0.5 is the lowest weighted edge, suggesting an strong dislike relationship between characters</p>
+<p>The analysis also shows that each node has a “name” attribute, which corresponds to the name of the character it represents. The names of all the characters are listed in the output. Additionally, each edge has a “weight” attribute, which corresponds to the strength of the relationship between the characters connected by the edge. The weights of all the edges are listed in the output.</p>
+<p>This analysis provides useful insights into the relationships between the characters in the GoT TV series. By studying the weights of the edges, it is possible to identify the characters who have the strongest relationships and those who have the weakest relationships.</p>
+<p>The output shows that:</p>
+<ul>
+<li>The network got_like_dislike has 46 nodes and 589 edges.</li>
+<li>The network is not bipartite.</li>
+<li>The network is not directed.</li>
+<li>The network has weighted edges.</li>
+<li>The only vertex attribute in the network is name, which gives the names of all the nodes.</li>
+<li>The names of all the nodes in the network are shown in the output.</li>
+<li>The only edge attribute in the network is weight, which gives the weights of all the edges.</li>
+</ul>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of vertices in got_like_dislike network:</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vcount</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 46</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of edges in got_like_dislike network:</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 589</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bipartite or single mode network verification in got_like_dislike network:</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is_bipartite</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Directed or undirected edges verification in got_like_dislike network</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is_directed</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Weighted or unweighted edges verification in got_like_dislike network</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is_weighted</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is Connected verification in got_like_dislike network</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is_connected</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex attributes for got_like_dislike network</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vertex_attr_names</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "name"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex attribute, Nodes in got_like_dislike network:</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(graph.ig)<span class="sc">$</span>name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Lysa.Arryn"            "Petyr.Baelish"         "Joffrey.Baratheon"    
+ [4] "Margaery.Tyrell"       "Renly.Baratheon"       "Robert.Baratheon"     
+ [7] "Stannis.Baratheon"     "Brienne.of.Tarth"      "Bronn"                
+[10] "Gregor.Clegane"        "Sandor.Clegane"        "Xaro.Xhoan.Daxos"     
+[13] "Gendry"                "Balon.Greyjoy"         "Theon.Greyjoy"        
+[16] "Jaqen.H.ghar"          "Hodor"                 "Khal.Drogo"           
+[19] "Cersei.Lannister"      "Jaime.Lannister"       "Lancel.Lannister"     
+[22] "Tyrion.Lannister"      "Tywin.Lannister"       "Maester.Luwin"        
+[25] "Melisandre"            "Jeor.Mormont"          "Jorah.Mormont"        
+[28] "Osha"                  "Podrick.Payne"         "Pyat.Pree"            
+[31] "Grand.Maester.Pycelle" "Ros"                   "Davos.Seaworth"       
+[34] "Shae"                  "Jon.Snow"              "Arya.Stark"           
+[37] "Bran.Stark"            "Catelyn.Stark"         "Robb.Stark"           
+[40] "Sansa.Stark"           "Daenerys.Targaryen"    "Viserys.Targaryen"    
+[43] "Samwell.Tarly"         "Loras.Tyrell"          "Varys"                
+[46] "Eddard.Stark"         </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge attributes for got_like_dislike network:</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">edge_attr_names</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "weight"</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge attribute, Edges with weights in got_like_dislike network:</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1.3 1.2 1.1 0.9 0.9 1.2 0.9 0.9 0.9 0.9 0.9 1.1 1.1 1.2 1.2 1.3 1.2 1.2
+ [19] 1.3 0.9 1.1 0.8 1.1 0.9 0.9 0.9 0.9 0.9 0.8 0.8 0.9 0.8 0.9 0.9 0.8 0.9
+ [37] 1.1 1.1 1.5 1.3 0.9 1.1 0.9 0.9 1.4 0.7 1.4 0.5 0.7 0.9 1.3 1.4 0.5 0.8
+ [55] 0.7 0.9 0.9 1.5 1.4 1.1 0.8 1.3 0.9 0.6 0.7 0.8 0.9 0.9 0.5 0.8 0.9 0.9
+ [73] 0.9 0.9 0.7 0.5 0.9 0.5 0.7 1.2 0.9 0.5 1.5 0.6 0.7 0.9 0.9 1.1 0.5 0.9
+ [91] 0.8 1.2 1.1 0.9 0.9 1.3 0.6 0.8 0.9 0.9 0.8 0.9 0.9 0.9 0.9 0.8 0.9 0.5
+[109] 0.7 1.5 1.3 0.5 1.5 0.9 0.8 0.8 0.6 0.9 0.7 0.5 0.6 0.7 0.9 0.8 0.5 1.1
+[127] 0.5 0.8 0.9 0.9 0.7 0.9 1.2 1.2 1.3 1.2 1.2 0.5 0.7 1.5 0.9 1.1 1.2 0.9
+[145] 1.5 0.9 1.4 1.3 0.6 1.3 0.9 1.1 1.1 1.2 0.7 0.8 1.1 1.2 0.9 1.2 1.4 1.4
+[163] 1.5 1.5 1.4 0.5 0.7 0.8 1.5 0.8 0.8 0.7 0.6 0.5 0.8 0.5 0.9 0.5 0.6 0.8
+[181] 0.7 0.5 1.5 0.6 0.8 0.8 0.7 1.5 0.8 0.8 0.8 0.6 0.5 0.8 0.5 0.7 0.5 0.8
+[199] 0.9 0.8 0.7 0.6 0.5 1.3 0.5 0.5 0.8 0.6 0.5 1.3 0.6 0.7 1.2 0.9 0.9 0.7
+[217] 0.7 1.1 1.4 1.4 1.5 1.3 1.4 0.5 1.3 0.9 0.8 0.5 0.9 0.9 0.9 0.7 0.7 0.9
+[235] 1.5 0.6 0.9 0.9 1.5 0.7 0.8 1.5 0.8 0.8 1.1 0.8 0.8 0.9 0.8 0.9 0.5 0.7
+[253] 0.5 0.6 1.2 1.2 0.8 1.5 0.8 0.8 0.9 0.9 0.9 0.9 0.7 0.7 0.6 0.6 0.6 0.7
+[271] 0.9 0.8 0.9 0.8 0.7 1.2 1.1 0.8 1.3 0.8 0.9 0.8 0.9 0.9 0.8 0.7 1.5 0.5
+[289] 0.9 1.2 1.4 0.7 1.3 1.2 0.5 0.6 0.8 0.5 1.2 0.7 1.5 1.2 0.8 0.9 1.3 1.3
+[307] 0.7 0.8 0.9 0.8 0.7 0.8 0.9 0.5 0.9 0.9 0.9 0.8 0.9 0.9 0.6 0.5 0.8 0.7
+[325] 0.9 0.5 0.5 0.6 0.7 0.9 0.7 0.6 0.5 0.8 0.9 1.1 0.8 0.9 1.3 0.9 0.8 0.6
+[343] 0.5 0.6 0.6 0.8 0.7 0.9 0.9 0.9 1.3 1.3 0.9 0.9 0.9 0.7 1.1 1.5 1.1 1.5
+[361] 1.1 1.1 1.1 1.1 0.7 0.8 0.9 0.7 1.5 1.5 1.4 1.5 1.5 1.5 1.5 1.4 1.4 0.7
+[379] 0.8 0.9 0.7 1.4 0.8 1.5 0.6 1.5 1.5 0.6 1.4 0.7 0.7 0.8 1.2 1.1 0.8 0.7
+[397] 0.8 0.9 0.9 0.6 0.5 1.1 0.5 0.7 0.8 1.2 0.6 1.2 1.2 1.4 0.9 0.9 1.2 0.9
+[415] 0.9 0.8 0.5 0.5 0.6 0.8 0.9 0.5 0.9 1.2 0.9 0.8 0.9 0.5 0.7 0.9 1.5 1.2
+[433] 1.5 1.5 0.9 0.9 1.3 0.9 0.9 0.9 1.2 0.9 0.6 0.7 1.2 0.8 0.8 0.9 0.9 0.9
+[451] 0.5 0.5 0.5 0.7 1.1 1.3 1.5 1.5 1.5 1.5 1.5 1.5 1.5 0.7 0.9 0.8 0.9 0.9
+[469] 0.5 0.5 0.8 0.6 0.7 0.7 0.5 1.3 1.5 1.2 1.3 1.1 0.5 0.8 0.9 0.9 0.7 0.7
+[487] 0.9 1.5 0.9 0.9 0.8 0.9 0.9 1.2 1.2 1.5 1.3 1.2 1.1 0.8 0.9 0.7 0.8 1.2
+[505] 0.8 1.1 0.7 1.4 0.8 0.8 1.3 0.7 0.9 0.8 0.5 1.1 0.9 0.9 0.8 0.7 0.7 0.9
+[523] 0.9 0.7 0.9 1.3 0.9 0.9 0.8 0.8 0.7 0.7 0.9 0.7 0.9 0.8 1.5 1.5 0.9 1.5
+[541] 1.5 1.5 1.5 1.5 1.5 1.5 1.5 0.9 0.9 1.1 0.9 0.5 1.5 1.5 1.5 1.5 0.9 0.9
+[559] 1.1 0.9 0.5 1.5 1.4 1.5 0.6 0.9 0.9 0.5 1.5 1.5 0.5 0.7 1.1 0.6 0.5 1.5
+[577] 0.7 0.9 1.1 0.9 0.9 1.5 1.2 0.7 0.8 0.9 1.1 0.9 0.5</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># maximum weight of the edges in got_like_dislike network:</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.5</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># minimum weight of the edges in got_like_dislike network:</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mean &amp; median weight of the edges in got_like_dislike network:</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.939219</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9</code></pre>
+</div>
+</div>
+</section>
+<section id="dyad-and-triad-census" class="level2">
+<h2 class="anchored" data-anchor-id="dyad-and-triad-census">Dyad and Triad Census</h2>
+<p>The first analysis calculates the dyad census, which classifies all possible pairs of nodes in the network into three categories: mutual ties (where both nodes like each other), asymmetric ties (where one node likes the other but not vice versa), and null ties (where neither node likes the other). In this case, there were 589 mutual ties and 446 null ties, and no asymmetric ties.</p>
+<p>The triad census counts the number of each possible combination of three nodes in a network, which are called triads. The function returns a vector with 16 values, each corresponding to the count of a particular triad type. In this case, there are 1780 triads of type 003, 4945 triads of type 012, 4394 triads of type 102, and 4061 triads of type 021D.</p>
+<p>Finally, the code sums up the total number of triads returned by the triad census, which is 15180. This provides an overall picture of the patterns of relationships between nodes in the network.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Classify all Dyads in the got_like_dislike network: igraph</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">dyad.census</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$mut
+[1] 589
+
+$asym
+[1] 0
+
+$null
+[1] 446</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Classify all Triads in the got_like_dislike Network: igraph</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">triad_census</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in igraph::triad_census(graph.ig): At core/misc/motifs.c:1165 : Triad
+census called on an undirected graph.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1780    0 4945    0    0    0    0    0    0    0 4394    0    0    0    0
+[16] 4061</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of Triads returned by triad census</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(igraph<span class="sc">::</span><span class="fu">triad_census</span>(graph.ig))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in igraph::triad_census(graph.ig): At core/misc/motifs.c:1165 : Triad
+census called on an undirected graph.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15180</code></pre>
+</div>
+</div>
+</section>
+<section id="global-and-local-transitivity-or-clustering" class="level2">
+<h2 class="anchored" data-anchor-id="global-and-local-transitivity-or-clustering">Global and Local Transitivity or Clustering</h2>
+<p>The output shows the results of running three different measures of clustering on the got_like_dislike network.</p>
+<p>The first measure is the global clustering coefficient, which is a measure of how tightly connected the network as a whole is. The output shows that this network has a relatively high global clustering coefficient of 0.735, indicating that there are many triads of nodes that are fully connected to each other. This could suggest that the network represents a tightly-knit community or group of nodes.</p>
+<p>The second measure is the local clustering coefficient, which is a measure of how much each individual node is connected to its neighbors. The output shows a vector of local clustering coefficients for each node in the network. These range from 0.666 to 0.889, with a mean of 0.75. This suggests that most nodes in the network are fairly well-connected to their neighbors, but there is some variation in how tightly clustered different nodes are.</p>
+<p>The third measure is the average local clustering coefficient, which is simply the mean of the local clustering coefficients across all nodes in the network. In this case, the output shows an average of 0.755, which is similar to the mean value for the individual nodes. This reinforces the idea that the network as a whole is fairly well-connected and densely clustered.</p>
+<p>Overall, the output suggests that this network represents a group of nodes that are tightly-knit and well-connected, with most nodes having strong connections to their fellow actors.</p>
+<ul>
+<li>What is the distribution of node degree and how does it compare with the distribution of local transitivity?</li>
+</ul>
+<p>Degree distribution: The degree distribution lists the number of connections (i.e., degree) each node in the network has. For example, Lysa Arryn has 19 connections, Petyr Baelish has 24 connections, and so on.</p>
+<p>Local transitivity: The local transitivity lists the transitivity coefficient for each node in the network. The transitivity coefficient measures the proportion of triangles (i.e., three nodes that are all connected to each other) that are actually present in the network, compared to the total number of possible triangles. A high transitivity coefficient means that a node’s connections tend to be connected to each other as well, forming clusters or communities within the network. For example, Lysa Arryn has a transitivity coefficient of 0.812, which means that the connections of Lysa Arryn tend to be connected to each other as well, forming clusters.</p>
+<p>The fact that the degree histogram is skewed towards the right indicates that there are more nodes with higher degrees than those with lower degrees in the network. This suggests that some nodes in the network are more connected than others, and that the network may contain a few highly connected nodes (also known as “hubs”).</p>
+<p>On the other hand, the fact that the local transitivity graph is skewed towards the left suggests that there are relatively few nodes in the network that form highly clustered groups. This means that the network may not have many nodes that are highly interconnected with one another. Instead, there may be more nodes that have connections to a few other nodes, but not necessarily to each other.</p>
+<p>Overall, these observations suggest that the network may have a hierarchical structure with a few highly connected nodes (hubs) that connect to other less connected nodes. This type of structure is common in many real-world networks, such as social networks, transportation networks, and biological networks.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Clustering / Network Transitivity</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>global_transitivity <span class="ot">=</span> <span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"global"</span>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>global_transitivity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7349339</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local clustering coefficient</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>local_transitivity <span class="ot">=</span> <span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"local"</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>local_transitivity</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.8245614 0.7538462 0.6747638 0.7816092 0.7310924 0.6989247 0.7611408
+ [8] 0.7290553 0.7632184 0.7413793 0.8030769 0.6666667 0.7380952 0.7660099
+[15] 0.6924370 0.7619048 0.8190476 0.8571429 0.6693657 0.7291667 0.8366013
+[22] 0.7064394 0.7094474 0.8750000 0.8892308 0.7000000 0.7389163 0.6738462
+[29] 0.8181818 0.6666667 0.7566138 0.8888889 0.8005698 0.8382353 0.7065217
+[36] 0.7045455 0.7045455 0.6813656 0.6876877 0.6875000 0.6840336 0.8523810
+[43] 0.8095238 0.8262108 0.8338462 0.6699507</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average local clustering coefficient</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>localaverage_transitivity <span class="ot">=</span> <span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"localaverage"</span>)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Local Transitivity at nodes "Lysa.Arryn","Samwell.Tarly" and "Davos.Seaworth"</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"local"</span>, <span class="at">vids=</span><span class="fu">V</span>(graph.ig)[<span class="fu">c</span>(<span class="st">"Lysa.Arryn"</span>,<span class="st">"Samwell.Tarly"</span>, <span class="st">"Davos.Seaworth"</span>)]) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8245614 0.8095238 0.8005698</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Degree Distribution</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>degree_distribution <span class="ot">=</span> igraph<span class="sc">::</span><span class="fu">degree</span>(graph.ig)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>degree_distribution</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Lysa.Arryn         Petyr.Baelish     Joffrey.Baratheon 
+                   19                    26                    39 
+      Margaery.Tyrell       Renly.Baratheon      Robert.Baratheon 
+                   30                    35                    31 
+    Stannis.Baratheon      Brienne.of.Tarth                 Bronn 
+                   34                    34                    30 
+       Gregor.Clegane        Sandor.Clegane      Xaro.Xhoan.Daxos 
+                   29                    26                     3 
+               Gendry         Balon.Greyjoy         Theon.Greyjoy 
+                   21                    29                    35 
+         Jaqen.H.ghar                 Hodor            Khal.Drogo 
+                   15                    21                    14 
+     Cersei.Lannister       Jaime.Lannister      Lancel.Lannister 
+                   39                    33                    18 
+     Tyrion.Lannister       Tywin.Lannister         Maester.Luwin 
+                   33                    34                    16 
+           Melisandre          Jeor.Mormont         Jorah.Mormont 
+                   26                     5                    29 
+                 Osha         Podrick.Payne             Pyat.Pree 
+                   26                    22                     3 
+Grand.Maester.Pycelle                   Ros        Davos.Seaworth 
+                   28                     9                    27 
+                 Shae              Jon.Snow            Arya.Stark 
+                   17                    24                    33 
+           Bran.Stark         Catelyn.Stark            Robb.Stark 
+                   33                    38                    37 
+          Sansa.Stark    Daenerys.Targaryen     Viserys.Targaryen 
+                   32                    35                    21 
+        Samwell.Tarly          Loras.Tyrell                 Varys 
+                    7                    27                    26 
+         Eddard.Stark 
+                   29 </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot degree distribution and local transitivity distribution</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">unname</span>(degree_distribution), <span class="at">main=</span><span class="st">"Degree Distribution"</span>, <span class="at">xlab=</span><span class="st">"Degree"</span>)</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(local_transitivity, <span class="at">main=</span><span class="st">"Local Transitivity Distribution"</span>, <span class="at">xlab=</span><span class="st">"Local Transitivity"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="akhilesh_challenge_2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="path-length-and-component-structure" class="level2">
+<h2 class="anchored" data-anchor-id="path-length-and-component-structure">Path Length and Component Structure</h2>
+<p>The average path length for the network is 1.131981. This means that on average, it takes only slightly over one connection to get from one character to another. This indicates that the characters in the network are well-connected and that there are no major barriers or isolated groups of characters.</p>
+<p>The diameter of the network is 2.5, which indicates the maximum distance between any two characters in the network. In other words, there are pairs of characters in the network that are at most two and a half steps apart. This is another indication that the characters in the network are well-connected.</p>
+<p>The component structure of the network reveals that there is only one component, meaning that all characters in the network are connected to each other. The size of this component is 46, indicating that all 46 characters in the dataset are connected in a single group.</p>
+<p>Finally, the cluster membership of each node shows that all characters belong to the same cluster, or component, same as the component structure output.</p>
+<p>Overall, these measures suggest that the Game of Thrones character co-occurrence network is a densely connected and cohesive network, where all characters are highly interconnected. This may be due to the fact that the characters in the network share a common setting and storyline, and thus are likely to interact with each other in various ways throughout the show.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average path length for network</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">average.path.length</span>(graph.ig,<span class="at">directed=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.131981</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diameter of the network</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(graph.ig, <span class="at">directed=</span><span class="cn">FALSE</span>, <span class="at">unconnected =</span> <span class="cn">FALSE</span>, <span class="at">weights =</span> <span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.5</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Component structure of the network</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>$membership
+           Lysa.Arryn         Petyr.Baelish     Joffrey.Baratheon 
+                    1                     1                     1 
+      Margaery.Tyrell       Renly.Baratheon      Robert.Baratheon 
+                    1                     1                     1 
+    Stannis.Baratheon      Brienne.of.Tarth                 Bronn 
+                    1                     1                     1 
+       Gregor.Clegane        Sandor.Clegane      Xaro.Xhoan.Daxos 
+                    1                     1                     1 
+               Gendry         Balon.Greyjoy         Theon.Greyjoy 
+                    1                     1                     1 
+         Jaqen.H.ghar                 Hodor            Khal.Drogo 
+                    1                     1                     1 
+     Cersei.Lannister       Jaime.Lannister      Lancel.Lannister 
+                    1                     1                     1 
+     Tyrion.Lannister       Tywin.Lannister         Maester.Luwin 
+                    1                     1                     1 
+           Melisandre          Jeor.Mormont         Jorah.Mormont 
+                    1                     1                     1 
+                 Osha         Podrick.Payne             Pyat.Pree 
+                    1                     1                     1 
+Grand.Maester.Pycelle                   Ros        Davos.Seaworth 
+                    1                     1                     1 
+                 Shae              Jon.Snow            Arya.Stark 
+                    1                     1                     1 
+           Bran.Stark         Catelyn.Stark            Robb.Stark 
+                    1                     1                     1 
+          Sansa.Stark    Daenerys.Targaryen     Viserys.Targaryen 
+                    1                     1                     1 
+        Samwell.Tarly          Loras.Tyrell                 Varys 
+                    1                     1                     1 
+         Eddard.Stark 
+                    1 
+
+$csize
+[1] 46
+
+$no
+[1] 1</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Element returned by components in the network</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "membership" "csize"      "no"        </code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of components in the network</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)<span class="sc">$</span>no </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Size of each component</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)<span class="sc">$</span>csize </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 46</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster Membership of each node</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)<span class="sc">$</span>membership </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Lysa.Arryn         Petyr.Baelish     Joffrey.Baratheon 
+                    1                     1                     1 
+      Margaery.Tyrell       Renly.Baratheon      Robert.Baratheon 
+                    1                     1                     1 
+    Stannis.Baratheon      Brienne.of.Tarth                 Bronn 
+                    1                     1                     1 
+       Gregor.Clegane        Sandor.Clegane      Xaro.Xhoan.Daxos 
+                    1                     1                     1 
+               Gendry         Balon.Greyjoy         Theon.Greyjoy 
+                    1                     1                     1 
+         Jaqen.H.ghar                 Hodor            Khal.Drogo 
+                    1                     1                     1 
+     Cersei.Lannister       Jaime.Lannister      Lancel.Lannister 
+                    1                     1                     1 
+     Tyrion.Lannister       Tywin.Lannister         Maester.Luwin 
+                    1                     1                     1 
+           Melisandre          Jeor.Mormont         Jorah.Mormont 
+                    1                     1                     1 
+                 Osha         Podrick.Payne             Pyat.Pree 
+                    1                     1                     1 
+Grand.Maester.Pycelle                   Ros        Davos.Seaworth 
+                    1                     1                     1 
+                 Shae              Jon.Snow            Arya.Stark 
+                    1                     1                     1 
+           Bran.Stark         Catelyn.Stark            Robb.Stark 
+                    1                     1                     1 
+          Sansa.Stark    Daenerys.Targaryen     Viserys.Targaryen 
+                    1                     1                     1 
+        Samwell.Tarly          Loras.Tyrell                 Varys 
+                    1                     1                     1 
+         Eddard.Stark 
+                    1 </code></pre>
+</div>
+</div>
+
+
+<!-- -->
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="DACSS/Social_Networks_Spring_2023" data-repo-id="R_kgDOI9d_OA" data-category="Announcements" data-category-id="" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb69" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 2 Challenge Submission"</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Akhilesh Kumar"</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Describing the Basic Structure of a Network"</span></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "03/27/2023"</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> </span></span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a><span class="co">  - challenge Overview</span></span>
+<span id="cb69-14"><a href="#cb69-14" aria-hidden="true" tabindex="-1"></a><span class="co">  - Describe the Network Data</span></span>
+<span id="cb69-15"><a href="#cb69-15" aria-hidden="true" tabindex="-1"></a><span class="co">    - Introduction</span></span>
+<span id="cb69-16"><a href="#cb69-16" aria-hidden="true" tabindex="-1"></a><span class="co">    - Objective</span></span>
+<span id="cb69-17"><a href="#cb69-17" aria-hidden="true" tabindex="-1"></a><span class="co">    - Data Read and Negative Edge Normalization</span></span>
+<span id="cb69-18"><a href="#cb69-18" aria-hidden="true" tabindex="-1"></a><span class="co">    - Network Size, Features and Attributes</span></span>
+<span id="cb69-19"><a href="#cb69-19" aria-hidden="true" tabindex="-1"></a><span class="co">  - Dyad and Triad Census</span></span>
+<span id="cb69-20"><a href="#cb69-20" aria-hidden="true" tabindex="-1"></a><span class="co">  - Global and Local Transitivity or Clustering</span></span>
+<span id="cb69-21"><a href="#cb69-21" aria-hidden="true" tabindex="-1"></a><span class="co">  - Path Length and Component Structure </span></span>
+<span id="cb69-22"><a href="#cb69-22" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb69-23"><a href="#cb69-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-24"><a href="#cb69-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{r setup, include=FALSE, warnings=FALSE}</span></span>
+<span id="cb69-25"><a href="#cb69-25" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb69-26"><a href="#cb69-26" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-27"><a href="#cb69-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-30"><a href="#cb69-30" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb69-31"><a href="#cb69-31" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb69-32"><a href="#cb69-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb69-33"><a href="#cb69-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-34"><a href="#cb69-34" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-35"><a href="#cb69-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-36"><a href="#cb69-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Challenge Overview</span></span>
+<span id="cb69-37"><a href="#cb69-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-38"><a href="#cb69-38" aria-hidden="true" tabindex="-1"></a>Describe the basic structure of a network following the steps in tutorial of week 2, this time using a dataset of your choice: for instance, you could use Marriages in Game of Thrones or Like/Dislike from week 1.</span>
+<span id="cb69-39"><a href="#cb69-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-40"><a href="#cb69-40" aria-hidden="true" tabindex="-1"></a>Another more complex option is the newly added dataset of the US input-output table of direct requirements by industry, availabe in the Bureau of Economic Analysis. Input-output tables show the economic transactions between industries of an economy and thus can be understood as a directed adjacency matrix. Data is provided in the form of an <span class="in">`XLSX`</span> file, so using <span class="in">`read_xlsx`</span> from package <span class="in">`readxl`</span> is recommended, including the <span class="in">`sheet`</span> as an argument (<span class="in">`2012`</span> for instance).</span>
+<span id="cb69-41"><a href="#cb69-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-42"><a href="#cb69-42" aria-hidden="true" tabindex="-1"></a>Identify and describe content of nodes and links, and identify format of data set (i.e., matrix or edgelist, directed or not, weighted or not), and whether attribute data are present. Be sure to provide information about network size (e.g., information obtained from network description using week 1 network basic tutorial commands.)</span>
+<span id="cb69-43"><a href="#cb69-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-44"><a href="#cb69-44" aria-hidden="true" tabindex="-1"></a>Explore the dataset using commands from week 2 tutorial. Comment on the highlighted aspects of network structure such as:</span>
+<span id="cb69-45"><a href="#cb69-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-46"><a href="#cb69-46" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Geodesic and Path Distances; Path Length</span>
+<span id="cb69-47"><a href="#cb69-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Dyads and Dyad Census</span>
+<span id="cb69-48"><a href="#cb69-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Triads and Triad Census</span>
+<span id="cb69-49"><a href="#cb69-49" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Network Transitivity and Clustering</span>
+<span id="cb69-50"><a href="#cb69-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Component Structure and Membership</span>
+<span id="cb69-51"><a href="#cb69-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-52"><a href="#cb69-52" aria-hidden="true" tabindex="-1"></a>Be sure to both provide the relevant statistics calculated in <span class="in">`R`</span>, as well as your own interpretation of these statistics.</span>
+<span id="cb69-53"><a href="#cb69-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-54"><a href="#cb69-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
+<span id="cb69-55"><a href="#cb69-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-56"><a href="#cb69-56" aria-hidden="true" tabindex="-1"></a>This Network Analysis project delves into the relationships between characters in the widely popular TV show "Game of Thrones" through the lens of graph theory and network analysis techniques. The data set utilized in this project provides information on character likes and dislikes, which is then transformed into a network of relationships between characters, providing a unique perspective on the web of character relationships in the show.</span>
+<span id="cb69-57"><a href="#cb69-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-58"><a href="#cb69-58" aria-hidden="true" tabindex="-1"></a>The main objective of this data analysis project is to gain a better understanding of the character relationships in the show. </span>
+<span id="cb69-59"><a href="#cb69-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-60"><a href="#cb69-60" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Read and Negative Edge Normalization</span></span>
+<span id="cb69-61"><a href="#cb69-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-62"><a href="#cb69-62" aria-hidden="true" tabindex="-1"></a>The first section of the project involves reading in the data from a CSV file and selecting relevant columns for analysis. The resulting data frame is converted into a matrix and normalized to address the negative weights of dislikes. The normalized matrix is then used to create an undirected, weighted graph using the igraph package.</span>
+<span id="cb69-63"><a href="#cb69-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-64"><a href="#cb69-64" aria-hidden="true" tabindex="-1"></a>The resulting network graph contains nodes representing characters and edges representing the weighted connections between them based on their likes and dislikes. The graph can be further analyzed to identify dyads, triads, clustering, geodesic distance, and component structure within the network.</span>
+<span id="cb69-65"><a href="#cb69-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-68"><a href="#cb69-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb69-69"><a href="#cb69-69" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">'_data</span><span class="sc">\\</span><span class="st">got</span><span class="sc">\\</span><span class="st">got_like_dislike.csv'</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb69-70"><a href="#cb69-70" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> data[,<span class="dv">4</span><span class="sc">:</span><span class="fu">ncol</span>(data)]</span>
+<span id="cb69-71"><a href="#cb69-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-72"><a href="#cb69-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the data frame to matrix</span></span>
+<span id="cb69-73"><a href="#cb69-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-74"><a href="#cb69-74" aria-hidden="true" tabindex="-1"></a>adj_matrix <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(data)</span>
+<span id="cb69-75"><a href="#cb69-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-76"><a href="#cb69-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize the matrix to manage negative weights of dislikes:</span></span>
+<span id="cb69-77"><a href="#cb69-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-78"><a href="#cb69-78" aria-hidden="true" tabindex="-1"></a>normalized_adj_matrix <span class="ot">&lt;-</span> (adj_matrix <span class="sc">+</span> <span class="dv">10</span>) <span class="sc">/</span> <span class="dv">10</span></span>
+<span id="cb69-79"><a href="#cb69-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-80"><a href="#cb69-80" aria-hidden="true" tabindex="-1"></a>normalized_adj_matrix[normalized_adj_matrix <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb69-81"><a href="#cb69-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-82"><a href="#cb69-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a graph object from the normalized adjacency matrix</span></span>
+<span id="cb69-83"><a href="#cb69-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-84"><a href="#cb69-84" aria-hidden="true" tabindex="-1"></a>graph.ig <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(normalized_adj_matrix, <span class="at">mode =</span> <span class="st">"undirected"</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>, <span class="at">weighted =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb69-85"><a href="#cb69-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-86"><a href="#cb69-86" aria-hidden="true" tabindex="-1"></a><span class="co"># List the objects to verify that datafiles are working properly</span></span>
+<span id="cb69-87"><a href="#cb69-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-88"><a href="#cb69-88" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span>
+<span id="cb69-89"><a href="#cb69-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-90"><a href="#cb69-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-91"><a href="#cb69-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-92"><a href="#cb69-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Network Size, Features and Attributes</span></span>
+<span id="cb69-93"><a href="#cb69-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-94"><a href="#cb69-94" aria-hidden="true" tabindex="-1"></a>The "got_like_dislike"  network consists of 46 nodes, which represent characters, and 589 edges, which represent the likes and dislikes between the characters. The edges are weighted, meaning that each edge has a value that indicates the strength of the like or dislike relationship between the characters. The network is not bipartite, meaning that all nodes are of the same type, in this case, characters. Additionally, the network is undirected, indicating that the likes and dislikes are mutual between the characters.</span>
+<span id="cb69-95"><a href="#cb69-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-96"><a href="#cb69-96" aria-hidden="true" tabindex="-1"></a>Based on the range of edge weights, it seems like the likes and dislikes between characters are relatively consistent in strength, with edge weights ranging from 0.5 to 1.5. The mean and median edge weights of 0.939219 and 0.9, respectively. The highest weighted edge is 1.5, suggesting an strong like relationship between characters, whereas 0.5 is the lowest weighted edge, suggesting an strong dislike relationship between characters</span>
+<span id="cb69-97"><a href="#cb69-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-98"><a href="#cb69-98" aria-hidden="true" tabindex="-1"></a>The analysis also shows that each node has a "name" attribute, which corresponds to the name of the character it represents. The names of all the characters are listed in the output. Additionally, each edge has a "weight" attribute, which corresponds to the strength of the relationship between the characters connected by the edge. The weights of all the edges are listed in the output.</span>
+<span id="cb69-99"><a href="#cb69-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-100"><a href="#cb69-100" aria-hidden="true" tabindex="-1"></a>This analysis provides useful insights into the relationships between the characters in the GoT TV series. By studying the weights of the edges, it is possible to identify the characters who have the strongest relationships and those who have the weakest relationships. </span>
+<span id="cb69-101"><a href="#cb69-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-102"><a href="#cb69-102" aria-hidden="true" tabindex="-1"></a>The output shows that:</span>
+<span id="cb69-103"><a href="#cb69-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-104"><a href="#cb69-104" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The network got_like_dislike has 46 nodes and 589 edges.</span>
+<span id="cb69-105"><a href="#cb69-105" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The network is not bipartite.</span>
+<span id="cb69-106"><a href="#cb69-106" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The network is not directed.</span>
+<span id="cb69-107"><a href="#cb69-107" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The network has weighted edges.</span>
+<span id="cb69-108"><a href="#cb69-108" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The only vertex attribute in the network is name, which gives the names of all the nodes.</span>
+<span id="cb69-109"><a href="#cb69-109" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The names of all the nodes in the network are shown in the output.</span>
+<span id="cb69-110"><a href="#cb69-110" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The only edge attribute in the network is weight, which gives the weights of all the edges.</span>
+<span id="cb69-111"><a href="#cb69-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-114"><a href="#cb69-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb69-115"><a href="#cb69-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of vertices in got_like_dislike network:</span></span>
+<span id="cb69-116"><a href="#cb69-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-117"><a href="#cb69-117" aria-hidden="true" tabindex="-1"></a><span class="fu">vcount</span>(graph.ig)</span>
+<span id="cb69-118"><a href="#cb69-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-119"><a href="#cb69-119" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of edges in got_like_dislike network:</span></span>
+<span id="cb69-120"><a href="#cb69-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-121"><a href="#cb69-121" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(graph.ig)</span>
+<span id="cb69-122"><a href="#cb69-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-123"><a href="#cb69-123" aria-hidden="true" tabindex="-1"></a><span class="co"># Bipartite or single mode network verification in got_like_dislike network:</span></span>
+<span id="cb69-124"><a href="#cb69-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-125"><a href="#cb69-125" aria-hidden="true" tabindex="-1"></a><span class="fu">is_bipartite</span>(graph.ig)</span>
+<span id="cb69-126"><a href="#cb69-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-127"><a href="#cb69-127" aria-hidden="true" tabindex="-1"></a><span class="co"># Directed or undirected edges verification in got_like_dislike network</span></span>
+<span id="cb69-128"><a href="#cb69-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-129"><a href="#cb69-129" aria-hidden="true" tabindex="-1"></a><span class="fu">is_directed</span>(graph.ig)</span>
+<span id="cb69-130"><a href="#cb69-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-131"><a href="#cb69-131" aria-hidden="true" tabindex="-1"></a><span class="co"># Weighted or unweighted edges verification in got_like_dislike network</span></span>
+<span id="cb69-132"><a href="#cb69-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-133"><a href="#cb69-133" aria-hidden="true" tabindex="-1"></a><span class="fu">is_weighted</span>(graph.ig)</span>
+<span id="cb69-134"><a href="#cb69-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-135"><a href="#cb69-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Is Connected verification in got_like_dislike network</span></span>
+<span id="cb69-136"><a href="#cb69-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-137"><a href="#cb69-137" aria-hidden="true" tabindex="-1"></a><span class="fu">is_connected</span>(graph.ig)</span>
+<span id="cb69-138"><a href="#cb69-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-139"><a href="#cb69-139" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex attributes for got_like_dislike network</span></span>
+<span id="cb69-140"><a href="#cb69-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-141"><a href="#cb69-141" aria-hidden="true" tabindex="-1"></a><span class="fu">vertex_attr_names</span>(graph.ig)</span>
+<span id="cb69-142"><a href="#cb69-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-143"><a href="#cb69-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex attribute, Nodes in got_like_dislike network:</span></span>
+<span id="cb69-144"><a href="#cb69-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-145"><a href="#cb69-145" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(graph.ig)<span class="sc">$</span>name</span>
+<span id="cb69-146"><a href="#cb69-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-147"><a href="#cb69-147" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge attributes for got_like_dislike network:</span></span>
+<span id="cb69-148"><a href="#cb69-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-149"><a href="#cb69-149" aria-hidden="true" tabindex="-1"></a><span class="fu">edge_attr_names</span>(graph.ig)</span>
+<span id="cb69-150"><a href="#cb69-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-151"><a href="#cb69-151" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge attribute, Edges with weights in got_like_dislike network:</span></span>
+<span id="cb69-152"><a href="#cb69-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-153"><a href="#cb69-153" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight</span>
+<span id="cb69-154"><a href="#cb69-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-155"><a href="#cb69-155" aria-hidden="true" tabindex="-1"></a><span class="co"># maximum weight of the edges in got_like_dislike network:</span></span>
+<span id="cb69-156"><a href="#cb69-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-157"><a href="#cb69-157" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span>
+<span id="cb69-158"><a href="#cb69-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-159"><a href="#cb69-159" aria-hidden="true" tabindex="-1"></a><span class="co"># minimum weight of the edges in got_like_dislike network:</span></span>
+<span id="cb69-160"><a href="#cb69-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-161"><a href="#cb69-161" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span>
+<span id="cb69-162"><a href="#cb69-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-163"><a href="#cb69-163" aria-hidden="true" tabindex="-1"></a><span class="co"># mean &amp; median weight of the edges in got_like_dislike network:</span></span>
+<span id="cb69-164"><a href="#cb69-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-165"><a href="#cb69-165" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span>
+<span id="cb69-166"><a href="#cb69-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-167"><a href="#cb69-167" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(<span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span>
+<span id="cb69-168"><a href="#cb69-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-169"><a href="#cb69-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-170"><a href="#cb69-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-171"><a href="#cb69-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## Dyad and Triad Census</span></span>
+<span id="cb69-172"><a href="#cb69-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-173"><a href="#cb69-173" aria-hidden="true" tabindex="-1"></a>The first analysis calculates the dyad census, which classifies all possible pairs of nodes in the network into three categories: mutual ties (where both nodes like each other), asymmetric ties (where one node likes the other but not vice versa), and null ties (where neither node likes the other). In this case, there were 589 mutual ties and 446 null ties, and no asymmetric ties.</span>
+<span id="cb69-174"><a href="#cb69-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-175"><a href="#cb69-175" aria-hidden="true" tabindex="-1"></a>The triad census counts the number of each possible combination of three nodes in a network, which are called triads. The function returns a vector with 16 values, each corresponding to the count of a particular triad type. In this case, there are 1780 triads of type 003, 4945 triads of type 012, 4394 triads of type 102, and 4061 triads of type 021D.</span>
+<span id="cb69-176"><a href="#cb69-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-177"><a href="#cb69-177" aria-hidden="true" tabindex="-1"></a>Finally, the code sums up the total number of triads returned by the triad census, which is 15180. This provides an overall picture of the patterns of relationships between nodes in the network.</span>
+<span id="cb69-178"><a href="#cb69-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-181"><a href="#cb69-181" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb69-182"><a href="#cb69-182" aria-hidden="true" tabindex="-1"></a><span class="co"># Classify all Dyads in the got_like_dislike network: igraph</span></span>
+<span id="cb69-183"><a href="#cb69-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-184"><a href="#cb69-184" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">dyad.census</span>(graph.ig)</span>
+<span id="cb69-185"><a href="#cb69-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-186"><a href="#cb69-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Classify all Triads in the got_like_dislike Network: igraph</span></span>
+<span id="cb69-187"><a href="#cb69-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-188"><a href="#cb69-188" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">triad_census</span>(graph.ig)</span>
+<span id="cb69-189"><a href="#cb69-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-190"><a href="#cb69-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of Triads returned by triad census</span></span>
+<span id="cb69-191"><a href="#cb69-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-192"><a href="#cb69-192" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(igraph<span class="sc">::</span><span class="fu">triad_census</span>(graph.ig))</span>
+<span id="cb69-193"><a href="#cb69-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-194"><a href="#cb69-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-195"><a href="#cb69-195" aria-hidden="true" tabindex="-1"></a><span class="fu">## Global and Local Transitivity or Clustering</span></span>
+<span id="cb69-196"><a href="#cb69-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-197"><a href="#cb69-197" aria-hidden="true" tabindex="-1"></a>The output shows the results of running three different measures of clustering on the got_like_dislike network.</span>
+<span id="cb69-198"><a href="#cb69-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-199"><a href="#cb69-199" aria-hidden="true" tabindex="-1"></a>The first measure is the global clustering coefficient, which is a measure of how tightly connected the network as a whole is. The output shows that this network has a relatively high global clustering coefficient of 0.735, indicating that there are many triads of nodes that are fully connected to each other. This could suggest that the network represents a tightly-knit community or group of nodes.</span>
+<span id="cb69-200"><a href="#cb69-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-201"><a href="#cb69-201" aria-hidden="true" tabindex="-1"></a>The second measure is the local clustering coefficient, which is a measure of how much each individual node is connected to its neighbors. The output shows a vector of local clustering coefficients for each node in the network. These range from 0.666 to 0.889, with a mean of 0.75. This suggests that most nodes in the network are fairly well-connected to their neighbors, but there is some variation in how tightly clustered different nodes are.</span>
+<span id="cb69-202"><a href="#cb69-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-203"><a href="#cb69-203" aria-hidden="true" tabindex="-1"></a>The third measure is the average local clustering coefficient, which is simply the mean of the local clustering coefficients across all nodes in the network. In this case, the output shows an average of 0.755, which is similar to the mean value for the individual nodes. This reinforces the idea that the network as a whole is fairly well-connected and densely clustered.</span>
+<span id="cb69-204"><a href="#cb69-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-205"><a href="#cb69-205" aria-hidden="true" tabindex="-1"></a>Overall, the output suggests that this network represents a group of nodes that are tightly-knit and well-connected, with most nodes having strong connections to their fellow actors. </span>
+<span id="cb69-206"><a href="#cb69-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-207"><a href="#cb69-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>What is the distribution of node degree and how does it compare with the distribution of local transitivity?</span>
+<span id="cb69-208"><a href="#cb69-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-209"><a href="#cb69-209" aria-hidden="true" tabindex="-1"></a>Degree distribution: The degree distribution lists the number of connections (i.e., degree) each node in the network has. For example, Lysa Arryn has 19 connections, Petyr Baelish has 24 connections, and so on.</span>
+<span id="cb69-210"><a href="#cb69-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-211"><a href="#cb69-211" aria-hidden="true" tabindex="-1"></a>Local transitivity: The local transitivity lists the transitivity coefficient for each node in the network. The transitivity coefficient measures the proportion of triangles (i.e., three nodes that are all connected to each other) that are actually present in the network, compared to the total number of possible triangles. A high transitivity coefficient means that a node's connections tend to be connected to each other as well, forming clusters or communities within the network. For example, Lysa Arryn has a transitivity coefficient of 0.812, which means that the connections of Lysa Arryn tend to be connected to each other as well, forming clusters.</span>
+<span id="cb69-212"><a href="#cb69-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-213"><a href="#cb69-213" aria-hidden="true" tabindex="-1"></a>The fact that the degree histogram is skewed towards the right indicates that there are more nodes with higher degrees than those with lower degrees in the network. This suggests that some nodes in the network are more connected than others, and that the network may contain a few highly connected nodes (also known as "hubs").</span>
+<span id="cb69-214"><a href="#cb69-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-215"><a href="#cb69-215" aria-hidden="true" tabindex="-1"></a>On the other hand, the fact that the local transitivity graph is skewed towards the left suggests that there are relatively few nodes in the network that form highly clustered groups. This means that the network may not have many nodes that are highly interconnected with one another. Instead, there may be more nodes that have connections to a few other nodes, but not necessarily to each other.</span>
+<span id="cb69-216"><a href="#cb69-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-217"><a href="#cb69-217" aria-hidden="true" tabindex="-1"></a>Overall, these observations suggest that the network may have a hierarchical structure with a few highly connected nodes (hubs) that connect to other less connected nodes. This type of structure is common in many real-world networks, such as social networks, transportation networks, and biological networks.</span>
+<span id="cb69-220"><a href="#cb69-220" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb69-221"><a href="#cb69-221" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Clustering / Network Transitivity</span></span>
+<span id="cb69-222"><a href="#cb69-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-223"><a href="#cb69-223" aria-hidden="true" tabindex="-1"></a>global_transitivity <span class="ot">=</span> <span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"global"</span>)</span>
+<span id="cb69-224"><a href="#cb69-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-225"><a href="#cb69-225" aria-hidden="true" tabindex="-1"></a>global_transitivity</span>
+<span id="cb69-226"><a href="#cb69-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-227"><a href="#cb69-227" aria-hidden="true" tabindex="-1"></a><span class="co"># Local clustering coefficient</span></span>
+<span id="cb69-228"><a href="#cb69-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-229"><a href="#cb69-229" aria-hidden="true" tabindex="-1"></a>local_transitivity <span class="ot">=</span> <span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"local"</span>)</span>
+<span id="cb69-230"><a href="#cb69-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-231"><a href="#cb69-231" aria-hidden="true" tabindex="-1"></a>local_transitivity</span>
+<span id="cb69-232"><a href="#cb69-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-233"><a href="#cb69-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Average local clustering coefficient</span></span>
+<span id="cb69-234"><a href="#cb69-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-235"><a href="#cb69-235" aria-hidden="true" tabindex="-1"></a>localaverage_transitivity <span class="ot">=</span> <span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"localaverage"</span>)</span>
+<span id="cb69-236"><a href="#cb69-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-237"><a href="#cb69-237" aria-hidden="true" tabindex="-1"></a><span class="co"># Local Transitivity at nodes "Lysa.Arryn","Samwell.Tarly" and "Davos.Seaworth"</span></span>
+<span id="cb69-238"><a href="#cb69-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-239"><a href="#cb69-239" aria-hidden="true" tabindex="-1"></a><span class="fu">transitivity</span>(graph.ig, <span class="at">type=</span><span class="st">"local"</span>, <span class="at">vids=</span><span class="fu">V</span>(graph.ig)[<span class="fu">c</span>(<span class="st">"Lysa.Arryn"</span>,<span class="st">"Samwell.Tarly"</span>, <span class="st">"Davos.Seaworth"</span>)]) </span>
+<span id="cb69-240"><a href="#cb69-240" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-241"><a href="#cb69-241" aria-hidden="true" tabindex="-1"></a><span class="co"># Degree Distribution</span></span>
+<span id="cb69-242"><a href="#cb69-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-243"><a href="#cb69-243" aria-hidden="true" tabindex="-1"></a>degree_distribution <span class="ot">=</span> igraph<span class="sc">::</span><span class="fu">degree</span>(graph.ig)</span>
+<span id="cb69-244"><a href="#cb69-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-245"><a href="#cb69-245" aria-hidden="true" tabindex="-1"></a>degree_distribution</span>
+<span id="cb69-246"><a href="#cb69-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-247"><a href="#cb69-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-248"><a href="#cb69-248" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot degree distribution and local transitivity distribution</span></span>
+<span id="cb69-249"><a href="#cb69-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-250"><a href="#cb69-250" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb69-251"><a href="#cb69-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-252"><a href="#cb69-252" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">unname</span>(degree_distribution), <span class="at">main=</span><span class="st">"Degree Distribution"</span>, <span class="at">xlab=</span><span class="st">"Degree"</span>)</span>
+<span id="cb69-253"><a href="#cb69-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-254"><a href="#cb69-254" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(local_transitivity, <span class="at">main=</span><span class="st">"Local Transitivity Distribution"</span>, <span class="at">xlab=</span><span class="st">"Local Transitivity"</span>)</span>
+<span id="cb69-255"><a href="#cb69-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-256"><a href="#cb69-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb69-257"><a href="#cb69-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-258"><a href="#cb69-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Path Length and Component Structure </span></span>
+<span id="cb69-259"><a href="#cb69-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-260"><a href="#cb69-260" aria-hidden="true" tabindex="-1"></a>The average path length for the network is 1.131981. This means that on average, it takes only slightly over one connection to get from one character to another. This indicates that the characters in the network are well-connected and that there are no major barriers or isolated groups of characters.</span>
+<span id="cb69-261"><a href="#cb69-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-262"><a href="#cb69-262" aria-hidden="true" tabindex="-1"></a>The diameter of the network is 2.5, which indicates the maximum distance between any two characters in the network. In other words, there are pairs of characters in the network that are at most two and a half steps apart. This is another indication that the characters in the network are well-connected.</span>
+<span id="cb69-263"><a href="#cb69-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-264"><a href="#cb69-264" aria-hidden="true" tabindex="-1"></a>The component structure of the network reveals that there is only one component, meaning that all characters in the network are connected to each other. The size of this component is 46, indicating that all 46 characters in the dataset are connected in a single group.</span>
+<span id="cb69-265"><a href="#cb69-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-266"><a href="#cb69-266" aria-hidden="true" tabindex="-1"></a>Finally, the cluster membership of each node shows that all characters belong to the same cluster, or component, same as the component structure output.</span>
+<span id="cb69-267"><a href="#cb69-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-268"><a href="#cb69-268" aria-hidden="true" tabindex="-1"></a>Overall, these measures suggest that the Game of Thrones character co-occurrence network is a densely connected and cohesive network, where all characters are highly interconnected. This may be due to the fact that the characters in the network share a common setting and storyline, and thus are likely to interact with each other in various ways throughout the show.</span>
+<span id="cb69-269"><a href="#cb69-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-272"><a href="#cb69-272" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb69-273"><a href="#cb69-273" aria-hidden="true" tabindex="-1"></a><span class="co"># Average path length for network</span></span>
+<span id="cb69-274"><a href="#cb69-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-275"><a href="#cb69-275" aria-hidden="true" tabindex="-1"></a><span class="fu">average.path.length</span>(graph.ig,<span class="at">directed=</span>F)</span>
+<span id="cb69-276"><a href="#cb69-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-277"><a href="#cb69-277" aria-hidden="true" tabindex="-1"></a><span class="co"># Diameter of the network</span></span>
+<span id="cb69-278"><a href="#cb69-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-279"><a href="#cb69-279" aria-hidden="true" tabindex="-1"></a><span class="fu">diameter</span>(graph.ig, <span class="at">directed=</span><span class="cn">FALSE</span>, <span class="at">unconnected =</span> <span class="cn">FALSE</span>, <span class="at">weights =</span> <span class="fu">E</span>(graph.ig)<span class="sc">$</span>weight)</span>
+<span id="cb69-280"><a href="#cb69-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-281"><a href="#cb69-281" aria-hidden="true" tabindex="-1"></a><span class="co"># Component structure of the network</span></span>
+<span id="cb69-282"><a href="#cb69-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-283"><a href="#cb69-283" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)</span>
+<span id="cb69-284"><a href="#cb69-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-285"><a href="#cb69-285" aria-hidden="true" tabindex="-1"></a><span class="co"># Element returned by components in the network</span></span>
+<span id="cb69-286"><a href="#cb69-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-287"><a href="#cb69-287" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig))</span>
+<span id="cb69-288"><a href="#cb69-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-289"><a href="#cb69-289" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of components in the network</span></span>
+<span id="cb69-290"><a href="#cb69-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-291"><a href="#cb69-291" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)<span class="sc">$</span>no </span>
+<span id="cb69-292"><a href="#cb69-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-293"><a href="#cb69-293" aria-hidden="true" tabindex="-1"></a><span class="co"># Size of each component</span></span>
+<span id="cb69-294"><a href="#cb69-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-295"><a href="#cb69-295" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)<span class="sc">$</span>csize </span>
+<span id="cb69-296"><a href="#cb69-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-297"><a href="#cb69-297" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster Membership of each node</span></span>
+<span id="cb69-298"><a href="#cb69-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-299"><a href="#cb69-299" aria-hidden="true" tabindex="-1"></a>igraph<span class="sc">::</span><span class="fu">components</span>(graph.ig)<span class="sc">$</span>membership </span>
+<span id="cb69-300"><a href="#cb69-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-301"><a href="#cb69-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-302"><a href="#cb69-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>
