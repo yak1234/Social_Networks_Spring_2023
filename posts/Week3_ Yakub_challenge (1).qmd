@@ -29,6 +29,10 @@ library(ggplot2)
 
 Describe the many measures of degree, as well as density, of a network and compare 
 
+```{r}
+library(igraph)
+library(network)
+```
 ## Degree
 
 Reading in Climate Data.
@@ -70,15 +74,13 @@ print(climate.net)
 
 The Climate  network has 34 vertices and is undirected, with bidirectional connections between entities. There are no loops or multiple edges present, indicating a simpler structure. The bipartite nature of the network divides the vertices into two distinct sets. In total, there are 34 edges representing the direct relationships between entities, with no missing connections in the network representation.
 
-
-
-
 # Dyad Census
 
 ```{r}
 dyad.census(climate.net)
 ```
-
+     Mut Asym Null
+[1,]  65  161  335
 -65 mutually connected dyads, indicating bidirectional connections between pairs of entities. 
 - 151 Asymmetrical 
 -365 Null dyads.
@@ -87,16 +89,14 @@ dyad.census(climate.net)
 # Triad Census
 
 ```{r}
-triad.census(climate.net, mode = "graph")
+triad.census(climate.net)
 ```
-        0    1   2   3
-[1,] 3023 2016 787 158
+      003  012 102 021D 021U 021C 111D 111U 030T 030C 201 120D 120U 120C 210 300
+[1,] 1644 1641 497  347  255  231  239  314  175    3 126  100  116   81 164  51
 
 Triad Census
--3023 triads with no ties, suggesting the presence of isolated entities or disconnected clusters within the network
--2016 with one Tie
--787 with two ties
-- 158 with three Ties
+-1644 triads with no ties, suggesting the presence of isolated entities or disconnected clusters within the network
+
 
 
 ##Create Climate Node
@@ -122,11 +122,18 @@ climate.nodes <- data.frame(
 mean(climate.nodes$degree)
 ```
 
-Average is 17
+Average is 17.
 
 ```{r}
 summary(climate.nodes)
 ```
+     name               degree         indegree        outdegree     
+ Length:34          Min.   : 2.00   Min.   : 0.000   Min.   : 0.000  
+ Class :character   1st Qu.:10.00   1st Qu.: 5.250   1st Qu.: 3.000  
+ Mode  :character   Median :16.50   Median : 7.500   Median : 8.000  
+                    Mean   :17.12   Mean   : 8.559   Mean   : 8.559  
+                    3rd Qu.:21.00   3rd Qu.:11.000   3rd Qu.:11.000  
+                    Max.   :40.00   Max.   :22.000   Max.   :29.000  
 
 -34 vertices in total, 
 
@@ -142,7 +149,7 @@ Compute the density of the network. Is this a global or local measure? Does it h
 ```{r}
 network.density(climate.net)
 ```
-
+[1] 0.2593583
 The Density is 0.259, which indicates approximately 25.9% of the possible edges are present in the network. 
 
 
