@@ -1,0 +1,718 @@
+---
+title: "Final Project"
+author: "Yakub Rabiutheen"
+desription: "Final Project"
+date: "05/22/2022"
+format:
+  html:
+    toc: true
+    code-fold: true
+    code-copy: true
+    code-tools: true
+categories:
+- Final Project
+---
+
+
+1. Identify an existing data set or collect your own data. Provide a thorough description of the network data and the protocols used to collect and code it. The information provided should be sufficient to allow someone to recreate your network data from the original source. 
+
+
+
+
+
+
+First we will invoke the ipumsr library to read in the data. The read_ipums_micro() function takes two arguments: the DDI file and the data file. The DDI file is an XML file that contains metadata about the data. The data file is a gzipped file that contains the data itself. Both files are located in the posts/ directory.
+
+
+
+
+```{r}
+library(ipumsr)
+ddi <- read_ipums_ddi("cps_00003.xml")
+cps_data <- read_ipums_micro(ddi, data_file = "cps_00003.dat")
+```
+
+
+
+
+##Scraping IPUMS to get Industry Codes
+
+Now I will scrape the IPUMS website to also get the Codes for each Industry for my IND column. 
+
+```{markdown}
+library(rvest)
+library(dplyr)
+
+# Base URL
+base_url <- "https://cps.ipums.org"
+
+# Page URL
+page_url <- "https://cps.ipums.org/cps-action/variables/IND#codes_section"
+
+# Read the HTML of the base page
+main_page <- read_html(page_url)
+
+# Find the links for different years
+links <- main_page %>%
+  html_nodes("a[href*='codes']") %>%
+  html_attr("href")
+
+# Correct the links (remove the 'https://cps.ipums.org' if it exists)
+links <- gsub("https://cps.ipums.org", "", links)
+
+# Create the full URLs
+urls <- paste0(base_url, links)
+
+# Initialize a list to hold the scraped data
+data_list <- list()
+
+# Loop through the URLs
+for (url in urls) {
+  # Read the HTML of the page
+  page <- read_html(url)
+  
+  # Scrape the codes and descriptions
+  dt <- page %>%
+    html_nodes("dt") %>%
+    html_text()
+  dd <- page %>%
+    html_nodes("dd") %>%
+    html_text()
+  
+  # Combine the codes and descriptions into a data frame and add it to the list
+  data_list[[url]] <- data.frame(Code = dt, Description = dd, stringsAsFactors = FALSE)
+}
+
+# Combine all the data frames into a single data frame
+industry_codes <- bind_rows(data_list)
+
+# View the data
+print(industry_codes)
+##Save Occupational Codes as CSV
+write.csv(industry_codes, file = "industry_codes.csv")
+```
+
+
+Now let's read in Occupational Codes
+
+```{r}
+industry_codes<-read.csv("industry_codes.csv")
+```
+
+
+
+Adding Occupational Codes to IND Column
+```{r}
+cps_data$IND_1_Description <- industry_codes$Description[match(cps_data$IND_1, industry_codes$Code)]
+cps_data$IND_1 <- NULL
+
+# Replace numerical codes with descriptions in IND_2 column
+cps_data$IND_2_Description <- industry_codes$Description[match(cps_data$IND_2, industry_codes$Code)]
+cps_data$IND_2 <- NULL
+```
+
+
+
+
+Adding Race Labels to the Race Column
+```{r}
+levels <- c("100", "200", "300", "650", "651", "652", "700", "801", "802", "803", "804", "805", "806", "807", "808", "809", "810", "811", "812", "813", "814", "815", "816", "817", "818", "819", "820", "830")
+labels <- c("White", "Black", "American Indian/Aleut/Eskimo", "Asian or Pacific Islander", "Asian only", "Hawaiian/Pacific Islander only", "Other (single) race, n.e.c.", "White-Black", "White-American Indian", "White-Asian", "White-Hawaiian/Pacific Islander", "Black-American Indian", "Black-Asian", "Black-Hawaiian/Pacific Islander", "American Indian-Asian", "Asian-Hawaiian/Pacific Islander", "White-Black-American Indian", "White-Black-Asian", "White-American Indian-Asian", "White-Asian-Hawaiian/Pacific Islander", "White-Black-American Indian-Asian", "American Indian-Hawaiian/Pacific Islander", "White-Black--Hawaiian/Pacific Islander", "White-American Indian-Hawaiian/Pacific Islander", "Black-American Indian-Asian", "White-American Indian-Asian-Hawaiian/Pacific Islander", "Two or three races, unspecified", "Four or five races, unspecified")
+
+# Convert RACE_1 to a factor
+cps_data$RACE_1 <- factor(cps_data$RACE_1, levels = levels, labels = labels)
+```
+
+
+
+
+```{r}
+# Convert "SEX_1" to a factor with labels
+cps_data$SEX_1 <- factor(cps_data$SEX_1, labels = c("Male", "Female"))
+```
+
+
+
+Adding Country labels to Country Column
+Please note that the Census definees Country different from Race. Also, that the Census has historically asked about Country of Origin in different ways. For example, in 1970, the Census asked about Country of Origin for the first time. 
+
+```{r}
+# Define the labels for each country code
+country_value <- c(10000, 10500, 11000, 11500, 12090, 15000, 16010, 19900, 20000, 21010, 21020, 21030, 21040, 21050, 21060, 21070, 21090, 25000, 26010, 26020, 26030, 26043, 26044, 26054, 26055, 26060, 26091, 30005, 30010, 30015, 30020, 30025, 30030, 30040, 30050, 30060, 30065, 30090, 40000, 40100, 40400, 40500, 41000, 41100, 41300, 41400, 41410, 42000, 42100, 42500, 42600, 43300, 43400, 43600, 43610, 43800, 45000, 45200, 45212, 45213, 45300, 45400, 45500, 45540, 45600, 45700, 46100, 46200, 46500, 46530, 46590, 49900, 50000, 50010, 50040, 50100, 50200, 50220, 51100, 51200, 51300, 51400, 51500, 51600, 51700, 51800, 52000, 52100, 52110, 52130, 52140, 52200, 53200, 53400, 53420, 53500, 53700, 54000, 54100, 54200, 54700, 59900, 60010, 60012, 60014, 60023, 60031, 60044, 60045, 60094, 60099, 70010, 70020, 71000, 71021, 96000)
+country_label <- c( "American Samoa", "Guam", "Puerto Rico", "U.S. Virgin Islands", "U.S. outlying areas, n.s.", "Canada", "Bermuda", "North America, n.s.", "Mexico", "Belize/British Honduras", "Costa Rica", "El Salvador", "Guatemala", "Honduras", "Nicaragua", "Panama", "Central America, n.s.", "Cuba", "Dominican Republic", "Haiti", "Jamaica", "Bahamas", "Barbados", "Dominica", "Grenada", "Trinidad and Tobago", "Caribbean, n.s.", "Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Ecuador", "Guyana/British Guiana", "Peru", "Uruguay", "Venezuela", "South America, n.s.", "Denmark", "Finland", "Norway", "Sweden", "England", "Scotland", "United Kingdom, n.s.", "Ireland", "Northern Ireland", "Belgium", "France", "Netherlands", "Switzerland", "Greece", "Italy", "Portugal", "Azores", "Spain", "Austria", "Czechoslavakia", "Slovakia", "Czech Republic", "Germany", "Hungary", "Poland", "Armenia", "Romania", "Yugoslavia", "Latvia", "Lithuania", "Other USSR/Russia", "Ukraine", "USSR, n.s.", "Europe, n.s.", "China", "Hong Kong", "Taiwan", "Japan", "Korea", "South Korea", "Cambodia", "Indonesia", "Laos", "Malaysia", "Philippines", "Singapore", "Thailand", "Vietnam", "Afghanistan", "India", "Bangladesh", "Burma", "Pakistan", "Iran", "Iraq", "Israel/Palestine", "Palestine", "Jordan", "Lebanon", "Saudi Arabia", "Syria", "Turkey", "Middle East, n.s.", "Asia, n.e.c./n.s.", "Northern Africa", "Egypt/United Arab Rep.", "Morocco", "Ghana", "Nigeria", "Ethiopia", "Kenya", "South Africa (Union of)", "Africa, n.s./n.e.c.", "Australia", "New Zealand", "Pacific Islands", "Fiji", "Other, n.e.c. and unknown")
+
+cps_data$COUNTRY_1 <- factor(cps_data$COUNTRY_1, levels = country_value, labels = country_label)           
+```
+
+
+
+```{r}
+filtered_cps_data <- na.omit(cps_data[, c("COUNTRY_1", "IND_1_Description")])
+```
+
+
+
+
+```{r}
+library(igraph)
+edge_matrix_country <- data.frame(
+  from = filtered_cps_data$COUNTRY_1,  # Replace with your actual column name for countries
+  to = filtered_cps_data$IND_1_Description
+)
+
+g_country <- graph_from_data_frame(d = edge_matrix_country, directed = FALSE)
+```
+
+
+```{r}
+summary(g_country)
+```
+
+```{r}
+cat("Graph Summary:\n")
+cat("Number of Nodes:", vcount(g_country), "\n")
+cat("Number of Edges:", ecount(g_country), "\n")
+cat("Diameter:", diameter(g_country), "\n")
+```
+
+
+
+```{r}
+filtered_cps_data <- na.omit(cps_data[, c("RACE_1", "IND_1_Description")])
+
+# Create the edge dataframe with proper column names
+edge_matrix_race <- data.frame(
+  from = filtered_cps_data$RACE_1,
+  to = filtered_cps_data$IND_1_Description
+)
+
+# Convert the edge dataframe to an igraph object
+g_race <- graph_from_data_frame(d = edge_matrix_race, directed = FALSE)
+```
+
+
+
+
+
+
+```{r}
+# Edge list for Industry and Sex
+filtered_cps_data <- na.omit(cps_data[, c("SEX_1", "IND_1_Description")])
+
+# Create the edge dataframe with proper column names
+edge_matrix_sex <- data.frame(
+  from = filtered_cps_data$SEX_1,
+  to = filtered_cps_data$IND_1_Description
+)
+
+# Convert the edge dataframe to an igraph object
+g_sex <- graph_from_data_frame(d = edge_matrix_sex, directed = FALSE)
+```
+
+
+
+
+
+
+
+```{r}
+library(igraph)
+num_nodes_race <- vcount(g_race)
+num_edges_race <- ecount(g_race)
+
+num_nodes_sex <- vcount(g_sex)
+num_edges_sex <- ecount(g_sex)
+
+num_nodes_country <- vcount(g_country)
+num_edges_country <- ecount(g_country)
+
+# Diameter
+diameter_race <- diameter(g_race)
+diameter_sex <- diameter(g_sex)
+diameter_country <- diameter(g_country)
+
+# Degree centrality
+degree_centrality_race <- degree(g_race)
+degree_centrality_sex <- degree(g_sex)
+degree_centrality_country <- degree(g_country)
+
+# Betweenness centrality
+betweenness_centrality_race <- betweenness(g_race)
+betweenness_centrality_sex <- betweenness(g_sex)
+betweenness_centrality_country <- betweenness(g_country)
+
+# Eigenvector centrality
+eigenvector_centrality_race <- eigen_centrality(g_race)$vector
+eigenvector_centrality_sex <- eigen_centrality(g_sex)$vector
+eigenvector_centrality_country <- eigen_centrality(g_country)$vector
+```
+
+
+
+
+```{r}
+cat("Graph Summary:\n")
+
+# Summary for g_race
+cat("g_race\n")
+cat("Number of Nodes:", vcount(g_race), "\n")
+cat("Number of Edges:", ecount(g_race), "\n")
+cat("Diameter:", diameter(g_race), "\n")
+
+# Summary for g_country
+cat("g_country\n")
+cat("Number of Nodes:", vcount(g_country), "\n")
+cat("Number of Edges:", ecount(g_country), "\n")
+cat("Diameter:", diameter(g_country), "\n")
+
+# Summary for g_sex
+cat("g_sex\n")
+cat("Number of Nodes:", vcount(g_sex), "\n")
+cat("Number of Edges:", ecount(g_sex), "\n")
+cat("Diameter:", diameter(g_sex), "\n")
+```
+
+
+
+
+
+
+
+
+##Answers to Question 1##
+
+a.Where is the data set from, and what is being measured? Was the original data in matrix, edgelist or affiliation network format?
+
+
+The data that I will be using is Data from  Current Population Survey provided by Integrated Public Use Microdata Series(IPUMS) which was created by University Of Minessota.
+
+The Current Population Survey originally comes from the Bureau of Labor,and IPUMS is a data aggregator that harmonized the CPS  Data creating consistent variables across years to facilitate longitudinal analysis.
+
+
+b.Is this network a sample or does it represent the universe of cases? If a sample, is the sample adequate/random/suitable?
+
+The Data is  a sample collected by the Bureau of Labor Statistics. The sample is adequate and suitable because it is a random sample of the population.
+
+Also, the CPS dataset is designed to answer questions regarding Labor Force Demographics.
+
+
+c. What constitutes a vertex/node in these data? What is the level of analysis (person, organization, etc.)? How many nodes are in the data set?
+
+The level are analaysis are people. Each node represents a person responding to the survey. The edges represent a connection of industry to their self reported race, gender or country of origin in the Census.
+
+
+
+In terms of the the numbers of nodes, it varies  by each graph.
+
+g_race
+Number of Nodes: 567 
+Number of Edges: 2058407 
+Diameter: 3 
+g_country
+Number of Nodes: 296 
+Number of Edges: 1548 
+Diameter: 7 
+g_sex
+Number of Nodes: 541 
+Number of Edges: 2058407 
+Diameter: 4 
+
+
+
+d.What constitutes a tie in these data? Is the tie weighted or unweighted? If weighted, what is the range of tie values? What is the tie measuring, and is the measure adequate?
+
+The Tie that this Data is measuring is the tie between the Industry a Person is in and the Demographic variables that a person has such as Race, Coutnry of Origin and  Gender.
+
+
+
+e.
+Were any transformations used (e.g., thresholds, one-mode projection) to create final network data used in analysis?
+
+There were no transformations suhc as thresholds or one-mode projection used to create the final network data used in analysis.
+
+
+
+
+
+
+##Answers to Question 2
+
+2.
+
+Provide additional descriptive statistics about your network data. The information provided should be sufficient to allow someone to understand the distinctive features of your network data. Please include a substantive discussion or interpretation of the meaning of each of these features – this is not merely a statistical report. In addition to basic information about network size and range of tie values (provided above), look at the following:
+number of components
+(if not fully connected) proportion of nodes in giant component and proportion of unconnected nodes/singletons (if any)
+(fully connected graphs or subgraphs only) Network diameter (the length of the longest geodesic in the network). Maybe distribution of network geodesics.
+graph density
+average node degree and degree distribution
+
+
+
+
+
+a. number of components
+```{r}
+components_sex <- decompose.graph(g_sex)
+components_race <- decompose.graph(g_race)
+components_country <- decompose.graph(g_country)
+
+# Number of Components
+cat("Number of Components:\n")
+cat("g_sex:", length(components_sex), "\n")
+cat("g_race:", length(components_race), "\n")
+cat("g_country:", length(components_country), "\n\n")
+
+```
+Number of Components:
+g_sex: 1 
+g_race: 1 
+g_country: 2 
+
+For Gender and Race, all the Nodes are Connected either directly or by some path.
+
+In contrast, the Country networkgraph is divided into two separate parts, with no connections between them.
+
+
+
+
+b.(if not fully connected) proportion of nodes in giant component and proportion of unconnected nodes/singletons (if any)
+```{r}
+g_sex_simple <- simplify(g_sex)
+g_race_simple <- simplify(g_race)
+g_country_simple <- simplify(g_country)
+
+# Detect communities
+communities_sex <- cluster_fast_greedy(g_sex_simple)
+communities_race <- cluster_fast_greedy(g_race_simple)
+communities_country <- cluster_fast_greedy(g_country_simple)
+sizes_sex <- sizes(communities_sex)
+sizes_race <- sizes(communities_race)
+sizes_country <- sizes(communities_country)
+prop_giant_comp_sex <- max(sizes_sex) / vcount(g_sex_simple)
+prop_giant_comp_race <- max(sizes_race) / vcount(g_race_simple)
+prop_giant_comp_country <- max(sizes_country) / vcount(g_country_simple)
+cat("Proportion of Nodes in Giant Component:\n")
+cat("g_sex:", prop_giant_comp_sex, "\n")
+cat("g_race:", prop_giant_comp_race, "\n")
+cat("g_country:", prop_giant_comp_country, "\n\n")
+```
+g_sex: 0.5009242 
+g_race: 0.5837743 
+g_country: 0.1790541 
+
+
+g_sex: 0.5009242: About 50.09% of the nodes in the g_sex graph are part of the largest connected component.
+
+g_race: 0.5837743: About 58.38% of the nodes in the g_race graph are part of the largest connected component.
+
+g_country: 0.1790541: Only about 17.91% of the nodes in the g_country graph are part of the largest connected component.
+
+
+C.(fully connected graphs or subgraphs only) Network diameter (the length of the longest geodesic in the network). Maybe distribution of network geodesics.
+
+```{r}
+##Diameter
+cat("Diameter:", diameter(g_race), "\n")
+cat("Diameter:", diameter(g_country), "\n")
+cat("Diameter:", diameter(g_sex), "\n")
+```
+ g_race: Diameter: 3 
+g_country: Diameter: 7 
+g_sex: Diameter: 4 
+
+
+
+
+D.graph density
+```{r}
+# Network Density
+density_sex <- edge_density(g_sex)
+density_race <- edge_density(g_race)
+density_country <- edge_density(g_country)
+cat("Network Density:\n")
+cat("g_sex:", density_sex, "\n")
+cat("g_race:", density_race, "\n")
+cat("g_country:", density_country, "\n\n")
+```
+Network Density:
+g_sex: 14.09192 
+g_race: 12.82808 
+g_country: 0.03545579 
+
+
+
+e.average node degree and degree distribution
+```{r}
+avg_degree_sex <- mean(degree(g_sex))
+avg_degree_race <- mean(degree(g_race))
+avg_degree_country <- mean(degree(g_country))
+cat("Average Node Degree:\n")
+cat("g_sex:", avg_degree_sex, "\n")
+cat("g_race:", avg_degree_race, "\n")
+cat("g_country:", avg_degree_country, "\n\n")
+```
+Average Node Degree:
+g_sex: 7609.638 
+g_race: 7260.695 
+g_country: 10.45946 
+
+
+
+```{r}
+cat("Degree Distribution Summary:\n")
+cat("g_sex:\n")
+summary(degree_distribution(g_sex))
+
+cat("\ng_race:\n")
+summary(degree_distribution(g_race))
+
+cat("\ng_country:\n")
+summary(degree_distribution(g_country))
+```
+
+
+3.Provide a visualization of the network. If the network is too large to be anything more than a hairball, visualize a subset of the graph with a rationale for selecting that subset 
+
+Visualization for g_race
+```{r}
+library(igraph)
+subset_vertices <- sample(V(g_race), size = 20)
+
+# Get the labels of the selected races
+labels <- V(g_race)$RACE_1[subset_vertices]
+
+# Create a subgraph containing only the subset of vertices and their incident edges
+subgraph_race <- induced_subgraph(g_race, subset_vertices)
+
+# Plot the subgraph with vertex labels and edges
+plot(subgraph_race, vertex.label = labels, edge.arrow.size = 0.5)
+```
+
+Visualization for g_sex
+```{r}
+subset_vertices <- sample(V(g_sex), size = 20)
+
+# Get the labels of the selected sexes
+labels <- V(g_sex)$SEX_1[subset_vertices]
+
+# Create a subgraph containing only the subset of vertices and their incident edges
+subgraph_sex <- induced_subgraph(g_sex, subset_vertices)
+
+# Plot the subgraph with vertex labels and edges
+plot(subgraph_sex, vertex.label = labels, edge.arrow.size = 0.5)
+```
+
+
+Visualization for g_country
+```{r}
+subset_vertices <- sample(V(g_country), size = 20)
+
+# Get the labels of the selected countries
+labels <- V(g_country)$COUNTRY_1[subset_vertices]
+
+# Create a subgraph containing only the subset of vertices and their incident edges
+subgraph_country <- induced_subgraph(g_country, subset_vertices)
+
+# Plot the subgraph with vertex labels and edges
+plot(subgraph_country, vertex.label = labels, edge.arrow.size = 0.5)
+
+```
+
+
+
+3. Identify prominent nodes in the graph using at least one from each group of measures (a and b) below and interpret your results. 
+
+a. Measures of popularity/status: degree centrality, betweenness centrality, eigenvector centrality
+
+b.Measures of role/power: structural equivalence (use a similarity measure from week 6), constraint, betweenness, Gould/Fernandez brokerage.
+
+Measures for a & b for all three graphs.
+
+
+g_sex
+```{r}
+# Calculate measures of popularity/status
+degree_centrality_sex <- degree(g_sex)
+betweenness_centrality <- betweenness(g_sex)
+eigenvector_centrality <- eigen_centrality(g_sex)$vector
+
+# Print the measures of popularity/status
+cat("Centrality Measures for Gender\n")
+
+# In-degree
+cat("Degree Centrality :\n")
+print(head(sort(degree_centrality_sex , decreasing = TRUE), n = 10))
+
+# Betweenness centrality
+cat("\nBetweenness Centrality:\n")
+print(head(sort(betweenness_centrality, decreasing = TRUE), n = 10))
+
+# Eigenvector centrality
+cat("\nEigenvector Centrality:\n")
+print(head(sort(eigenvector_centrality, decreasing = TRUE), n = 10))
+```
+
+
+
+
+```{r}
+##Race
+degree_centrality_race <- degree(g_race)
+betweenness_centrality_race <- betweenness(g_race)
+eigenvector_centrality_race <- eigen_centrality(g_race)$vector
+cat("Degree Centrality For Race:\n")
+print(head(sort(degree_centrality_race , decreasing = TRUE), n = 10))
+cat("\nBetweenness Centrality for Race :\n")
+print(head(sort(betweenness_centrality_race, decreasing = TRUE), n = 10))
+cat("\nEigenvector Centrality For Race:\n")
+print(head(sort(eigenvector_centrality_race, decreasing = TRUE), n = 10))
+```
+
+
+```{r}
+degree_centrality_country <- degree(g_country)
+betweenness_centrality_country <- betweenness(g_country)
+eigenvector_centrality_country <- eigen_centrality(g_country)$vector
+
+cat("Degree Centrality for Country:\n")
+print(head(sort(degree_centrality_country, decreasing = TRUE), n = 10))
+
+cat("\nBetweenness Centrality for Country:\n")
+print(head(sort(betweenness_centrality_country, decreasing = TRUE), n = 10))
+
+cat("\nEigenvector Centrality for Country:\n")
+print(head(sort(eigenvector_centrality_country, decreasing = TRUE), n = 10))
+```
+
+
+
+## Filtering Graphs to identify Industries domianted by Race and Gender
+
+c.Clearly define the measure that you are using and explain what being high/low on the measure indicates
+
+I'm going to filter Degree Centrality of White among Race and  Male among Sex to see industries domianted by White Males.
+
+```{r}
+filtered_edges <- edge_matrix_race[edge_matrix_race$from == "White", ]
+
+# Create a new igraph object with the filtered edges
+g_white <- graph_from_data_frame(filtered_edges, directed = FALSE)
+
+eigenvector_centrality_white <- eigen_centrality(g_white)$vector
+print(head(sort(eigenvector_centrality_white[-1], decreasing = TRUE), n = 10))
+```
+
+```{r}
+filtered_edges <- edge_matrix_sex[edge_matrix_sex$from == "Male", ]
+g_male <- graph_from_data_frame(filtered_edges, directed = FALSE)
+eigenvector_centrality_male <- eigen_centrality(g_male)$vector
+print(head(sort(eigenvector_centrality_male[-1], decreasing = TRUE), n = 10))
+```
+
+e.Identify the node(s) that have remarkable (high/low/higher/lower than expected) values on the measure in question.
+
+One thing that I found suprising was that the eigenvector Industries for "White" and "Male" were similar.
+
+Another thing I didn't expect was that Hospitals were Male Dominated. Perhaps, that is due to Hospital Management being male-lead.
+
+f.What sort of expectations do we have for the behavior of the node(s) identified, and does their observed behavior fulfill these expectations?
+
+One thing that I found interesting was that the Men had the highest betweenness centrality, showing they control the flow of connections between Industries. 
+```{r}
+# Louvain algorithm for community detection
+louvain_race <- cluster_louvain(g_race)
+louvain_country <- cluster_louvain(g_country)
+louvain_sex <- cluster_louvain(g_sex)
+
+# Community membership
+community_race <- membership(louvain_race)
+community_country <- membership(louvain_country)
+community_sex <- membership(louvain_sex)
+```
+
+
+For Loop for Communities among g_race
+```{r}
+for (i in unique(community_race)) {
+  cat("Community", i, ": ")
+  vertices <- V(g_race)$name[community_race == i]
+  print(vertices)
+}
+```
+
+For Loop for Communities among g_sex
+```{r}
+for (i in unique(community_sex)) {
+  cat("Community", i, ": ")
+  vertices <- V(g_sex)$name[community_sex == i]
+  print(vertices)
+}
+```
+
+
+For Loop for Communities among g_country
+```{r}
+for (i in unique(community_country)) {
+  cat("Community", i, ": ")
+  vertices <- V(g_country)$name[community_country == i]
+  print(vertices)
+}
+```
+
+
+
+
+
+ 
+ 
+ 
+ 6. Identify at least one network-related hypothesis that might be asked using these network data and use inferential statistics to address this question
+
+
+
+```{r}
+library(network)
+edges_gender <- as_edgelist(g_sex)
+network_gender <- network(edges_gender)
+```
+
+
+#Hypopthesis , Increased Edges for Gender and Race result in Negative Coefficient or less desirable Outcomes for Networks.
+
+As it basically, leaves Industries open to divide and Conquer.
+
+```{r}
+library(ergm)
+model_gender <- ergm(network_gender ~ edges)
+summary(model_gender)
+```
+The estimated coefficient for the edges term is -4.41290, with a standard error of 0.01623. The negative coefficient suggests that the presence of edges (connections) in the gender network has a significant negative effect.
+
+The AIC  is 41652, and the BIC  is 41663. . The AIC and BIC values are quite close, indicating a good fit of the model.
+
+
+
+```{r}
+num_edges_race <- as_edgelist(g_race)
+network_race <- network(num_edges_race)
+erg_race <- ergm(network_race ~ edges)
+summary(erg_race)
+```
+
+The estimated coefficient for the edges term is -4.41290, with a standard error of 0.01623. The negative coefficient suggests that the presence of edges (connections) in the race network has a significant negative effect.
+
+The AIC  is 41652, and the BIC  is 41663.The AIC and BIC values are quite close, indicating a good fit of the model.
+
+
+
+
+```{r}
+num_edges_country <- as_edgelist(g_country)
+network_country <- network(num_edges_country )
+erg_race <- ergm(network_country  ~ edges)
+summary(erg_race)
+```
+
+Again another negative coefficient, suggesting that the presence of edges (connections) in the country network has a significant negative effect.
+
+The AIC  is 7412, and the BIC  is 7422. The AIC and BIC values are quite close, indicating a good fit of the model.

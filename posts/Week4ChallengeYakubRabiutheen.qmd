@@ -1,0 +1,166 @@
+---
+title: "Week 4 Challenge Instructions"
+author: "Yakub Rabiuhteen"
+description: "Centrality of a Network"
+date: "03/06/2023"
+format:
+  html:
+    toc: true
+    code-fold: true
+    code-copy: true
+    code-tools: true
+# editor: visual
+categories: 
+  - challenge_4
+  - instructions
+  # - railroads
+  # - faostat
+  # - wildbirds
+---
+## Challenge Overview
+
+Describe the many measures of centrality of at least one network of your choice.
+
+I have decided to use the Florentine Dataset.
+```{r}
+library(tidyverse)
+library(igraph)
+library(sna)
+library(network)
+library(statnet)
+```
+
+
+
+```{r}
+data(flo)
+```
+
+## Describe the Network Data
+
+If you have not done it before, always start by evaluating the basic structure of the network (number of edges and vertices, dyad and triad census, etc.). Create a data frame `nodes` with the corresponding local attributes such as degree or local transitivity.
+
+
+```{r}
+flo_net <- network(flo, directed = FALSE)
+```
+
+```{r}
+network(flo_net, directed = FALSE)
+```
+
+ Network attributes:
+  vertices = 16 
+  directed = FALSE 
+  hyper = FALSE 
+  loops = FALSE 
+  multiple = FALSE 
+  bipartite = FALSE 
+  total edges= 20 
+    missing edges= 0 
+    non-missing edges= 20 
+
+There are 16 actors and 20 ties in the network.
+
+It is not directed or a bipariate network.
+
+
+
+
+```{r}
+vertex_names <- network.vertex.names(flo_net)
+```
+
+ [1] "Acciaiuoli"   "Albizzi"      "Barbadori"    "Bischeri"     "Castellani"   "Ginori"       "Guadagni"     "Lamberteschi" "Medici"      
+[10] "Pazzi"        "Peruzzi"      "Pucci"        "Ridolfi"      "Salviati"     "Strozzi"      "Tornabuoni"  
+
+
+```{r}
+network.vertex.names(flo_net) <- network.vertex.names(flo_net)
+```
+
+
+
+use igraph to plot the network
+```{r}
+florentine_igraph <- graph_from_data_frame(flo_net, directed = FALSE)
+```
+
+```{r}
+plot(florentine_igraph, vertex.label = vertex_names)
+```
+
+## Centrality
+
+Compute at least one measure of centrality for each node, adding them as attributes to `nodes` in the form of extra columns: eigencentrality, betweenness, closeness, etc. Compute the distribution of at least one of those measures. What do we learn from comparing these measures of centrality with an equivalent random network (i.e. with the same number of edges and vertices)?
+
+
+
+
+```{r}
+# Compute Indegree Measures
+totdegree <- igraph::degree(florentine_igraph)
+indegree <- igraph::degree(florentine_igraph, mode = "in", loops = FALSE)
+outdegree <- igraph::degree(florentine_igraph, mode = "out", loops = FALSE)
+globtrans <- igraph::transitivity(florentine_igraph, type = "global")
+avgtrans <- igraph::transitivity(florentine_igraph, type = "average")
+#Compute Centerality Measures
+eigencentrality <- igraph::eigen_centrality(florentine_igraph)$vector
+betweenness <- igraph::betweenness(florentine_igraph)
+closeness <- igraph::closeness(florentine_igraph)
+#Add Centerality Atribbutes to the nodes
+florentine_igraph_nodes$totdegree <- totdegree
+florentine_igraph_nodes$indegree <- indegree
+florentine_igraph_nodes$outdegree <- outdegree
+florentine_igraph_nodes$globtrans <- globtrans
+florentine_igraph_nodes$avgtrans <- avgtrans
+florentine_igraph_nodes$eigencentrality <- eigencentrality
+florentine_igraph_nodes$betweenness <- betweenness
+florentine_igraph_nodes$closeness <- closeness
+```
+
+```{r}
+florentine_igraph_nodes
+```
+
+Here are some observations:
+- "Medici" stands out as the most central node in the network with the highest scores across multiple centrality measures:
+  - Total degree: 6
+  - Indegree: 6
+  - Outdegree: 6
+  - Global transitivity: 0.1914894
+  - Average transitivity: 0.2181818
+  - Eigencentrality: 1.0000000
+  - Betweenness: 47.500000
+  - Closeness: 0.04000000
+
+- Nodes "Ginori," "Lamberteschi," "Acciaiuoli," and "Pazzi" exhibit relatively lower centrality scores compared to others in the network:
+  - Total degree: 1
+  - Indegree: 1
+  - Outdegree: 1
+  - Global transitivity: 0.1914894
+  - Average transitivity: 0.2181818
+  - Eigencentrality: 0.1741141
+  - Betweenness: 0.000000
+  - Closeness: 0.02380952
+
+- Nodes "Guadagni," "Strozzi," "Ridolfi," and "Albizzi" show higher centrality scores, indicating their significant roles within the network:
+  - Total degree: 4
+  - Indegree: 4
+  - Outdegree: 4
+  - Global transitivity: 0.1914894
+  - Average transitivity: 0.2181818
+  - Eigencentrality: 0.6718805 (Guadagni), 0.8272688 (Strozzi), 0.7937398 (Ridolfi), 0.5669336 (Albizzi)
+  - Betweenness: 23.166667 (Guadagni), 9.333333 (Strozzi), 10.333333 (Ridolfi), 19.333333 (Albizzi)
+  - Closeness: 0.03333333 (Guadagni), 0.03125000 (Strozzi), 0.03571429 (Ridolfi), 0.03448276 (Albizzi)
+
+
+
+
+
+
+
+
+
+
+
